@@ -7,9 +7,6 @@ use App\Http\Requests\ProblemName;
 use App\Models\Problem;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 
 class ProblemController extends Controller
 {
@@ -28,7 +25,7 @@ class ProblemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param ProblemName $request
      * @return JsonResponse
      */
     public function store(ProblemName $request)

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="" />
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Problem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Problem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,6 +15,9 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -126,6 +134,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1gUp8umMKzl4RZHCp1rzHRDiGgV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -162,7 +171,8 @@
       <workItem from="1598344265698" duration="1590000" />
       <workItem from="1598348804939" duration="794000" />
       <workItem from="1598359201243" duration="448000" />
-      <workItem from="1598376266789" duration="2329000" />
+      <workItem from="1598376266789" duration="2474000" />
+      <workItem from="1598410011202" duration="851000" />
     </task>
     <servers />
   </component>
@@ -171,5 +181,17 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1861" y="142" width="424" height="491" key="FileChooserDialogImpl/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598180984161" />
+    <state x="1934" y="284" width="288" height="207" key="Github.ShareDialog" timestamp="1598378872640">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1934" y="284" width="288" height="207" key="Github.ShareDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378872640" />
+    <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog" timestamp="1598378884530">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
+    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1598410103337">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598410103337" />
   </component>
 </project>
