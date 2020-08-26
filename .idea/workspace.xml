@@ -188,7 +188,7 @@
       <workItem from="1598348804939" duration="794000" />
       <workItem from="1598359201243" duration="448000" />
       <workItem from="1598376266789" duration="2474000" />
-      <workItem from="1598410011202" duration="1298000" />
+      <workItem from="1598410011202" duration="3284000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -197,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598410893010</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Добавил PHPDoc">
+      <created>1598411597944</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1598411597944</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -228,10 +235,14 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598410903726">
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598411604254">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598410903726" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598411604254" />
+    <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598411676385">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598411676385" />
     <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1598410103337">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
