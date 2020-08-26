@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="">
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Добавил PHPDoc">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Problem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Problem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,9 +188,32 @@
       <workItem from="1598348804939" duration="794000" />
       <workItem from="1598359201243" duration="448000" />
       <workItem from="1598376266789" duration="2474000" />
-      <workItem from="1598410011202" duration="851000" />
+      <workItem from="1598410011202" duration="1298000" />
     </task>
+    <task id="LOCAL-00001" summary="Добавил PHPDoc">
+      <created>1598410893009</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598410893010</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Добавил PHPDoc" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил PHPDoc" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1861" y="142" width="424" height="491" key="FileChooserDialogImpl" timestamp="1598180984161">
@@ -189,6 +228,10 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598410903726">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598410903726" />
     <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1598410103337">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
