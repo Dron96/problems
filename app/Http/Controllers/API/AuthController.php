@@ -16,9 +16,8 @@ class AuthController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $user = User::create($data);
-        $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response()->json(['user' => $user, 'accessToken' => $accessToken], 201);
+        return response()->json(['message' => 'Вы успешно зарегистрированы'], 201);
     }
 
     public function login(Login $request)
@@ -29,11 +28,22 @@ class AuthController extends Controller
                 'errors' => 'Unauthorised'
             ], 401);
         }
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        $token = auth()->user()->createToken('authToken');
+        $token->token->expires_at = Carbon::now()->addDay();
 
         return response()->json([
             'user' => auth()->user(),
-            'access_token' => $accessToken,
+            'access_token' => $token->accessToken,
+            'expires_at' => Carbon::parse($token->token->expires_at)->toDateTimeString()
+        ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->user()->token()->revoke();
+
+        return response()->json([
+            'message' => 'Вы успешно вышли',
         ], 200);
     }
 }

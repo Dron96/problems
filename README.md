@@ -12,6 +12,7 @@
 |---|------------|---------------------------------|---------------|:-------------:|-----------------------|
 |1. | register   | Регистрация нового пользователя | /api/register | POST          | <ol><li>name - имя пользователя</li><li>password - пароль</li><li>password confirmation - повторите пароль</li><li>email - электронная почта</li></ol>      |
 |2. | login      | Авторизация пользователя        | /api/login    | POST          | <ol><li>name - имя пользователя</li><li>password - пароль</li></ol> |
+|3. | logout     | Авторизация пользователя        | /api/logout    | POST          | Нет параметров        |
 
 ### Операции над проблемой:
 |№  | Имя метода      | Описание операции             | URL               | Метод запроса | Принимаемые параметры |
@@ -30,14 +31,7 @@
 ##### Код: 201
 ```json
 {
-    "user": {
-        "name": "user22235",
-        "email": "dfnhjjk@d.ru",
-        "updated_at": "2020-08-29T14:24:21.000000Z",
-        "created_at": "2020-08-29T14:24:21.000000Z",
-        "id": 6
-    },
-    "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTAxZmFmNGVjZjgwMDE2ZDYzNDVjY2ViNWU..."
+    "message": "Вы успешно зарегистрированы"
 }
 ```
 ##### Ошибки при проверки полей:
@@ -59,14 +53,15 @@
 ```json
 {
     "user": {
-        "id": 5,
-        "name": "user2223",
-        "email": "dfnhjjk__@d.ru",
+        "id": 2,
+        "name": "user2",
+        "email": "data2@data.com",
         "email_verified_at": null,
-        "created_at": "2020-08-29T10:00:19.000000Z",
-        "updated_at": "2020-08-29T10:00:19.000000Z"
+        "created_at": "2020-08-29T09:51:12.000000Z",
+        "updated_at": "2020-08-29T09:51:12.000000Z"
     },
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWM2NWQ4YmI1NmEwNWM1ZmM0YWYxMzQwO..."
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjM2YzY0YTZiZTIzMzBhMDkyNmJjZTU...",
+    "expires_at": "2020-08-30 14:55:33"
 }
 ```
 ##### Ошибки при проверки полей:
@@ -93,6 +88,16 @@
     }
 }
 ```
+
+#### 1. logout
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "message": "Вы успешно вышли"
+}
+```
+
 
 ### Операции над проблемой:
 #### 1. problem.index
