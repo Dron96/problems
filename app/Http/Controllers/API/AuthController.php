@@ -29,12 +29,12 @@ class AuthController extends Controller
             ], 401);
         }
         $token = auth()->user()->createToken('authToken');
-        $token->token->expires_at = Carbon::now()->addDay();
+        //$token->token->expires_at = Carbon::now()->addDay();
 
         return response()->json([
             'user' => auth()->user(),
             'access_token' => $token->accessToken,
-            'expires_at' => Carbon::parse($token->token->expires_at)->toDateTimeString()
+//            'expires_at' => Carbon::parse($token->token->expires_at)->toDateTimeString()
         ], 200);
     }
 

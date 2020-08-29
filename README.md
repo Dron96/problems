@@ -60,8 +60,7 @@
         "created_at": "2020-08-29T09:51:12.000000Z",
         "updated_at": "2020-08-29T09:51:12.000000Z"
     },
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjM2YzY0YTZiZTIzMzBhMDkyNmJjZTU...",
-    "expires_at": "2020-08-30 14:55:33"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjM2YzY0YTZiZTIzMzBhMDkyNmJjZTU..."
 }
 ```
 ##### Ошибки при проверки полей:
