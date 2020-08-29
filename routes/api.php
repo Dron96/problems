@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
+Route::post('/register', 'API\AuthController@register')->name('register');
+Route::post('/login', 'API\AuthController@login')->name('login');
+
 Route::post('/problem', 'API\ProblemController@store')->name('problem.store');
 Route::get('/problem', 'API\ProblemController@index')->name('problem.index');
 Route::delete('/problem/{problem}', 'API\ProblemController@destroy')->name('problem.destroy');
