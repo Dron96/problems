@@ -207,6 +207,7 @@
       <workItem from="1598686972462" duration="12951000" />
       <workItem from="1598715804724" duration="813000" />
       <workItem from="1598754957920" duration="2905000" />
+      <workItem from="1598760043322" duration="916000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -285,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598759534927</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Обработка ошибки 404, дополнение документации">
+      <created>1598760075152</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1598760075152</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -322,10 +330,10 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598759538045">
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598760080136">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598759538045" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598760080136" />
     <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598411676385">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
