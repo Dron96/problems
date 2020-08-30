@@ -20,8 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Выход пользователя, дополнение документации">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +209,8 @@
       <workItem from="1598532536492" duration="1514000" />
       <workItem from="1598677612811" duration="2406000" />
       <workItem from="1598686972462" duration="12951000" />
-      <workItem from="1598715804724" duration="784000" />
+      <workItem from="1598715804724" duration="813000" />
+      <workItem from="1598754957920" duration="2861000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -273,7 +275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598715994023</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Выход пользователя, дополнение документации">
+      <created>1598716593551</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1598716593551</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -309,10 +318,10 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598715999028">
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598716601080">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598715999028" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598716601080" />
     <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598411676385">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
