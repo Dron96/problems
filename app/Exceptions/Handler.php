@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => 'Объект не найден'], 404);
         }
 
-        return parent::render($request, $exception;
+        return parent::render($request, $exception);
     }
 
     protected function unauthenticated($request, AuthenticationException $exception)
