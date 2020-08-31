@@ -7,10 +7,15 @@ use App\Http\Requests\Login;
 use App\Http\Requests\Register;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    /**
+     * @param Register $request
+     * @return JsonResponse
+     */
     public function register(Register $request)
     {
         $data = $request->validated();
@@ -20,6 +25,10 @@ class AuthController extends Controller
         return response()->json(['message' => 'Вы успешно зарегистрированы'], 201);
     }
 
+    /**
+     * @param Login $request
+     * @return JsonResponse
+     */
     public function login(Login $request)
     {
         if(!auth()->attempt($request->validated())) {
@@ -38,6 +47,10 @@ class AuthController extends Controller
         ], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function logout(Request $request)
     {
         auth()->user()->token()->revoke();

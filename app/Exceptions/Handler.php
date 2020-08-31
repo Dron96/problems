@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class Handler extends ExceptionHandler
      * @param Throwable $exception
      * @return void
      *
-     * @throws Exception
+     * @throws Exception|Throwable
      */
     public function report(Throwable $exception)
     {
@@ -58,6 +59,11 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => 'Объект не найден'], 404);
         }
 
-        return parent::render($request, $exception);
+        return parent::render($request, $exception;
+    }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json(['message' => 'Вы не авторизованы'], 401);
     }
 }
