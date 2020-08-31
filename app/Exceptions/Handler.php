@@ -64,6 +64,6 @@ class Handler extends ExceptionHandler
 
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return response()->json(['message' => 'Вы не авторизованы'], 401);
+        return response()->json(['message' => 'Вы не авторизованы.'], 401);
     }
 }

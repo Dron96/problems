@@ -28,14 +28,14 @@ Route::post('/logout', 'API\AuthController@logout')
 
 Route::post('/problem', 'API\ProblemController@store')
     ->name('problem.store')
-    ->middleware('auth');
+    ->middleware('auth:api');
 Route::get('/problem', 'API\ProblemController@index')
     ->name('problem.index');
 Route::delete('/problem/{problem}', 'API\ProblemController@destroy')
     ->name('problem.destroy')
-    ->middleware('auth');
+    ->middleware('auth:api');
 Route::put('/problem/{problem}', 'API\ProblemController@update')
     ->name('problem.update')
-    ->middleware('auth');
+    ->middleware('auth:api');
 Route::get('/problem/{problem}', 'API\ProblemController@show')
     ->name('problem.show');
