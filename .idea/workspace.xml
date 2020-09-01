@@ -19,11 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Связь авторизации с проблемой">
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Исправление ошибок авторизации">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/AuthController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +217,9 @@
       <workItem from="1598848839485" duration="30000" />
       <workItem from="1598856172707" duration="218000" />
       <workItem from="1598873800161" duration="11000" />
-      <workItem from="1598874067628" duration="1849000" />
+      <workItem from="1598874067628" duration="2024000" />
+      <workItem from="1598924607918" duration="171000" />
+      <workItem from="1598954316668" duration="865000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -325,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598856321679</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Исправление ошибок авторизации">
+      <created>1598875946895</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1598875946895</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -348,7 +356,8 @@
     <MESSAGE value="Выход пользователя, дополнение документации" />
     <MESSAGE value="Обработка ошибки 404, дополнение документации" />
     <MESSAGE value="Связь авторизации с проблемой" />
-    <option name="LAST_COMMIT_MESSAGE" value="Связь авторизации с проблемой" />
+    <MESSAGE value="Исправление ошибок авторизации" />
+    <option name="LAST_COMMIT_MESSAGE" value="Исправление ошибок авторизации" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598797285170">
@@ -367,17 +376,17 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598873807343">
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598875958550">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598873807343" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598875958550" />
     <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598411676385">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598411676385" />
-    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1598797161461">
+    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1598954751955">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598797161461" />
+    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598954751955" />
   </component>
 </project>

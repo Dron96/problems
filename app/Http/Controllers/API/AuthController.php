@@ -33,8 +33,7 @@ class AuthController extends Controller
     {
         if(!auth()->attempt($request->validated())) {
             return response()->json([
-                'message' => 'Имя пользователя или пароль неправильные',
-                'errors' => 'Unauthorised'
+                'errors' => 'Имя пользователя или пароль неправильные',
             ], 401);
         }
         $token = auth()->user()->createToken('authToken');
