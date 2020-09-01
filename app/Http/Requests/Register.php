@@ -26,7 +26,7 @@ class Register extends FormRequest
         return [
             'name' => 'unique:users|required|min:4|max:20|regex:/^[0-9A-Za-zА-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё]*$/u',
             'password' => 'min:8|max:20|confirmed|required|regex:/^[0-9A-Za-zА-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё]*$/u',
-            'email' => 'min:3|max:256|email|required|unique:users'
+            'email' => 'min:3|max:255|email|required|unique:users'
         ];
     }
 
@@ -46,7 +46,7 @@ class Register extends FormRequest
             'password.regex' => 'Для пароля доступны только символы кириллицы, латиницы, 0-9.',
 
             'email.min' => 'В поле "Электронная почта" должно быть не менее 3 символов',
-            'email.max' => 'Поле "Электронная почта" содержит более 256 символов',
+            'email.max' => 'Поле "Электронная почта" содержит более 255 символов',
             'email.required' => 'В поле "Электронная почта" должно быть не менее 3 символов',
             'email.unique' => 'Такой адрес электронной почты уже используется',
             'email.email' => 'Почта некорректна. Для адреса электронной почты доступны только символы латиницы, 0-9, @, "_", "-", "."',
