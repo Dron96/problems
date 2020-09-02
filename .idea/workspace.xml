@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -20,8 +23,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Удобный вывод ошибок и сообщений">
+      <change afterPath="$PROJECT_DIR$/app/Models/Solution.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2020_09_02_085159_create_solutions_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Requests/Register.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/Register.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_ide_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/_ide_helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/TrustHosts.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Problem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Problem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/UserFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_08_23_155412_create_problems_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_08_23_155412_create_problems_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/ProblemSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ProblemSeeder.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +48,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -174,6 +189,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app" />
+      <recent name="$PROJECT_DIR$/app/Models" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/API" />
     </key>
   </component>
@@ -220,7 +237,9 @@
       <workItem from="1598924607918" duration="171000" />
       <workItem from="1598954316668" duration="914000" />
       <workItem from="1598957419132" duration="76000" />
-      <workItem from="1598957553150" duration="202000" />
+      <workItem from="1598957553150" duration="248000" />
+      <workItem from="1599035655258" duration="890000" />
+      <workItem from="1599036584457" duration="5044000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -348,7 +367,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598957467270</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Удобный вывод ошибок и сообщений">
+      <created>1598957764898</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1598957764898</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -392,17 +418,29 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598957477877">
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598957774029">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598957477877" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598957774029" />
+    <state x="1524" y="100" width="1108" height="568" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1599040964405">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1524" y="100" width="1108" height="568" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599040964405" />
+    <state x="1524" y="100" width="1108" height="568" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1599036553688">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1524" y="100" width="1108" height="568" key="com.intellij.history.integration.ui.views.FileHistoryDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599036553688" />
     <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1598411676385">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1692" y="55" width="762" height="665" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598411676385" />
-    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1598954751955">
+    <state x="1859" y="299" width="428" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599036537387">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598954751955" />
+    <state x="1859" y="299" width="428" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599036537387" />
+    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1599040065223">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599040065223" />
   </component>
 </project>

@@ -15,7 +15,7 @@ class ProblemSeeder extends Seeder
     {
         $list = [];
 
-        for ($i = 1; $i <= 9; $i++){
+        for ($i = 1; $i <= 30; $i++){
             $name = $faker->realText(rand(10, 55));
             $created_at = $faker->dateTimeBetween('-3 months','-10 day');
 
