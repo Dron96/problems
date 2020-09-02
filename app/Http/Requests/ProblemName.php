@@ -24,7 +24,7 @@ class ProblemName extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:problems,name|min:6|max:250|regex:/^[\w\- .,-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё]*$/u',
+            'name' => 'required|unique:problems,name|min:6|max:250|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
         ];
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProblemName;
-use App\Problem;
+use App\Models\Problem;
 use Exception;
 use Illuminate\Http\JsonResponse;
 

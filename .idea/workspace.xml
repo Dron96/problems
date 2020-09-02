@@ -22,20 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Удобный вывод ошибок и сообщений">
-      <change afterPath="$PROJECT_DIR$/app/Models/Solution.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_09_02_085159_create_solutions_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" afterDir="false" />
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Создание миграций, seeder и factory для Решений">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_ide_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/_ide_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/ProblemController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/TrustHosts.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Problem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Problem.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/factories/UserFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_08_23_155412_create_problems_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_08_23_155412_create_problems_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/ProblemSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/ProblemSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/ProblemName.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/ProblemName.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,7 +229,8 @@
       <workItem from="1598957419132" duration="76000" />
       <workItem from="1598957553150" duration="248000" />
       <workItem from="1599035655258" duration="890000" />
-      <workItem from="1599036584457" duration="5044000" />
+      <workItem from="1599036584457" duration="5414000" />
+      <workItem from="1599050790921" duration="1891000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -374,7 +365,14 @@
       <option name="project" value="LOCAL" />
       <updated>1598957764898</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Создание миграций, seeder и factory для Решений">
+      <created>1599041965567</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1599041965567</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -399,7 +397,8 @@
     <MESSAGE value="Связь авторизации с проблемой" />
     <MESSAGE value="Исправление ошибок авторизации" />
     <MESSAGE value="Удобный вывод ошибок и сообщений" />
-    <option name="LAST_COMMIT_MESSAGE" value="Удобный вывод ошибок и сообщений" />
+    <MESSAGE value="Создание миграций, seeder и factory для Решений" />
+    <option name="LAST_COMMIT_MESSAGE" value="Создание миграций, seeder и factory для Решений" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598797285170">
