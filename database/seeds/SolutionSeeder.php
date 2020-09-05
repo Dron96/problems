@@ -19,7 +19,7 @@ class SolutionSeeder extends Seeder
         for ($i = 1; $i <= 100; $i++){
             $name = $faker->realText(rand(10, 55));
             $created_at = $faker->dateTimeBetween('-3 months','-10 day');
-            $inWork = rand(0, 1);
+            $inWork = (bool)random_int(0, 1);
             if ($inWork === 1) {
                 $status = $statuses[array_rand($statuses)];
             } else {

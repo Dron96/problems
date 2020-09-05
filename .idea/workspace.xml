@@ -22,8 +22,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Исправление фильтра на название проблемы">
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Дополнение документации для решения">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Solution.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Solution.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,6 +234,14 @@
       <workItem from="1599035655258" duration="890000" />
       <workItem from="1599036584457" duration="5414000" />
       <workItem from="1599050790921" duration="2100000" />
+      <workItem from="1599055672340" duration="58000" />
+      <workItem from="1599056408983" duration="3943000" />
+      <workItem from="1599105560667" duration="1556000" />
+      <workItem from="1599146255241" duration="4925000" />
+      <workItem from="1599151860916" duration="354000" />
+      <workItem from="1599182362687" duration="543000" />
+      <workItem from="1599212891698" duration="6120000" />
+      <workItem from="1599230997606" duration="5960000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -377,7 +390,21 @@
       <option name="project" value="LOCAL" />
       <updated>1599052717613</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Исправление фильтра на название проблемы">
+      <created>1599055716527</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1599055716527</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Дополнение документации для решения">
+      <created>1599236939358</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1599236939358</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -404,7 +431,8 @@
     <MESSAGE value="Удобный вывод ошибок и сообщений" />
     <MESSAGE value="Создание миграций, seeder и factory для Решений" />
     <MESSAGE value="Исправление фильтра на название проблемы" />
-    <option name="LAST_COMMIT_MESSAGE" value="Исправление фильтра на название проблемы" />
+    <MESSAGE value="Дополнение документации для решения" />
+    <option name="LAST_COMMIT_MESSAGE" value="Дополнение документации для решения" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598797285170">
@@ -423,10 +451,11 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599052725904">
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599236946360">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599052725904" />
+    <state x="1673" y="120" key="Vcs.Push.Dialog.v2/1366.0.1366.768/0.27.1366.741@1366.0.1366.768" timestamp="1599236946360" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599055720652" />
     <state x="1524" y="100" width="1108" height="568" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1599040964405">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
@@ -443,6 +472,10 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1859" y="299" width="428" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599036537387" />
+    <state x="1713" y="174" key="run.anything.popup" timestamp="1599182613560">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1713" y="174" key="run.anything.popup/1366.0.1366.768/0.27.1366.741@1366.0.1366.768" timestamp="1599182613560" />
     <state x="1741" y="89" width="672" height="678" key="search.everywhere.popup" timestamp="1599040065223">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>

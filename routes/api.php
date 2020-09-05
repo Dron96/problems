@@ -41,3 +41,24 @@ Route::put('/problem/{problem}', 'API\ProblemController@update')
 Route::get('/problem/{problem}', 'API\ProblemController@show')
     ->name('problem.show')
     ->middleware('auth:api');
+
+
+
+Route::post('/solution/{problem}', 'API\SolutionController@store')
+    ->name('solution.store')
+    ->middleware('auth:api');
+Route::get('/solutions/{problem}', 'API\SolutionController@index')
+    ->name('solution.index')
+    ->middleware('auth:api');
+Route::get('/solutions-in-work/{problem}', 'API\SolutionController@showInWork')
+    ->name('solution.in-work')
+    ->middleware('auth:api');
+Route::delete('/solution/{solution}', 'API\SolutionController@destroy')
+    ->name('solution.destroy')
+    ->middleware('auth:api');
+Route::put('/solution/{solution}', 'API\SolutionController@update')
+    ->name('solution.update')
+    ->middleware('auth:api');
+Route::get('/solution/{solution}', 'API\SolutionController@show')
+    ->name('solution.show')
+    ->middleware('auth:api');
