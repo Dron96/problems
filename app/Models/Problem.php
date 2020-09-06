@@ -23,6 +23,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Problem whereName($value)
  * @method static Builder|Problem whereUpdatedAt($value)
  * @mixin Eloquent
+ * @method static \Illuminate\Database\Query\Builder|Problem onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Problem withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Problem withoutTrashed()
+ * @property Carbon|null $deleted_at
+ * @method static Builder|Problem whereDeletedAt($value)
  */
 class Problem extends Model
 {

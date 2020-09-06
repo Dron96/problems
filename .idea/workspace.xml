@@ -23,11 +23,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Дополнение документации для решения">
+      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_ide_helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/_ide_helper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/SolutionRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/SolutionCreateRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Problem.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Problem.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Solution.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Solution.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -178,9 +182,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../first/laravelapp" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app" />
       <recent name="$PROJECT_DIR$/app/Models" />
@@ -242,6 +252,8 @@
       <workItem from="1599182362687" duration="543000" />
       <workItem from="1599212891698" duration="6120000" />
       <workItem from="1599230997606" duration="5960000" />
+      <workItem from="1599386233982" duration="2316000" />
+      <workItem from="1599392758430" duration="13007000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -407,6 +419,9 @@
     <option name="localTasksCounter" value="24" />
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -435,9 +450,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="Дополнение документации для решения" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1598797285170">
+    <state x="2092" y="0" width="630" height="768" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1599401550895">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
+    <state x="2092" y="0" width="630" height="768" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599401550895" />
+    <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1599405275252">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1811" y="142" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599405275252" />
     <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598797285170" />
     <state x="1861" y="142" width="424" height="491" key="FileChooserDialogImpl" timestamp="1598180984161">
       <screen x="1366" y="0" width="1366" height="768" />
@@ -451,6 +471,22 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1804" y="64" width="537" height="647" key="Github.UntrackedFilesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598378884530" />
+    <state width="1320" height="181" key="GridCell.Tab.0.bottom" timestamp="1599388560961">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.bottom/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599388560961" />
+    <state width="1320" height="181" key="GridCell.Tab.0.center" timestamp="1599388560960">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.center/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599388560960" />
+    <state width="1320" height="181" key="GridCell.Tab.0.left" timestamp="1599388560960">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.left/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599388560960" />
+    <state width="1320" height="181" key="GridCell.Tab.0.right" timestamp="1599388560961">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state width="1320" height="181" key="GridCell.Tab.0.right/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599388560961" />
     <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599236946360">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
@@ -472,6 +508,10 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1859" y="299" width="428" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599036537387" />
+    <state x="471" y="284" width="414" height="206" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1599386338052">
+      <screen x="0" y="0" width="1366" height="768" />
+    </state>
+    <state x="471" y="284" width="414" height="206" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599386338052" />
     <state x="1713" y="174" key="run.anything.popup" timestamp="1599182613560">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>

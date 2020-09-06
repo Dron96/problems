@@ -62,3 +62,6 @@ Route::put('/solution/{solution}', 'API\SolutionController@update')
 Route::get('/solution/{solution}', 'API\SolutionController@show')
     ->name('solution.show')
     ->middleware('auth:api');
+Route::put('/solution/{solution}/change-in-work', 'API\SolutionController@changeInWork')
+    ->name('solution.changeInWork')
+    ->middleware('auth:api');
