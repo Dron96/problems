@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class SolutionController extends Controller
 {
@@ -63,7 +64,7 @@ class SolutionController extends Controller
         $countSolution = Solution::where('problem_id', $problem->id)->count();
         if ($countSolution < 25) {
             $input = $request->validated();
-            $input['user_id'] = auth()->id();
+            $input['creator'] = auth()->id();
             $input['problem_id'] = $problem->id;
             $solution = Solution::create($input);
 
@@ -151,5 +152,72 @@ class SolutionController extends Controller
         $solution->delete();
 
         return response()->json(['message' => 'Решение успешно удалено'], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @param Solution $solution
+     * @return JsonResponse
+     */
+    public function changeStatus(Request $request, Solution $solution)
+    {
+        $validator = $solution->hasSolutionProblem($solution->id);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()], 404);
+        }
+        if ($solution->in_work) {
+            $this->validate($request, [
+               'status' => [Rule::in(['В процессе', 'Выполнено', null]),],
+            ], ['status.in' => 'Неверный статус']);
+            $solution->status = $request->status;
+            $solution->save();
+
+            return response()->json($solution);
+        } else {
+            return response()->json(['errors' => 'Решение не в работе'], 422);
+        }
+    }
+
+    public function setDeadline(Request $request, Solution $solution)
+    {
+        $validator = $solution->hasSolutionProblem($solution->id);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()], 404);
+        }
+        if ($solution->in_work) {
+            $this->validate($request, ['deadline' => 'required|date|after_or_equal:'.date('Y-m-d')],
+                [
+                    'deadline.required' => 'Поле срок исполнения не заполнено',
+                    'deadline.date' => 'Неверный формат даты',
+                    'deadline.after_or_equal' => 'Срок исполнения не может быть раньше текущей даты'
+                ]);
+            $solution->deadline = $request->deadline;
+            $solution->save();
+
+            return response()->json($solution);
+        } else {
+            return response()->json(['errors' => 'Решение не в работе'], 422);
+        }
+    }
+
+    public function setExecutor(Request $request, Solution $solution)
+    {
+        $validator = $solution->hasSolutionProblem($solution->id);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()], 404);
+        }
+        if ($solution->in_work) {
+            $this->validate($request, ['executor' => 'required|exists:users,id'],
+                [
+                    'executor.required' => 'Поле ответственный не заполнено',
+                    'executor.exists' => 'Такого пользователя не существует',
+                ]);
+            $solution->executor = $request->executor;
+            $solution->save();
+
+            return response()->json($solution);
+        } else {
+            return response()->json(['errors' => 'Решение не в работе'], 422);
+        }
     }
 }

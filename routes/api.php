@@ -26,6 +26,10 @@ Route::post('/logout', 'API\AuthController@logout')
     ->name('logout')
     ->middleware('auth:api');
 
+Route::get('/users', 'API\UserController@getUsers')
+    ->name('user.getUsers')
+    ->middleware('auth:api');
+
 Route::post('/problem', 'API\ProblemController@store')
     ->name('problem.store')
     ->middleware('auth:api');
@@ -65,3 +69,13 @@ Route::get('/solution/{solution}', 'API\SolutionController@show')
 Route::put('/solution/{solution}/change-in-work', 'API\SolutionController@changeInWork')
     ->name('solution.changeInWork')
     ->middleware('auth:api');
+Route::put('/solution/{solution}/change-status', 'API\SolutionController@changeStatus')
+    ->name('solution.changeStatus')
+    ->middleware('auth:api');
+Route::put('/solution/{solution}/set-deadline', 'API\SolutionController@setDeadline')
+    ->name('solution.setDeadline')
+    ->middleware('auth:api');
+Route::put('/solution/{solution}/set-executor', 'API\SolutionController@setExecutor')
+    ->name('solution.setExecutor')
+    ->middleware('auth:api');
+

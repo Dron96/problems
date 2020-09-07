@@ -48,6 +48,8 @@ class Solution extends Model
         'status',
         'user_id',
         'problem_id',
+        'deadline',
+        'executor'
     ];
 
     /**

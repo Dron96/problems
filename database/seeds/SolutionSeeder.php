@@ -32,7 +32,7 @@ class SolutionSeeder extends Seeder
                 'name' => $name,
                 'in_work' => $inWork,
                 'status' => $status,
-                'user_id' => $userId,
+                'creator' => $userId,
                 'problem_id' => $problemId,
                 'created_at' => $created_at,
                 'updated_at' => $created_at,
