@@ -22,13 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Изменение имени, статуса &quot;в работе&quot; и удаление проблемы">
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Изменение исполнителя, статуса и срока">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Solution.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Solution.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_02_085159_create_solutions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_02_085159_create_solutions_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -251,7 +247,8 @@
       <workItem from="1599386233982" duration="2316000" />
       <workItem from="1599392758430" duration="13158000" />
       <workItem from="1599410444251" duration="185000" />
-      <workItem from="1599462092925" duration="8760000" />
+      <workItem from="1599462092925" duration="8868000" />
+      <workItem from="1599487103329" duration="1470000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -421,7 +418,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599409425723</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Изменение исполнителя, статуса и срока">
+      <created>1599474349551</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1599474349551</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -453,7 +457,8 @@
     <MESSAGE value="Исправление фильтра на название проблемы" />
     <MESSAGE value="Дополнение документации для решения" />
     <MESSAGE value="Изменение имени, статуса &quot;в работе&quot; и удаление проблемы" />
-    <option name="LAST_COMMIT_MESSAGE" value="Изменение имени, статуса &quot;в работе&quot; и удаление проблемы" />
+    <MESSAGE value="Изменение исполнителя, статуса и срока" />
+    <option name="LAST_COMMIT_MESSAGE" value="Изменение исполнителя, статуса и срока" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1678" y="65" width="732" height="644" key="#Inspections" timestamp="1599463160665">

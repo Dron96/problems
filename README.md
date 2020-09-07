@@ -8,15 +8,18 @@
 ## Описание:
 
 ### Операции над решением:
-|№  | Имя метода            | Описание операции                                   | URL                                 | Метод запроса | Принимаемые параметры   |
-|---|-----------------------|-----------------------------------------------------|-------------------------------------|:-------------:|-------------------------|
-|1. | solution.index        | Получение списка всех решений для проблемы          | /api/solutions/{problem}            | GET / HEAD    | Нет параметров          |
-|2. | solution.store        | Создание решения для проблемы                       | /api/solution/{problem}             | POST          | name - описание решения |
-|3. | solution.in-work      | Получение списка всех решений в работе для проблемы | /api/solutions-in-work/{problem}    | GET / HEAD    | Нет параметров          |
-|4. | solution.show         | Получение решения                                   | /api/solution/{solution}            | GET / HEAD    | Нет параметров          |
-|5. | solution.changeInWork | Смена статуса "в работе" для решения                | /solution/{solution}/change-in-work | PUT           | in_work - статус в работе (да - любая не пустая строка, 1; нет - пустая строка, 0) |
-|6. | solution.update       | Изменение описания решения                          | /api/solution/{solution}            | PUT           | name - описание решения |
-|7. | solution.destroy      | Удаление решения                                    | /api/solution/{solution}            | DELETE        | Нет параметров          |
+|№   | Имя метода            | Описание операции                                   | URL                                    | Метод запроса | Принимаемые параметры   |
+|----|-----------------------|-----------------------------------------------------|----------------------------------------|:-------------:|-------------------------|
+|1.  | solution.index        | Получение списка всех решений для проблемы          | /api/solutions/{problem}               | GET / HEAD    | Нет параметров          |
+|2.  | solution.store        | Создание решения для проблемы                       | /api/solution/{problem}                | POST          | name - описание решения |
+|3.  | solution.in-work      | Получение списка всех решений в работе для проблемы | /api/solutions-in-work/{problem}       | GET / HEAD    | Нет параметров          |
+|4.  | solution.show         | Получение решения                                   | /api/solution/{solution}               | GET / HEAD    | Нет параметров          |
+|5.  | solution.changeInWork | Смена статуса "в работе" для решения                | /solution/{solution}/change-in-work    | PUT           | in_work - статус в работе (да - любая не пустая строка, 1; нет - пустая строка, 0) |
+|6.  | solution.update       | Изменение описания решения                          | /api/solution/{solution}               | PUT           | name - описание решения |
+|7.  | solution.destroy      | Удаление решения                                    | /api/solution/{solution}               | DELETE        | Нет параметров          |
+|8.  | solution.changeStatus | Изменение статуса решения                           | /api/solution/{solution}/change-status | PUT           | status - статус решения в работе (В процессе, Выполнено, "") |
+|9.  | solution.setDeadline  | Установка срока исполнения решения                  | /api/solution/{solution}/set-deadline  | PUT           | deadline - дата в формате ГГГГ-ММ-ДД |
+|10. | solution.setExecutor  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor  | PUT           | executor - id пользователя |
 
 ### Ответы:
 #### 1. solution.index
@@ -224,6 +227,142 @@
 ```json
 {
     "message": "Решение успешно удалено"
+}
+```
+##### Ошибка отсутствия данного решения/проблемы:
+##### Код: 404
+```json
+{
+    "message": "Такого решения не существует"
+}
+```
+
+#### 8. solution.changeStatus
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "id": 2,
+    "name": "Don't be all day about.",
+    "creator": 6,
+    "problem_id": 3,
+    "in_work": true,
+    "status": null,
+    "deadline": null,
+    "executor": null,
+    "created_at": "2020-08-19T19:48:07.000000Z",
+    "updated_at": "2020-08-19T19:48:07.000000Z",
+    "deleted_at": null
+}
+```
+##### Ошибка решение не принято в работу:
+##### Код: 422
+```json
+{
+    "errors": "Решение не в работе"
+}
+```
+##### Ошибка валидации:
+##### Код: 422
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "status": [
+            "Неверный статус"
+        ]
+    }
+}
+```
+##### Ошибка отсутствия данного решения/проблемы:
+##### Код: 404
+```json
+{
+    "message": "Такого решения не существует"
+}
+```
+
+#### 9. solution.setDeadline
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "id": 2,
+    "name": "Don't be all day about.",
+    "creator": 6,
+    "problem_id": 3,
+    "in_work": true,
+    "status": null,
+    "deadline": "20.12.2020",
+    "executor": null,
+    "created_at": "2020-08-19T19:48:07.000000Z",
+    "updated_at": "2020-09-07T14:20:04.000000Z",
+    "deleted_at": null
+}
+```
+##### Ошибка решение не принято в работу:
+##### Код: 422
+```json
+{
+    "errors": "Решение не в работе"
+}
+```
+##### Ошибка валидации:
+##### Код: 422
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "deadline": [
+            "Неверный формат даты",
+            "Срок исполнения не может быть раньше текущей даты"
+        ]
+    }
+}
+```
+##### Ошибка отсутствия данного решения/проблемы:
+##### Код: 404
+```json
+{
+    "message": "Такого решения не существует"
+}
+```
+
+#### 10. solution.setExecutor
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "id": 2,
+    "name": "Don't be all day about.",
+    "creator": 6,
+    "problem_id": 3,
+    "in_work": true,
+    "status": null,
+    "deadline": "20.12.2020",
+    "executor": "1",
+    "created_at": "2020-08-19T19:48:07.000000Z",
+    "updated_at": "2020-09-07T14:20:04.000000Z",
+    "deleted_at": null
+}
+```
+##### Ошибка решение не принято в работу:
+##### Код: 422
+```json
+{
+    "errors": "Решение не в работе"
+}
+```
+##### Ошибка валидации:
+##### Код: 422
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "executor": [
+            "Такого пользователя не существует"
+        ]
+    }
 }
 ```
 ##### Ошибка отсутствия данного решения/проблемы:
