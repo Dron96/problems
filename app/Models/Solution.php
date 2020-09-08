@@ -46,7 +46,7 @@ class Solution extends Model
         'name',
         'in_work',
         'status',
-        'user_id',
+        'creator',
         'problem_id',
         'deadline',
         'executor'

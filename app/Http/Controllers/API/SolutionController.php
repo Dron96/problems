@@ -66,6 +66,7 @@ class SolutionController extends Controller
             $input = $request->validated();
             $input['creator'] = auth()->id();
             $input['problem_id'] = $problem->id;
+            //dd($input);
             $solution = Solution::create($input);
 
             return response()->json($solution, 201);

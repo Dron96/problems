@@ -22,9 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Изменение исполнителя, статуса и срока">
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Дополнение документации">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Solution.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Solution.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -248,7 +249,8 @@
       <workItem from="1599392758430" duration="13158000" />
       <workItem from="1599410444251" duration="185000" />
       <workItem from="1599462092925" duration="8868000" />
-      <workItem from="1599487103329" duration="1470000" />
+      <workItem from="1599487103329" duration="1517000" />
+      <workItem from="1599532249047" duration="1267000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -425,7 +427,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599474349551</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Дополнение документации">
+      <created>1599488597366</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1599488597366</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,7 +455,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Добавил PHPDoc" />
     <MESSAGE value="Исправление README.md" />
-    <MESSAGE value="Дополнение документации" />
     <MESSAGE value="Авторизация, регистрация, дополнение документации" />
     <MESSAGE value="Выход пользователя, дополнение документации" />
     <MESSAGE value="Обработка ошибки 404, дополнение документации" />
@@ -458,7 +466,8 @@
     <MESSAGE value="Дополнение документации для решения" />
     <MESSAGE value="Изменение имени, статуса &quot;в работе&quot; и удаление проблемы" />
     <MESSAGE value="Изменение исполнителя, статуса и срока" />
-    <option name="LAST_COMMIT_MESSAGE" value="Изменение исполнителя, статуса и срока" />
+    <MESSAGE value="Дополнение документации" />
+    <option name="LAST_COMMIT_MESSAGE" value="Дополнение документации" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1678" y="65" width="732" height="644" key="#Inspections" timestamp="1599463160665">
@@ -502,10 +511,10 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1320" height="181" key="GridCell.Tab.0.right/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599388560961" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599409433763">
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599488603336">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" key="Vcs.Push.Dialog.v2/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599409433763" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599488603336" />
     <state x="1673" y="120" key="Vcs.Push.Dialog.v2/1366.0.1366.768/0.27.1366.741@1366.0.1366.768" timestamp="1599236946360" />
     <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599055720652" />
     <state x="1524" y="100" width="1108" height="568" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1599040964405">
