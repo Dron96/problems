@@ -22,7 +22,7 @@ class SolutionCreateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return JsonResponse|string[]
+     * @return array[]|JsonResponse|string[]
      */
     public function rules()
     {
@@ -32,7 +32,9 @@ class SolutionCreateRequest extends FormRequest
                 'min:6',
                 'max:100',
                 'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
-                Rule::unique('solutions')->where('problem_id', request()->problem->id),
+                Rule::unique('solutions', 'name')
+                    ->where('problem_id', request()->problem->id)
+                    ->whereNull('deleted_at'),
                 ]
         ];
     }

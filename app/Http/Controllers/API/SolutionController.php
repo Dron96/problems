@@ -13,9 +13,26 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Repositories\SolutionRepository;
+use App\Services\SolutionService;
 
 class SolutionController extends Controller
 {
+    /**
+     * @var SolutionRepository
+     */
+    private $solutionRepository;
+    private $solutionService;
+
+    /**
+     * SolutionController constructor.
+     */
+    public function __construct()
+    {
+        $this->solutionRepository = app(SolutionRepository::class);
+        $this->solutionService = app(SolutionService::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,17 +41,9 @@ class SolutionController extends Controller
      */
     public function index(Problem $problem)
     {
-        $solutions1 = Solution::where('problem_id', $problem->id)
-            ->where('in_work', true)
-            ->orderBy('name')
-            ->get();
-        $solutions2 = Solution::where('problem_id', $problem->id)
-            ->where('in_work', false)
-            ->latest()
-            ->get();
-        $solutions = $solutions1->merge($solutions2);
+        $solutions = $this->solutionRepository->getIndex($problem->id);
 
-        return response()->json($solutions, 200);
+        return response()->json($solutions->get(), 200);
     }
 
     /**
@@ -45,10 +54,8 @@ class SolutionController extends Controller
      */
     public function showInWork(Problem $problem)
     {
-        $solutions = Solution::where('problem_id', $problem->id)
-            ->where('in_work', true)
-            ->orderBy('name')
-            ->get();
+        $solutions = $this->solutionRepository->getShowInWork($problem->id);
+
         return response()->json($solutions, 200);
     }
 
@@ -63,13 +70,7 @@ class SolutionController extends Controller
     {
         $countSolution = Solution::where('problem_id', $problem->id)->count();
         if ($countSolution < 25) {
-            $input = $request->validated();
-            $input['creator'] = auth()->id();
-            $input['problem_id'] = $problem->id;
-            //dd($input);
-            $solution = Solution::create($input);
-
-            return response()->json($solution, 201);
+            return response()->json($this->solutionService->store($request, $problem->id, auth()->id()), 201);
         } else {
             return response()->json(['errors' => 'Решений слишком много, удалите хотя бы 1, чтобы продолжить'], 422);
         }
@@ -99,18 +100,9 @@ class SolutionController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->messages()], 404);
         }
-
-        $countSolution = Solution::where('problem_id', $solution->problem_id)
-            ->where('in_work', '=', true)
-            ->count();
+        $countSolution = $this->solutionRepository->getCountSolution($solution->problem_id);
         if ($countSolution < 10) {
-            if ($solution->in_work === false & (bool)$request->in_work === false) {
-                return response()->json(['errors' => 'Решение не в работе'], 422);
-            }
-            $solution->in_work = boolval($request->in_work);
-            $solution->save();
-
-            return response()->json($solution, 200);
+            return $this->solutionService->changeInWork($solution, $request->in_work);
         } else {
             return response()->json(['errors' => 'Решений в работе слишком много, уберите хотя бы 1, чтобы продолжить'], 422);
         }
@@ -131,10 +123,8 @@ class SolutionController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->messages()], 404);
         }
-        $solution->fill($request->validated());
-        $solution->save();
 
-        return response()->json($solution, 200);
+        return response()->json($this->solutionService->update($solution, $request->validated()), 200);
     }
 
     /**
@@ -167,13 +157,12 @@ class SolutionController extends Controller
             return response()->json(['errors' => $validator->messages()], 404);
         }
         if ($solution->in_work) {
-            $this->validate($request, [
-               'status' => [Rule::in(['В процессе', 'Выполнено', null]),],
-            ], ['status.in' => 'Неверный статус']);
-            $solution->status = $request->status;
-            $solution->save();
+            $this->validate($request,
+                ['status' => [Rule::in(['В процессе', 'Выполнено', null])]],
+                ['status.in' => 'Неверный статус']
+            );
 
-            return response()->json($solution);
+            return response()->json($this->solutionService->changeStatus($solution, $request->status));
         } else {
             return response()->json(['errors' => 'Решение не в работе'], 422);
         }
@@ -186,16 +175,16 @@ class SolutionController extends Controller
             return response()->json(['errors' => $validator->messages()], 404);
         }
         if ($solution->in_work) {
-            $this->validate($request, ['deadline' => 'required|date|after_or_equal:'.date('Y-m-d')],
+            $this->validate($request,
+                ['deadline' => 'required|date|after_or_equal:'.date('Y-m-d')],
                 [
                     'deadline.required' => 'Поле срок исполнения не заполнено',
                     'deadline.date' => 'Неверный формат даты',
                     'deadline.after_or_equal' => 'Срок исполнения не может быть раньше текущей даты'
-                ]);
-            $solution->deadline = $request->deadline;
-            $solution->save();
+                ]
+            );
 
-            return response()->json($solution);
+            return response()->json($this->solutionService->setDeadline($solution, $request->deadline));
         } else {
             return response()->json(['errors' => 'Решение не в работе'], 422);
         }
@@ -208,15 +197,15 @@ class SolutionController extends Controller
             return response()->json(['errors' => $validator->messages()], 404);
         }
         if ($solution->in_work) {
-            $this->validate($request, ['executor' => 'required|exists:users,id'],
+            $this->validate($request,
+                ['executor_id' => 'required|exists:users,id'],
                 [
-                    'executor.required' => 'Поле ответственный не заполнено',
-                    'executor.exists' => 'Такого пользователя не существует',
-                ]);
-            $solution->executor = $request->executor;
-            $solution->save();
+                    'executor_id.required' => 'Поле ответственный не заполнено',
+                    'executor_id.exists' => 'Такого пользователя не существует',
+                ]
+            );
 
-            return response()->json($solution);
+            return response()->json($this->solutionService->setExecutor($solution, $request->executor_id));
         } else {
             return response()->json(['errors' => 'Решение не в работе'], 422);
         }

@@ -8,18 +8,18 @@
 ## Описание:
 
 ### Операции над решением:
-|№   | Имя метода            | Описание операции                                   | URL                                    | Метод запроса | Принимаемые параметры   |
-|----|-----------------------|-----------------------------------------------------|----------------------------------------|:-------------:|-------------------------|
-|1.  | solution.index        | Получение списка всех решений для проблемы          | /api/solutions/{problem}               | GET / HEAD    | Нет параметров          |
-|2.  | solution.store        | Создание решения для проблемы                       | /api/solution/{problem}                | POST          | name - описание решения |
-|3.  | solution.in-work      | Получение списка всех решений в работе для проблемы | /api/solutions-in-work/{problem}       | GET / HEAD    | Нет параметров          |
-|4.  | solution.show         | Получение решения                                   | /api/solution/{solution}               | GET / HEAD    | Нет параметров          |
-|5.  | solution.changeInWork | Смена статуса "в работе" для решения                | /solution/{solution}/change-in-work    | PUT           | in_work - статус в работе (да - любая не пустая строка, 1; нет - пустая строка, 0) |
-|6.  | solution.update       | Изменение описания решения                          | /api/solution/{solution}               | PUT           | name - описание решения |
-|7.  | solution.destroy      | Удаление решения                                    | /api/solution/{solution}               | DELETE        | Нет параметров          |
-|8.  | solution.changeStatus | Изменение статуса решения                           | /api/solution/{solution}/change-status | PUT           | status - статус решения в работе (В процессе, Выполнено, "") |
-|9.  | solution.setDeadline  | Установка срока исполнения решения                  | /api/solution/{solution}/set-deadline  | PUT           | deadline - дата в формате ГГГГ-ММ-ДД |
-|10. | solution.setExecutor  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor  | PUT           | executor - id пользователя |
+|№   | Имя метода            | Описание операции                                   | URL                                     | Метод запроса | Принимаемые параметры   |
+|----|-----------------------|-----------------------------------------------------|-----------------------------------------|:-------------:|-------------------------|
+|1.  | solution.index        | Получение списка всех решений для проблемы          | /api/problem/{problem}/solution         | GET / HEAD    | Нет параметров          |
+|2.  | solution.store        | Создание решения для проблемы                       | /api/problem/{problem}/solution         | POST          | name - описание решения |
+|3.  | solution.in-work      | Получение списка всех решений в работе для проблемы | /api/problem/{problem}/solution-in-work | GET / HEAD    | Нет параметров          |
+|4.  | solution.show         | Получение решения                                   | /api/solution/{solution}                | GET / HEAD    | Нет параметров          |
+|5.  | solution.changeInWork | Смена статуса "в работе" для решения                | /solution/{solution}/change-in-work     | PUT           | in_work - статус в работе (да - любая не пустая строка, 1; нет - пустая строка, 0) |
+|6.  | solution.update       | Изменение описания решения                          | /api/solution/{solution}                | PUT           | name - описание решения |
+|7.  | solution.destroy      | Удаление решения                                    | /api/solution/{solution}                | DELETE        | Нет параметров          |
+|8.  | solution.changeStatus | Изменение статуса решения                           | /api/solution/{solution}/change-status  | PUT           | status - статус решения в работе (В процессе, Выполнено, "") |
+|9.  | solution.setDeadline  | Установка срока исполнения решения                  | /api/solution/{solution}/set-deadline   | PUT           | deadline - дата в формате ГГГГ-ММ-ДД |
+|10. | solution.setExecutor  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor   | PUT           | executor_id - id пользователя |
 
 ### Ответы:
 #### 1. solution.index
@@ -244,12 +244,12 @@
 {
     "id": 2,
     "name": "Don't be all day about.",
-    "creator": 6,
+    "creator_id": 6,
     "problem_id": 3,
     "in_work": true,
     "status": null,
     "deadline": null,
-    "executor": null,
+    "executor_id": null,
     "created_at": "2020-08-19T19:48:07.000000Z",
     "updated_at": "2020-08-19T19:48:07.000000Z",
     "deleted_at": null
@@ -289,12 +289,12 @@
 {
     "id": 2,
     "name": "Don't be all day about.",
-    "creator": 6,
+    "creator_id": 6,
     "problem_id": 3,
     "in_work": true,
     "status": null,
     "deadline": "20.12.2020",
-    "executor": null,
+    "executor_id": null,
     "created_at": "2020-08-19T19:48:07.000000Z",
     "updated_at": "2020-09-07T14:20:04.000000Z",
     "deleted_at": null
@@ -335,12 +335,12 @@
 {
     "id": 2,
     "name": "Don't be all day about.",
-    "creator": 6,
+    "creator_id": 6,
     "problem_id": 3,
     "in_work": true,
     "status": null,
     "deadline": "20.12.2020",
-    "executor": "1",
+    "executor_id": "1",
     "created_at": "2020-08-19T19:48:07.000000Z",
     "updated_at": "2020-09-07T14:20:04.000000Z",
     "deleted_at": null
@@ -359,7 +359,7 @@
 {
     "message": "The given data was invalid.",
     "errors": {
-        "executor": [
+        "executor_id": [
             "Такого пользователя не существует"
         ]
     }

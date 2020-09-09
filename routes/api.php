@@ -22,60 +22,33 @@ Route::post('/register', 'API\AuthController@register')
     ->name('register');
 Route::post('/login', 'API\AuthController@login')
     ->name('login');
-Route::post('/logout', 'API\AuthController@logout')
-    ->name('logout')
-    ->middleware('auth:api');
 
-Route::get('/users', 'API\UserController@getUsers')
-    ->name('user.getUsers')
-    ->middleware('auth:api');
+Route::middleware('auth:api')->group(function () {
+    Route::post('/logout', 'API\AuthController@logout');
 
-Route::post('/problem', 'API\ProblemController@store')
-    ->name('problem.store')
-    ->middleware('auth:api');
-Route::get('/problem', 'API\ProblemController@index')
-    ->name('problem.index')
-    ->middleware('auth:api');
-Route::delete('/problem/{problem}', 'API\ProblemController@destroy')
-    ->name('problem.destroy')
-    ->middleware('auth:api');
-Route::put('/problem/{problem}', 'API\ProblemController@update')
-    ->name('problem.update')
-    ->middleware('auth:api');
-Route::get('/problem/{problem}', 'API\ProblemController@show')
-    ->name('problem.show')
-    ->middleware('auth:api');
+    Route::get('/users', 'API\UserController@getUsers');
 
+    Route::prefix('problem')->group(function () {
+        Route::post('/', 'API\ProblemController@store');
+        Route::get('/', 'API\ProblemController@index');
+        Route::delete('/{problem}', 'API\ProblemController@destroy');
+        Route::put('/{problem}', 'API\ProblemController@update');
+        Route::get('/{problem}', 'API\ProblemController@show');
 
+        Route::get('/{problem}/solution', 'API\SolutionController@index');
+        Route::post('/{problem}/solution', 'API\SolutionController@store');
+        Route::get('/{problem}/solution-in-work', 'API\SolutionController@showInWork');
+    });
 
-Route::post('/solution/{problem}', 'API\SolutionController@store')
-    ->name('solution.store')
-    ->middleware('auth:api');
-Route::get('/solutions/{problem}', 'API\SolutionController@index')
-    ->name('solution.index')
-    ->middleware('auth:api');
-Route::get('/solutions-in-work/{problem}', 'API\SolutionController@showInWork')
-    ->name('solution.in-work')
-    ->middleware('auth:api');
-Route::delete('/solution/{solution}', 'API\SolutionController@destroy')
-    ->name('solution.destroy')
-    ->middleware('auth:api');
-Route::put('/solution/{solution}', 'API\SolutionController@update')
-    ->name('solution.update')
-    ->middleware('auth:api');
-Route::get('/solution/{solution}', 'API\SolutionController@show')
-    ->name('solution.show')
-    ->middleware('auth:api');
-Route::put('/solution/{solution}/change-in-work', 'API\SolutionController@changeInWork')
-    ->name('solution.changeInWork')
-    ->middleware('auth:api');
-Route::put('/solution/{solution}/change-status', 'API\SolutionController@changeStatus')
-    ->name('solution.changeStatus')
-    ->middleware('auth:api');
-Route::put('/solution/{solution}/set-deadline', 'API\SolutionController@setDeadline')
-    ->name('solution.setDeadline')
-    ->middleware('auth:api');
-Route::put('/solution/{solution}/set-executor', 'API\SolutionController@setExecutor')
-    ->name('solution.setExecutor')
-    ->middleware('auth:api');
+    Route::prefix('solution')->group(function () {
+        Route::delete('/{solution}', 'API\SolutionController@destroy');
+        Route::put('/{solution}', 'API\SolutionController@update');
+        Route::get('/{solution}', 'API\SolutionController@show');
+        Route::put('/{solution}/change-in-work', 'API\SolutionController@changeInWork');
+        Route::put('/{solution}/change-status', 'API\SolutionController@changeStatus');
+        Route::put('/{solution}/set-deadline', 'API\SolutionController@setDeadline');
+        Route::put('/{solution}/set-executor', 'API\SolutionController@setExecutor');
+    });
+});
+
 

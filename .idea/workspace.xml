@@ -22,10 +22,18 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Дополнение документации">
+    <list default="true" id="7df3389c-29f9-495c-89b5-bef57b048aa5" name="Default Changelist" comment="Исправление ошибки с пользователем">
+      <change afterPath="$PROJECT_DIR$/app/Repositories/CoreRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Repositories/SolutionRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Services/SolutionService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/SolutionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Requests/SolutionCreateRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Requests/SolutionCreateRequest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Models/Solution.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Solution.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_09_02_085159_create_solutions_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_09_02_085159_create_solutions_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/SolutionSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,6 +186,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -250,7 +259,13 @@
       <workItem from="1599410444251" duration="185000" />
       <workItem from="1599462092925" duration="8868000" />
       <workItem from="1599487103329" duration="1517000" />
-      <workItem from="1599532249047" duration="1267000" />
+      <workItem from="1599532249047" duration="1562000" />
+      <workItem from="1599536266592" duration="601000" />
+      <workItem from="1599545687006" duration="2770000" />
+      <workItem from="1599548703289" duration="8017000" />
+      <workItem from="1599630311685" duration="2431000" />
+      <workItem from="1599655642696" duration="4687000" />
+      <workItem from="1599661695086" duration="1236000" />
     </task>
     <task id="LOCAL-00001" summary="Добавил PHPDoc">
       <created>1598410893009</created>
@@ -434,7 +449,14 @@
       <option name="project" value="LOCAL" />
       <updated>1599488597366</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Исправление ошибки с пользователем">
+      <created>1599533538335</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1599533538335</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -467,7 +489,8 @@
     <MESSAGE value="Изменение имени, статуса &quot;в работе&quot; и удаление проблемы" />
     <MESSAGE value="Изменение исполнителя, статуса и срока" />
     <MESSAGE value="Дополнение документации" />
-    <option name="LAST_COMMIT_MESSAGE" value="Дополнение документации" />
+    <MESSAGE value="Исправление ошибки с пользователем" />
+    <option name="LAST_COMMIT_MESSAGE" value="Исправление ошибки с пользователем" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1678" y="65" width="732" height="644" key="#Inspections" timestamp="1599463160665">
@@ -478,10 +501,10 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="2092" y="0" width="630" height="768" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599401550895" />
-    <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1599473339588">
+    <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1599656641544">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599473339588" />
+    <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599656641544" />
     <state x="1811" y="142" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1598797285170" />
     <state x="1861" y="142" width="424" height="491" key="FileChooserDialogImpl" timestamp="1598180984161">
       <screen x="1366" y="0" width="1366" height="768" />
@@ -511,10 +534,19 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1320" height="181" key="GridCell.Tab.0.right/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599388560961" />
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599488603336">
+    <state x="1605" y="309" width="249" height="163" key="NewPhpFileDialog" timestamp="1599655744810">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
-    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599488603336" />
+    <state x="1605" y="309" width="249" height="163" key="NewPhpFileDialog/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599655744810" />
+    <state x="478" y="309" width="399" height="156" key="NewPhpFileDialog/0.0.2732.768@0.0.2732.768" timestamp="1599563853007" />
+    <state x="1538" y="19" width="1022" height="737" key="SettingsEditor" timestamp="1599661656187">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1538" y="19" width="1022" height="737" key="SettingsEditor/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599661656187" />
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599533541433">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599533541433" />
     <state x="1673" y="120" key="Vcs.Push.Dialog.v2/1366.0.1366.768/0.27.1366.741@1366.0.1366.768" timestamp="1599236946360" />
     <state x="1673" y="120" width="800" height="535" key="Vcs.Push.Dialog.v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599055720652" />
     <state x="1524" y="100" width="1108" height="568" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1599040964405">
@@ -534,10 +566,18 @@
       <screen x="1366" y="0" width="1366" height="768" />
     </state>
     <state x="1859" y="299" width="428" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/58.27.1308.741/1366.0.1366.768@1366.0.1366.768" timestamp="1599036537387" />
+    <state x="449" y="191" width="458" height="393" key="com.jetbrains.php.test.PhpNewTestDialog" timestamp="1599563777994">
+      <screen x="0" y="0" width="2732" height="768" />
+    </state>
+    <state x="449" y="191" width="458" height="393" key="com.jetbrains.php.test.PhpNewTestDialog/0.0.2732.768@0.0.2732.768" timestamp="1599563777994" />
     <state x="471" y="284" width="414" height="206" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1599386338052">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="471" y="284" width="414" height="206" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1366.768/1366.0.1366.768@0.0.1366.768" timestamp="1599386338052" />
+    <state x="1760" y="156" width="568" height="462" key="refactoring.ChangeSignatureDialog" timestamp="1599661382987">
+      <screen x="1366" y="0" width="1366" height="768" />
+    </state>
+    <state x="1760" y="156" width="568" height="462" key="refactoring.ChangeSignatureDialog/0.0.1366.768/1366.0.1366.768@1366.0.1366.768" timestamp="1599661382987" />
     <state x="1713" y="174" key="run.anything.popup" timestamp="1599182613560">
       <screen x="1366" y="0" width="1366" height="768" />
     </state>

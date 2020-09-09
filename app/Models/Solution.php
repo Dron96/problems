@@ -37,6 +37,12 @@ use Illuminate\Support\Facades\Validator;
  * @method static Builder|Solution whereStatus($value)
  * @method static Builder|Solution whereUpdatedAt($value)
  * @method static Builder|Solution whereUserId($value)
+ * @property int $creator_id
+ * @property string|null $deadline
+ * @property int|null $executor_id
+ * @method static Builder|Solution whereCreatorId($value)
+ * @method static Builder|Solution whereDeadline($value)
+ * @method static Builder|Solution whereExecutorId($value)
  */
 class Solution extends Model
 {
@@ -46,10 +52,10 @@ class Solution extends Model
         'name',
         'in_work',
         'status',
-        'creator',
+        'creator_id',
         'problem_id',
         'deadline',
-        'executor'
+        'executor_id'
     ];
 
     /**
@@ -66,6 +72,7 @@ class Solution extends Model
             'problem_id.exists' => 'Такой проблемы не существует',
             'id.exists' => 'Такого решения не существует',
         ];
+
         return Validator::make(Solution::find($id)->toArray(), $rules, $messages);
     }
 }
