@@ -2,29 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Models\Solution as Model;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\Solution;
 
-class SolutionRepository extends CoreRepository
+class SolutionRepository
 {
-    /**
-     * @return mixed|string
-     */
-    protected function getModel()
+    public function  getAll($problemId)
     {
-        return Model::class;
-    }
-
-    public function  getIndex($id)
-    {
-        $solutions1 = $this
-            ->startConditions()
-            ->where('problem_id', $id)
+        $solutions1 = Solution::where('problem_id', $problemId)
             ->where('in_work', true)
             ->orderBy('name');
-        $solutions2 = $this
-            ->startConditions()
-            ->where('problem_id', $id)
+        $solutions2 = Solution::where('problem_id', $problemId)
             ->where('in_work', false)
             ->latest();
         $solutions = $solutions1->unionAll($solutions2);
@@ -32,11 +19,9 @@ class SolutionRepository extends CoreRepository
         return $solutions;
     }
 
-    public function getShowInWork($id)
+    public function getShowInWork($problemId)
     {
-        $solutions = $this
-            ->startConditions()
-            ->where('problem_id', $id)
+        $solutions = Solution::where('problem_id', $problemId)
             ->where('in_work', true)
             ->orderBy('name')
             ->get();
@@ -44,11 +29,9 @@ class SolutionRepository extends CoreRepository
         return $solutions;
     }
 
-    public function getCountSolution($id)
+    public function getCountSolution($problemId)
     {
-        $countSolution = $this
-            ->startConditions()
-            ->where('problem_id', $id)
+        $countSolution = Solution::where('problem_id', $problemId)
             ->where('in_work', '=', true)
             ->count();
 

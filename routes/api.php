@@ -40,14 +40,14 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{problem}/solution-in-work', 'API\SolutionController@showInWork');
     });
 
-    Route::prefix('solution')->group(function () {
-        Route::delete('/{solution}', 'API\SolutionController@destroy');
-        Route::put('/{solution}', 'API\SolutionController@update');
-        Route::get('/{solution}', 'API\SolutionController@show');
-        Route::put('/{solution}/change-in-work', 'API\SolutionController@changeInWork');
-        Route::put('/{solution}/change-status', 'API\SolutionController@changeStatus');
-        Route::put('/{solution}/set-deadline', 'API\SolutionController@setDeadline');
-        Route::put('/{solution}/set-executor', 'API\SolutionController@setExecutor');
+    Route::prefix('solution/{solution}')->group(function () {
+        Route::delete('/', 'API\SolutionController@destroy');
+        Route::put('/', 'API\SolutionController@update');
+        Route::get('/', 'API\SolutionController@show');
+        Route::put('/change-in-work', 'API\SolutionController@changeInWork');
+        Route::put('/change-status', 'API\SolutionController@changeStatus');
+        Route::put('/set-deadline', 'API\SolutionController@setDeadline');
+        Route::put('/set-executor', 'API\SolutionController@setExecutor');
     });
 });
 

@@ -7,11 +7,11 @@ use App\Models\Solution;
 
 class SolutionService
 {
-    public function store(SolutionCreateRequest $request, $problem_id, $creator_id)
+    public function store(SolutionCreateRequest $request, $problemId, $creatorId)
     {
             $input = $request->validated();
-            $input['creator_id'] = $creator_id;
-            $input['problem_id'] = $problem_id;
+            $input['creator_id'] = $creatorId;
+            $input['problem_id'] = $problemId;
             $solution = Solution::create($input);
 
             return $solution;
@@ -29,12 +29,12 @@ class SolutionService
      * @param Solution $solution
      * @return Solution|\Illuminate\Http\JsonResponse
      */
-    public function changeInWork(Solution $solution, $in_work)
+    public function changeInWork(Solution $solution, $inWork)
     {
-        if ($solution->in_work === false & (bool)$in_work === false) {
+        if ($solution->in_work === false & (bool)$inWork === false) {
             return response()->json(['errors' => 'Решение не в работе'], 422);
         }
-        $solution->in_work = boolval($in_work);
+        $solution->in_work = boolval($inWork);
         $solution->save();
 
         return response()->json($solution, 200);
@@ -56,9 +56,9 @@ class SolutionService
         return $solution;
     }
 
-    public function setExecutor(Solution $solution, $executor_id)
+    public function setExecutor(Solution $solution, $executorId)
     {
-        $solution->executor_id = $executor_id;
+        $solution->executor_id = $executorId;
         $solution->save();
 
         return $solution;

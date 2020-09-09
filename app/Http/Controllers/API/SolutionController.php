@@ -41,7 +41,7 @@ class SolutionController extends Controller
      */
     public function index(Problem $problem)
     {
-        $solutions = $this->solutionRepository->getIndex($problem->id);
+        $solutions = $this->solutionRepository->getAll($problem->id);
 
         return response()->json($solutions->get(), 200);
     }
