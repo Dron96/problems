@@ -33,7 +33,7 @@ class AuthController extends Controller
     {
         if(!auth()->attempt($request->validated())) {
             return response()->json([
-                'errors' => 'Имя пользователя или пароль неправильные',
+                'errors' => 'Адрес электронной почты или пароль неправильные',
             ], 401);
         }
         $token = auth()->user()->createToken('authToken');
@@ -50,7 +50,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function logout(Request $request)
+    public function logout()
     {
         auth()->user()->token()->revoke();
 

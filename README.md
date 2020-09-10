@@ -376,8 +376,8 @@
 ### Авторизация и регистрация:
 |№  | Имя метода | Описание операции               | URL           | Метод запроса | Принимаемые параметры |
 |---|------------|---------------------------------|---------------|:-------------:|-----------------------|
-|1. | register   | Регистрация нового пользователя | /api/register | POST          | <ol><li>name - имя пользователя</li><li>password - пароль</li><li>password_confirmation - повторите пароль</li><li>email - электронная почта</li></ol>      |
-|2. | login      | Авторизация пользователя        | /api/login    | POST          | <ol><li>name - имя пользователя</li><li>password - пароль</li></ol> |
+|1. | register   | Регистрация нового пользователя | /api/register | POST          | <ol><li>name - имя пользователя</li><li>surname - фамилия пользователя</li><li>father_name - отчество пользователя</li><li>password - пароль</li><li>password_confirmation - повторите пароль</li><li>email - электронная почта</li></ol>      |
+|2. | login      | Авторизация пользователя        | /api/login    | POST          | <ol><li>email - электронная почта</li><li>password - пароль</li></ol> |
 |3. | logout     | Авторизация пользователя        | /api/logout   | POST          | Нет параметров        |
 
 ### Операции над проблемой:
@@ -419,13 +419,14 @@
 ```json
 {
     "user": {
-        "id": 2,
-        "name": "user2",
-        "email": "data2@data.com",
-        "email_verified_at": null,
-        "created_at": "2020-08-29T09:51:12.000000Z",
-        "updated_at": "2020-08-29T09:51:12.000000Z"
-    },
+            "id": 1,
+            "name": "Гарри",
+            "surname": "Куликов",
+            "father_name": "Максимовна",
+            "email": "artemeva.gennadii@example.org",
+            "created_at": "2020-09-10T14:13:25.000000Z",
+            "updated_at": "2020-09-10T14:13:25.000000Z"
+        },
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjM2YzY0YTZiZTIzMzBhMDkyNmJjZTU..."
 }
 ```
@@ -448,7 +449,7 @@
     "message": "The given data was invalid.",
     "errors": {
         "name": [
-            "Имя пользователя или пароль неправильные"
+            "Адрес электронной почты или пароль неправильные"
         ]
     }
 }
