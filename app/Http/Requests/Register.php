@@ -27,7 +27,7 @@ class Register extends FormRequest
             'name' => 'required|min:1|max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
             'password' => 'min:8|max:20|confirmed|required|regex:/^[0-9A-Za-zА-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё]*$/u',
             'email' => 'min:3|max:255|email|required|unique:users',
-            'father_name' => 'max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
+            'father_name' => 'nullable|max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
             'surname' => 'min:1|required|max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
         ];
     }
