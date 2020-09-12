@@ -27,7 +27,7 @@ class Register extends FormRequest
             'name' => 'required|min:1|max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
             'password' => 'min:8|max:20|confirmed|required|regex:/^[0-9A-Za-zА-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё]*$/u',
             'email' => 'min:3|max:255|email|required|unique:users',
-            'father_name' => 'min:1|max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
+            'father_name' => 'max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
             'surname' => 'min:1|required|max:25|regex:/^[А-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё-]*$/u',
         ];
     }
@@ -46,7 +46,6 @@ class Register extends FormRequest
             'surname.regex' => 'Для фамилии доступны только символы кириллицы, "-".',
 
             'father_name.max' => 'Поле "Отчество" содержит более 25 символов.',
-            'father_name.min' => 'Поле "Отчество" должно содержать не менее 1 символа.',
             'father_name.regex' => 'Для отчества доступны только символы кириллицы, "-".',
 
             'password.max' => 'Поле "Пароль" содержит более 20 символов',
