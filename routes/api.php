@@ -48,6 +48,18 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/change-status', 'API\SolutionController@changeStatus');
         Route::put('/set-deadline', 'API\SolutionController@setDeadline');
         Route::put('/set-executor', 'API\SolutionController@setExecutor');
+
+        Route::post('/task', 'API\TaskController@store');
+        Route::get('/task', 'API\TaskController@index');
+    });
+
+    Route::prefix('task/{task}')->group(function () {
+        Route::put('/', 'API\TaskController@update');
+        Route::delete('/', 'API\TaskController@destroy');
+        Route::put('/', 'API\TaskController@setExecutor');
+        Route::put('/', 'API\TaskController@setDeadline');
+        Route::put('/', 'API\TaskController@changeStatus');
+        Route::get('/', 'API\TaskController@show');
     });
 });
 

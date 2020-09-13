@@ -63,6 +63,9 @@ class Handler extends ExceptionHandler
                 case 'App\Models\Solution':
                     return response()->json(['message' => 'Такого решения не существует'], 404);
                     break;
+                case 'App\Models\Task':
+                    return response()->json(['message' => 'Такой задачи не существует'], 404);
+                    break;
             }
 
         }

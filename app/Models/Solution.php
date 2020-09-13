@@ -43,6 +43,8 @@ use Illuminate\Support\Facades\Validator;
  * @method static Builder|Solution whereCreatorId($value)
  * @method static Builder|Solution whereDeadline($value)
  * @method static Builder|Solution whereExecutorId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
+ * @property-read int|null $tasks_count
  */
 class Solution extends Model
 {
@@ -74,5 +76,15 @@ class Solution extends Model
         ];
 
         return Validator::make(Solution::find($id)->toArray(), $rules, $messages);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'solution_id', 'id');
+    }
+
+    public function problem()
+    {
+        return $this->belongsTo(Problem::class, 'problem_id', 'id');
     }
 }

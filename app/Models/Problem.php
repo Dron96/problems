@@ -37,4 +37,9 @@ class Problem extends Model
         = [
             'name',
         ];
+
+    public function problems()
+    {
+        return $this->hasMany(Solution::class, 'solution_id', 'id');
+    }
 }

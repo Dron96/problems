@@ -44,6 +44,10 @@ use Laravel\Passport\Token;
  * @property-read int|null $clients_count
  * @property-read Collection|Token[] $tokens
  * @property-read int|null $tokens_count
+ * @property string $surname
+ * @property string|null $father_name
+ * @method static Builder|User whereFatherName($value)
+ * @method static Builder|User whereSurname($value)
  */
 class User extends Authenticatable
 {
