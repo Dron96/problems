@@ -31,26 +31,46 @@ class TaskService
         if ($countTask >= 25) {
             return response()->json(['errors' => 'Задач слишком много, удалите хотя бы 1, чтобы продолжить'], 422);
         }
-        if (Task::where('solution_id', $solutionId)
+        $solutionExist = Task::where('solution_id', $solutionId)
             ->where('description', $request->description)
             ->whereNotNull('executor_id')
             ->where('executor_id', $request->executor_id)
-            ->exists()) {
+            ->exists();
+        if ($solutionExist === true) {
             return response()->json(['errors' => 'Такая задача уже существует с таким ответственным'], 422);
         }
 
         $input['creator_id'] = $creatorId;
         $input['solution_id'] = $solutionId;
-        return Task::create($input);
+        return response()->json(Task::create($input), 201);
     }
 
-    public function destroy($solutionId, $problemId)
+    public function isChangeable($solutionId, $problemId)
     {
         if (!(Problem::where('id', $problemId)->exists())) {
             return response()->json(['errors' => 'Такой проблемы не существует'], 404);
         }
-        if (!(Solution::where('id', $solutionId)->exists())) {
+        $solution = Solution::where('id', $solutionId)->first();
+        if ($solution === null) {
             return response()->json(['errors' => 'Такого решения не существует'], 404);
+        }
+        if ($solution->in_work !== true) {
+            return response()->json(['errors' => 'Это решение не в работе'], 422);
+        }
+        return true;
+    }
+
+    public function update($solutionId, $problemId, $description, $executorId)
+    {
+        if ($this->isChangeable($solutionId, $problemId) === true) {
+            $solutionExist = Task::where('solution_id', $solutionId)
+                ->where('description', $description)
+                ->whereNotNull('executor_id')
+                ->where('executor_id', $executorId)
+                ->exists();
+            if ($solutionExist === true) {
+                return response()->json(['errors' => 'Такая задача уже существует с таким ответственным'], 422);
+            }
         }
         return true;
     }

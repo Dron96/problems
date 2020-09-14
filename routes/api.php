@@ -56,9 +56,9 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('task/{task}')->group(function () {
         Route::put('/', 'API\TaskController@update');
         Route::delete('/', 'API\TaskController@destroy');
-        Route::put('/', 'API\TaskController@setExecutor');
-        Route::put('/', 'API\TaskController@setDeadline');
-        Route::put('/', 'API\TaskController@changeStatus');
+        Route::put('/set-executor', 'API\TaskController@setExecutor');
+        Route::put('/set-deadline', 'API\TaskController@setDeadline');
+        Route::put('/change-status', 'API\TaskController@changeStatus');
         Route::get('/', 'API\TaskController@show');
     });
 });

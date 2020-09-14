@@ -24,7 +24,7 @@ class Login extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'min:3|max:255|email|required',
+            'email' => 'min:3|max:255|email:filter,rfc,strict|required',
             'password' => 'min:8|max:20|required|regex:/^[0-9A-Za-zА-ЯЦцУуШшЩщФфЫыРрЭэЧчТтЬьЮюЪъХхЁа-яё]*$/u',
         ];
     }
@@ -32,9 +32,9 @@ class Login extends FormRequest
     public function messages()
     {
         return [
-            'email.min' => 'В поле "Электронная почта" должно быть не менее 3 символов',
-            'email.max' => 'Поле "Электронная почта" содержит более 255 символов',
-            'email.required' => 'В поле "Электронная почта" должно быть не менее 3 символов',
+            'email.min' => 'В поле "Адрес электронной почты" должно быть не менее 3 символов',
+            'email.max' => 'Поле "Адрес электронной почты" содержит более 255 символов',
+            'email.required' => 'В поле "Адрес электронной почты" должно быть не менее 3 символов',
             'email.email' => 'Почта некорректна. Для адреса электронной почты доступны только символы латиницы, 0-9, @, "_", "-", "."',
 
             'password.max' => 'Поле "Пароль" содержит более 20 символов',
