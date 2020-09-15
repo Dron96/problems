@@ -29,7 +29,7 @@ class SolutionRepository
         return $solutions;
     }
 
-    public function getCountSolution($problemId)
+    public function getCountSolutionInWork($problemId)
     {
         $countSolution = Solution::where('problem_id', $problemId)
             ->where('in_work', '=', true)

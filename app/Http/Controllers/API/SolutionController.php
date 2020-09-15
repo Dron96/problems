@@ -100,11 +100,11 @@ class SolutionController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->messages()], 404);
         }
-        $countSolution = $this->solutionRepository->getCountSolution($solution->problem_id);
-        if ($countSolution < 10) {
+        $countSolution = $this->solutionRepository->getCountSolutionInWork($solution->problem_id);
+        if ($countSolution < 1) {
             return $this->solutionService->changeInWork($solution, $request->in_work);
         } else {
-            return response()->json(['errors' => 'Решений в работе слишком много, уберите хотя бы 1, чтобы продолжить'], 422);
+            return response()->json(['errors' => 'Решение в работе может быть только 1'], 422);
         }
     }
 

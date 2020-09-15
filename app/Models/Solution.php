@@ -87,4 +87,11 @@ class Solution extends Model
     {
         return $this->belongsTo(Problem::class, 'problem_id', 'id');
     }
+
+    protected static function booted()
+    {
+        static::deleting(function ($solution) {
+            $solution->tasks()->delete();
+        });
+    }
 }

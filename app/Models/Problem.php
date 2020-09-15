@@ -38,8 +38,18 @@ class Problem extends Model
             'name',
         ];
 
-    public function problems()
+    public function solutions()
     {
-        return $this->hasMany(Solution::class, 'solution_id', 'id');
+        return $this->hasMany(Solution::class, 'problem_id', 'id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($problem) {
+            foreach ($problem->solutions as $solution)
+            {
+                $solution->delete();
+            }
+        });
     }
 }
