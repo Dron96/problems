@@ -85,6 +85,8 @@ class TaskController extends Controller
         if ( $response === true) {
             $task->fill($validated);
             $task->save();
+        } else {
+            return $response;
         }
 
         return response()->json($task, 200);
@@ -119,10 +121,10 @@ class TaskController extends Controller
     public function setExecutor(Request $request, Task $task)
     {
         $problemId = $task->getProblemId();
-        $response = $this->taskService->isChangeable($task->solution_id, $problemId);
         $validated = $this->validate($request,
             ['executor_id' => 'exists:users,id'],
             ['executor_id.exists' => 'Такого ответственного не существует']);
+        $response = $this->taskService->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
         if ( $response === true) {
             $task->fill($validated);
             $task->save();
@@ -170,7 +172,7 @@ class TaskController extends Controller
         $problemId = $task->getProblemId();
         $response = $this->taskService->isChangeable($task->solution_id, $problemId);
         $validated = $this->validate($request,
-            ['status' => [Rule::in(['К выполнению', 'В процессе', 'Выполнено'])]],
+            ['status' => [Rule::in(['К исполнению', 'В процессе', 'Выполнено'])]],
             ['status.in' => 'Неверный статус']);
         if ( $response === true) {
             $task->fill($validated);
