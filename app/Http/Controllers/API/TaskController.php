@@ -33,7 +33,7 @@ class TaskController extends Controller
      */
     public function index(Solution $solution)
     {
-        return response()->json($solution->tasks()->get(), 200);
+        return response()->json($solution->tasks()->orderBy('description')->get(), 200);
     }
 
     /**
