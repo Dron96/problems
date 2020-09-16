@@ -100,6 +100,9 @@ class SolutionController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->messages()], 404);
         }
+        if ($request->in_work == false) {
+            return $this->solutionService->changeInWork($solution, $request->in_work);;
+        }
         $countSolution = $this->solutionRepository->getCountSolutionInWork($solution->problem_id);
         if ($countSolution < 1) {
             return $this->solutionService->changeInWork($solution, $request->in_work);
