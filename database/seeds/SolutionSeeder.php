@@ -25,7 +25,7 @@ class SolutionSeeder extends Seeder
             } else {
                 $status = null;
             }
-            $userId = rand(1, 15);
+            $userId = rand(1, 18);
             $problemId = rand(1, 30);
 
             $list[] = [

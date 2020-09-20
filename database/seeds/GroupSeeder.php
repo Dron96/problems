@@ -19,7 +19,7 @@ class GroupSeeder extends Seeder
             $created_at = $faker->dateTimeBetween('-3 months','-10 day');
             $name = $faker->company;
             $shortName = $faker->text(10);
-            $leader_id = rand(1, 20);
+            $leader_id = rand(1, 4);
 
             $list[] = [
                 'leader_id' => $leader_id,

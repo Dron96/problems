@@ -12,12 +12,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 20; $i++) {
+        for($i = 1; $i <= 4; $i++) {
             $user = factory(User::class)->create();
             $user->createToken('authToken')->accessToken;
         }
+        $this->call(GroupSeeder::class);
+        $this->call(UserSeeder::class);
         $this->call(ProblemSeeder::class);
         $this->call(SolutionSeeder::class);
-        $this->call(GroupSeeder::class);
+        //$this->call(GroupSeeder::class);
     }
 }
