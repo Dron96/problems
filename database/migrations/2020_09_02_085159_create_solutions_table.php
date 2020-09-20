@@ -16,12 +16,12 @@ class CreateSolutionsTable extends Migration
         Schema::create('solutions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('creator_id')->unsigned();
-            $table->integer('problem_id')->unsigned();
+            $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('problem_id');
             $table->boolean('in_work')->default(false);
             $table->string('status')->nullable()->default(null);
             $table->date('deadline')->nullable();
-            $table->integer('executor_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('executor_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

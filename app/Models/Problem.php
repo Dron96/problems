@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Eloquent;
@@ -31,25 +32,17 @@ use Illuminate\Support\Carbon;
  */
 class Problem extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
 
     protected $fillable
         = [
             'name',
         ];
 
+    protected $cascadeDeletes = ['solutions'];
+
     public function solutions()
     {
         return $this->hasMany(Solution::class, 'problem_id', 'id');
-    }
-
-    protected static function booted()
-    {
-        static::deleting(function ($problem) {
-            foreach ($problem->solutions as $solution)
-            {
-                $solution->delete();
-            }
-        });
     }
 }

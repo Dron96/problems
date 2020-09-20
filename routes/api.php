@@ -61,6 +61,10 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/change-status', 'API\TaskController@changeStatus');
         Route::get('/', 'API\TaskController@show');
     });
+
+    Route::prefix('group')->group(function () {
+        Route::post('/', 'API\GroupController@store');
+    });
 });
 
 
