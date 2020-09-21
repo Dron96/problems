@@ -65,8 +65,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('group')->group(function () {
         Route::get('/', 'API\GroupController@index');
         Route::get('/{group}/leader', 'API\GroupController@getLeader');
-        Route::get('/{group}/user', 'API\GroupController@getU
-        sers');
+        Route::get('/{group}/user', 'API\GroupController@getUsers');
         Route::post('/', 'API\GroupController@store');
         Route::put('{group}/user/{user}', 'API\GroupController@addUser');
     });
