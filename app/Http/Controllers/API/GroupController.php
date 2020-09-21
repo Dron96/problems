@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\GroupCreateRequest;
+use App\Http\Requests\Group\GroupChangeNameRequest;
+use App\Http\Requests\Group\GroupChangeShortNameRequest;
+use App\Http\Requests\Group\GroupCreateRequest;
 use App\Models\Group;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $groups = Group::all()->sortBy('name');
+        $groups = Group::all()->sortBy('name')->values();
 
         return response()->json($groups, '200');
     }
@@ -46,11 +48,11 @@ class GroupController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Group $group)
     {
-        //
+        return response()->json($group, 200);
     }
 
     /**
@@ -58,22 +60,40 @@ class GroupController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(GroupChangeNameRequest $request, Group $group)
     {
-        //
+        $group->fill($request->validated());
+        $group->save();
+
+        return response()->json($group, 200);
+    }
+
+    public function updateShortName(GroupChangeShortNameRequest $request, Group $group)
+    {
+        $group->fill($request->validated());
+        $group->save();
+
+        return response()->json($group, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Group $group
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Group $group)
     {
-        //
+        $users = $group->users;
+        foreach ($users as $user) {
+            $user->group_id = NULL;
+            $user->save();
+        }
+        $group->delete();
+
+        return response()->json(['message' => 'Подразделение успешно удалено'], 200);
     }
 
     public function addUser(Group $group, User $user)
@@ -97,5 +117,21 @@ class GroupController extends Controller
     public function getUsers(Group $group)
     {
         return response()->json($group->users->sortBy('father_name')->sortBy('name')->sortBy('surname'), 200);
+    }
+
+    public function removeUserFromGroup(Group $group, User $user)
+    {
+        $usersIds = array_map('current', $group->users()->select('id')->get()->toArray());
+        if (in_array($user->id, $usersIds)) {
+            if ($user->id === $group->leader_id) {
+                return response()->json(['errors' => 'Удаление пользователя из подразделения возможно после передачи полномочий руководителя другому пользователю'], 422);
+            }
+            $user->group_id = NULL;
+            $user->save();
+        } else {
+            return response()->json(['errors' => 'Пользователь не состоит в этом подразделении'], 422);
+        }
+
+        return response()->json(['message' => 'Пользователь успешно удален из подразделения'], 200);
     }
 }
