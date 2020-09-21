@@ -13,11 +13,13 @@ class GroupController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //
+        $groups = Group::all()->sortBy('name');
+
+        return response()->json($groups, '200');
     }
 
     /**
@@ -32,6 +34,9 @@ class GroupController extends Controller
         if (Group::all()->count() >= 50) {
             return response()->json(['error' => 'Подразделений слишком много, удалите хотя бы 1, чтобы продолжить'], 422);
         }
+        if (User::find($input['leader_id'])->group_id !== NULL) {
+            return response()->json(['error' => 'Пользователь уже состоит в другом подразделении'], 422);
+        }
         $group = Group::create($input);
 
         return response()->json($group, 201);
@@ -44,17 +49,6 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
@@ -80,5 +74,28 @@ class GroupController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function addUser(Group $group, User $user)
+    {
+        if ($user->group_id !== NULL) {
+            return response()->json(['errors' => 'Пользователь уже состоит в другом подразделении'], 422);
+        }
+        $user->group_id = $group->id;
+        $user->save();
+
+        return response()->json($user, 200);
+    }
+
+    public function getLeader(Group $group)
+    {
+        $leader = User::whereId($group->leader_id)->get();
+
+        return response()->json($leader, 200);
+    }
+
+    public function getUsers(Group $group)
+    {
+        return response()->json($group->users->sortBy('father_name')->sortBy('name')->sortBy('surname'), 200);
     }
 }

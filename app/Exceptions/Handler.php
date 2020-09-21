@@ -66,6 +66,12 @@ class Handler extends ExceptionHandler
                 case 'App\Models\Task':
                     return response()->json(['message' => 'Такой задачи не существует'], 404);
                     break;
+                case 'App\Models\Group':
+                    return response()->json(['message' => 'Такого подразделения не существует'], 404);
+                    break;
+                case 'App\User':
+                    return response()->json(['message' => 'Такого пользователя не существует'], 404);
+                    break;
             }
 
         }
