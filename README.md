@@ -231,18 +231,8 @@
 ##### Удачная операция:
 ##### Код: 200
 ```json
-{
-    "5": {
-        "id": 22,
-        "name": "Андрей",
-        "surname": "Гущин",
-        "father_name": "Анатольевич",
-        "email": "gfhfh51fa@g.ru",
-        "created_at": "2020-09-20T07:17:49.000000Z",
-        "updated_at": "2020-09-20T07:17:56.000000Z",
-        "group_id": 2
-    },
-    "1": {
+[
+    {
         "id": 12,
         "name": "Инесса",
         "surname": "Гущин",
@@ -250,6 +240,16 @@
         "email": "kirill.pestova@example.com",
         "created_at": null,
         "updated_at": null,
+        "group_id": 2
+    },
+    {
+        "id": 21,
+        "name": "Андрей",
+        "surname": "Гущине",
+        "father_name": "Анатольевич",
+        "email": "gfhfh1fa@g.ru",
+        "created_at": "2020-09-20T07:17:00.000000Z",
+        "updated_at": "2020-09-20T07:17:32.000000Z",
         "group_id": 2
     },
     ...

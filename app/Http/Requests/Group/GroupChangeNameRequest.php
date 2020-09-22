@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Group;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GroupChangeNameRequest extends FormRequest
@@ -24,7 +25,13 @@ class GroupChangeNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'unique:groups,name|required|min:3|max:100|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+            'name' => [
+                'required',
+                'min:3',
+                'max:100',
+                'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+                Rule::unique('groups', 'name')->whereNull('deleted_at'),
+                ]
         ];
     }
 

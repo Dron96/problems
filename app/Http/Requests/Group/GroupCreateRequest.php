@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GroupCreateRequest extends FormRequest
 {
@@ -24,9 +25,27 @@ class GroupCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'unique:groups,name|required|min:3|max:100|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
-            'short_name' => 'unique:groups,short_name|min:2|max:10|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
-            'leader_id' => 'unique:groups,leader_id|required|exists:users,id'
+            'name' =>
+                [
+                'required',
+                'min:3',
+                'max:100',
+                'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+                Rule::unique('groups', 'name')->whereNull('deleted_at'),
+                ],
+            'short_name' =>
+                [
+                    'min:2',
+                    'max:10',
+                    'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+                    Rule::unique('groups', 'short_name')->whereNull('deleted_at'),
+                ],
+            'leader_id' =>
+                [
+                    'required',
+                    'exists:users,id',
+                    Rule::unique('groups', 'leader_id')->whereNull('deleted_at'),
+                ]
         ];
     }
 

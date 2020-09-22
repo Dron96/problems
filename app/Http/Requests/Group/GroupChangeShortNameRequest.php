@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GroupChangeShortNameRequest extends FormRequest
 {
@@ -24,7 +25,13 @@ class GroupChangeShortNameRequest extends FormRequest
     public function rules()
     {
         return [
-            'short_name' => 'required|unique:groups,short_name|min:2|max:10|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+            'short_name' => [
+                'required',
+                'min:2',
+                'max:10',
+                'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+                Rule::unique('groups', 'short_name')->whereNull('deleted_at'),
+                ]
         ];
     }
 

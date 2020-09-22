@@ -72,6 +72,7 @@ Route::middleware('auth:api')->group(function () {
         Route::put('{group}', 'API\GroupController@update');
         Route::put('{group}/change-short-name', 'API\GroupController@updateShortName');
         Route::put('{group}/remove-user/{user}', 'API\GroupController@removeUserFromGroup');
+        Route::put('{group}/change-leader/{user}', 'API\GroupController@changeLeader');
         Route::delete('{group}', 'API\GroupController@destroy');
     });
 });

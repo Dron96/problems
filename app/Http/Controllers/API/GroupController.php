@@ -40,6 +40,9 @@ class GroupController extends Controller
             return response()->json(['error' => 'Пользователь уже состоит в другом подразделении'], 422);
         }
         $group = Group::create($input);
+        $leader = User::find($input['leader_id']);
+        $leader->group_id = $group->id;
+        $leader->save();
 
         return response()->json($group, 201);
     }
@@ -116,7 +119,7 @@ class GroupController extends Controller
 
     public function getUsers(Group $group)
     {
-        return response()->json($group->users->sortBy('father_name')->sortBy('name')->sortBy('surname'), 200);
+        return response()->json($group->users->whereNotIn('id', $group->leader_id)->sortBy('father_name')->sortBy('name')->sortBy('surname')->values(), 200);
     }
 
     public function removeUserFromGroup(Group $group, User $user)
@@ -133,5 +136,21 @@ class GroupController extends Controller
         }
 
         return response()->json(['message' => 'Пользователь успешно удален из подразделения'], 200);
+    }
+
+    public function changeLeader(Group $group, User $user)
+    {
+        if ($user->group_id !== $group->id) {
+            return response()->json(['errors' => 'Пользователь не состоит в этом подразделении'], 422);
+        }
+        if ($user->id === $group->leader_id) {
+            return response()->json(['errors' => 'Пользователь уже является руководителем этого подразделения'], 422);
+        }
+        $user->group_id = $group->id;
+        $user->save();
+        $group->leader_id = $user->id;
+        $group->save();
+
+        return response()->json($group, 200);
     }
 }
