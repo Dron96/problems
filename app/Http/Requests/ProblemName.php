@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProblemName extends FormRequest
 {
@@ -24,7 +25,14 @@ class ProblemName extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:problems,name|min:6|max:250|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+            'name' =>
+                [
+                    'required',
+                    'min:6',
+                    'max:250',
+                    'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+                    Rule::unique('problems','name')->whereNull('deleted_at'),
+                ],
         ];
     }
 

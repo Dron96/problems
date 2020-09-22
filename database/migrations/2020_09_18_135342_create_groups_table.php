@@ -17,7 +17,7 @@ class CreateGroupsTable extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('short_name', 10)->nullable();
-            $table->bigInteger('leader_id')->unsigned();
+            $table->unsignedBigInteger('leader_id');
 
             $table->timestamps();
             $table->softDeletes();
@@ -26,7 +26,7 @@ class CreateGroupsTable extends Migration
         });
 
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('group_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('group_id')->nullable();
 
             $table->foreign('group_id')->references('id')->on('groups');
         });

@@ -30,7 +30,11 @@ class ProblemController extends Controller
      */
     public function store(ProblemName $request)
     {
+        if (Problem::all()->count() >= 10000 ) {
+            return response()->json(['error' => 'Список проблем переполнен'], 422);
+        }
         $input = $request->validated();
+        $input['creator_id'] = auth()->id();
         $problem = Problem::create($input);
 
         return response()->json($problem, 201);

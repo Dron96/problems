@@ -16,9 +16,12 @@ class CreateProblemsTable extends Migration
         Schema::create('problems', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('creator_id');
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('creator_id')->references('id')->on('users');
         });
     }
 

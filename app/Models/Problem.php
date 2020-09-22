@@ -37,6 +37,7 @@ class Problem extends Model
     protected $fillable
         = [
             'name',
+            'creator_id',
         ];
 
     protected $cascadeDeletes = ['solutions'];

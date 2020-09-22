@@ -17,12 +17,14 @@ class ProblemSeeder extends Seeder
 
         for ($i = 1; $i <= 30; $i++){
             $name = $faker->realText(rand(10, 55));
-            $created_at = $faker->dateTimeBetween('-3 months','-10 day');
+            $createdAt = $faker->dateTimeBetween('-3 months','-10 day');
+            $creatorId = rand(1, 19);
 
             $list[] = [
                 'name' => $name,
-                'created_at' => $created_at,
-                'updated_at' => $created_at,
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
+                'creator_id' => $creatorId,
             ];
         }
 
