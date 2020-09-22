@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProblemName;
+use App\Models\Like;
 use App\Models\Problem;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +18,7 @@ class ProblemController extends Controller
      */
     public function index()
     {
-        $problems = Problem::orderBy('name')->get();
+        $problems = Problem::withCount('likes')->orderBy('name')->get();
 
         return response()->json($problems, 200);
     }
@@ -36,6 +37,10 @@ class ProblemController extends Controller
         $input = $request->validated();
         $input['creator_id'] = auth()->id();
         $problem = Problem::create($input);
+        Like::create([
+            'user_id' => auth()->id(),
+            'problem_id' => $problem->id,
+        ]);
 
         return response()->json($problem, 201);
     }
@@ -48,7 +53,10 @@ class ProblemController extends Controller
      */
     public function show(Problem $problem)
     {
-        return response()->json($problem, 200);
+        $data = $problem->toArray();
+        $data = array_merge($data, ['likes_count' => $problem->likes()->count()]);
+
+        return response()->json($data, 200);
     }
 
     /**
@@ -78,5 +86,31 @@ class ProblemController extends Controller
         $problem->delete();
 
         return response()->json(['message' => 'Проблема успешно удалена'], 200);
+    }
+
+    public function likeProblem(Problem $problem)
+    {
+        $userIds = array_map('current', $problem->likes()->select('user_id')->get()->toArray());
+        if (in_array(auth()->id(), $userIds)) {
+            Like::where('user_id', auth()->id())->delete();
+        } else {
+            Like::create([
+                'user_id' => auth()->id(),
+                'problem_id' => $problem->id,
+                ]);
+        }
+
+        return response()->json(['message' => 'Успешно'], 200);
+    }
+
+    /**
+     * @param Problem $problem
+     * @return JsonResponse
+     */
+    public function isLikedProblem(Problem $problem)
+    {
+        $userIds = array_map('current', $problem->likes()->select('user_id')->get()->toArray());
+
+        return response()->json(in_array(auth()->id(), $userIds), 200);
     }
 }

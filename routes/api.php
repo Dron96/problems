@@ -34,6 +34,8 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/{problem}', 'API\ProblemController@destroy');
         Route::put('/{problem}', 'API\ProblemController@update');
         Route::get('/{problem}', 'API\ProblemController@show');
+        Route::post('/{problem}/like', 'API\ProblemController@likeProblem');
+        Route::get('/{problem}/is-liked', 'API\ProblemController@isLikedProblem');
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
         Route::post('/{problem}/solution', 'API\SolutionController@store');

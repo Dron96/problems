@@ -46,4 +46,9 @@ class Problem extends Model
     {
         return $this->hasMany(Solution::class, 'problem_id', 'id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'problem_id', 'id');
+    }
 }

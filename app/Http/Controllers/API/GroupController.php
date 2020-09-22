@@ -73,6 +73,11 @@ class GroupController extends Controller
         return response()->json($group, 200);
     }
 
+    /**
+     * @param GroupChangeShortNameRequest $request
+     * @param Group $group
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateShortName(GroupChangeShortNameRequest $request, Group $group)
     {
         $group->fill($request->validated());
@@ -99,6 +104,11 @@ class GroupController extends Controller
         return response()->json(['message' => 'Подразделение успешно удалено'], 200);
     }
 
+    /**
+     * @param Group $group
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addUser(Group $group, User $user)
     {
         if ($user->group_id !== NULL) {
@@ -110,6 +120,10 @@ class GroupController extends Controller
         return response()->json($user, 200);
     }
 
+    /**
+     * @param Group $group
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getLeader(Group $group)
     {
         $leader = User::whereId($group->leader_id)->get();
@@ -117,11 +131,20 @@ class GroupController extends Controller
         return response()->json($leader, 200);
     }
 
+    /**
+     * @param Group $group
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUsers(Group $group)
     {
         return response()->json($group->users->whereNotIn('id', $group->leader_id)->sortBy('father_name')->sortBy('name')->sortBy('surname')->values(), 200);
     }
 
+    /**
+     * @param Group $group
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function removeUserFromGroup(Group $group, User $user)
     {
         $usersIds = array_map('current', $group->users()->select('id')->get()->toArray());
@@ -138,6 +161,11 @@ class GroupController extends Controller
         return response()->json(['message' => 'Пользователь успешно удален из подразделения'], 200);
     }
 
+    /**
+     * @param Group $group
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changeLeader(Group $group, User $user)
     {
         if ($user->group_id !== $group->id) {

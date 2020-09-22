@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Group;
+use App\Models\Like;
 use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -84,5 +85,10 @@ class User extends Authenticatable
     public function group()
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'user_id', 'id');
     }
 }

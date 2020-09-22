@@ -923,6 +923,8 @@
 |3. | problem.update  | Изменение имеющейся проблемы  | /api/problem/{problem} | PUT           | name - имя проблемы   |
 |4. | problem.show    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
 |5. | problem.destroy | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
+|6. | problem.likeProblem | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST        | Нет параметров        |
+|7. | problem.isLikedProblem | Проверка лайкнул ли эту проблему пользователь   | /api/problem/{problem}/is-liked | GET        | Нет параметров        |
 
 ## Ответы:
 
