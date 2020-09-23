@@ -22,4 +22,8 @@ class Group extends Model
         return $this->hasMany(User::class, 'group_id', 'id');
     }
 
+    public function problems()
+    {
+        return $this->belongsToMany(Problem::class);
+    }
 }

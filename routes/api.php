@@ -36,6 +36,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{problem}', 'API\ProblemController@show');
         Route::post('/{problem}/like', 'API\ProblemController@likeProblem');
         Route::get('/{problem}/is-liked', 'API\ProblemController@isLikedProblem');
+        Route::get('/{problem}/send-to-group', 'API\ProblemController@sendToGroup');
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
         Route::post('/{problem}/solution', 'API\SolutionController@store');

@@ -51,4 +51,9 @@ class Problem extends Model
     {
         return $this->hasMany(Like::class, 'problem_id', 'id');
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
 }

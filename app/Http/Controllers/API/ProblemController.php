@@ -4,11 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProblemName;
+use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
 use App\Services\ProblemService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProblemController extends Controller
 {
@@ -117,5 +119,21 @@ class ProblemController extends Controller
         }
 
         return response()->json(['message' => 'Успешно'], 200);
+    }
+
+    public function sendToGroup(Request $request, Problem $problem)
+    {
+        $groupIds = $request->group_ids;
+        $groups = Group::find($groupIds);
+        if ($request->group_ids == NULL) {
+            return response()->json(['error' => 'Выберите хотя бы одно подразделение для отправки проблемы']);
+        }
+        if (sizeof($groups) !== sizeof($request->group_ids)) {
+            return response()->json(['error' => 'Выбрано не существующее подразделение']);
+        }
+        $problem->groups()->detach();
+        $problem->groups()->attach($groups);
+
+        return response()->json($problem->groups, 200);
     }
 }
