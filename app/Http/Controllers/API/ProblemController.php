@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProblemName;
 use App\Models\Like;
 use App\Models\Problem;
+use App\Services\ProblemService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
 class ProblemController extends Controller
 {
+    private $problemService;
+
+    public function __construct()
+    {
+        $this->problemService = app(ProblemService::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +26,11 @@ class ProblemController extends Controller
      */
     public function index()
     {
-        $problems = Problem::withCount('likes')->orderBy('name')->get();
+        $problems = Problem::withCount('likes')->orderBy('name')->get()->toArray();
+        foreach ($problems as &$problem) {
+            $isLiked = $this->problemService->isLikedProblem($problem['id']);
+            $problem['is_liked'] = $isLiked;
+        }
 
         return response()->json($problems, 200);
     }
@@ -54,7 +66,11 @@ class ProblemController extends Controller
     public function show(Problem $problem)
     {
         $data = $problem->toArray();
-        $data = array_merge($data, ['likes_count' => $problem->likes()->count()]);
+        $isLiked = $this->problemService->isLikedProblem($problem->id);
+        $data = array_merge($data, [
+            'likes_count' => $problem->likes()->count(),
+            'is_liked' => $isLiked,
+            ]);
 
         return response()->json($data, 200);
     }
@@ -101,16 +117,5 @@ class ProblemController extends Controller
         }
 
         return response()->json(['message' => 'Успешно'], 200);
-    }
-
-    /**
-     * @param Problem $problem
-     * @return JsonResponse
-     */
-    public function isLikedProblem(Problem $problem)
-    {
-        $userIds = array_map('current', $problem->likes()->select('user_id')->get()->toArray());
-
-        return response()->json(in_array(auth()->id(), $userIds), 200);
     }
 }
