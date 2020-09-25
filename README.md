@@ -926,7 +926,8 @@
 |4. | problem.show    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
 |5. | problem.destroy | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
 |6. | problem.likeProblem | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST        | Нет параметров        |
-|7. | problem.isLikedProblem | Проверка лайкнул ли эту проблему пользователь   | /api/problem/{problem}/is-liked | GET        | Нет параметров        |
+|7. | problem.sendToGroup | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST        | group_id - массив id подразделений |
+
 
 ## Ответы:
 
@@ -1124,9 +1125,64 @@
 ```
 
 #### 6. problem.likeProblem
+##### Удачная операция:
 ##### Код: 200
 ```json
 {
     "message": "Успешно"
+}
+```
+
+#### 6. problem.sendToGroup
+##### Удачная операция:
+##### Код: 200
+```json
+[
+    {
+        "id": 1,
+        "name": "ООО ВостокСантехИнфо",
+        "short_name": "Corrupti.",
+        "leader_id": 2,
+        "created_at": "2020-08-22T04:19:19.000000Z",
+        "updated_at": "2020-08-22T04:19:19.000000Z",
+        "deleted_at": null,
+        "pivot": {
+            "problem_id": 30,
+            "group_id": 1
+        }
+    },
+    {
+        "id": 2,
+        "name": "ОАО ЖелДор",
+        "short_name": "Qui qui.",
+        "leader_id": 4,
+        "created_at": "2020-07-22T12:18:51.000000Z",
+        "updated_at": "2020-07-22T12:18:51.000000Z",
+        "deleted_at": null,
+        "pivot": {
+            "problem_id": 30,
+            "group_id": 2
+        }
+    },
+    {
+        "id": 3,
+        "name": "МКК ОблСантехМоторМашина",
+        "short_name": "Omnis.",
+        "leader_id": 4,
+        "created_at": "2020-08-21T19:09:48.000000Z",
+        "updated_at": "2020-08-21T19:09:48.000000Z",
+        "deleted_at": null,
+        "pivot": {
+            "problem_id": 30,
+            "group_id": 3
+        }
+    }
+]
+```
+##### Подразделение не существует:
+##### Код: 422
+```json
+{
+    "error": "Выбрано не существующее подразделение"
 }
 ```

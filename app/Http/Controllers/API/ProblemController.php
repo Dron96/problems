@@ -129,7 +129,7 @@ class ProblemController extends Controller
             return response()->json(['error' => 'Выберите хотя бы одно подразделение для отправки проблемы']);
         }
         if (sizeof($groups) !== sizeof($request->group_ids)) {
-            return response()->json(['error' => 'Выбрано не существующее подразделение']);
+            return response()->json(['error' => 'Выбрано не существующее подразделение'], 422);
         }
         $problem->groups()->detach();
         $problem->groups()->attach($groups);
