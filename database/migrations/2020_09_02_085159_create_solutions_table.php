@@ -16,9 +16,7 @@ class CreateSolutionsTable extends Migration
         Schema::create('solutions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('creator_id');
             $table->unsignedBigInteger('problem_id');
-            $table->boolean('in_work')->default(false);
             $table->string('status')->nullable()->default(null);
             $table->date('deadline')->nullable();
             $table->unsignedBigInteger('executor_id')->nullable();
@@ -26,7 +24,6 @@ class CreateSolutionsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('creator_id')->references('id')->on('users');
             $table->foreign('executor_id')->references('id')->on('users');
             $table->foreign('problem_id')->references('id')->on('problems');
         });

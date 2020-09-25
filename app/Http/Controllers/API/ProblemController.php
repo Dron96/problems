@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProblemCreateRequest;
 use App\Http\Requests\ProblemName;
 use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
+use App\Models\Solution;
 use App\Services\ProblemService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -40,11 +42,14 @@ class ProblemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ProblemName $request
+     * @param ProblemCreateRequest $request
      * @return JsonResponse
      */
-    public function store(ProblemName $request)
+    public function store(ProblemCreateRequest $request)
     {
+        if (auth()->user()->group_id === NULL) {
+            return response()->json(['error' => 'Вы не состоите ни в одном из подразделений'], 422);
+        }
         if (Problem::all()->count() >= 10000 ) {
             return response()->json(['error' => 'Список проблем переполнен'], 422);
         }
@@ -53,6 +58,10 @@ class ProblemController extends Controller
         $problem = Problem::create($input);
         Like::create([
             'user_id' => auth()->id(),
+            'problem_id' => $problem->id,
+        ]);
+        Solution::create([
+            'name' => '',
             'problem_id' => $problem->id,
         ]);
 
@@ -80,11 +89,11 @@ class ProblemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param ProblemName $request
+     * @param ProblemCreateRequest $request
      * @param Problem $problem
      * @return JsonResponse
      */
-    public function update(ProblemName $request, Problem $problem)
+    public function update(ProblemCreateRequest $request, Problem $problem)
     {
         $problem->fill($request->validated());
         $problem->save();
@@ -133,6 +142,10 @@ class ProblemController extends Controller
         }
         $problem->groups()->detach();
         $problem->groups()->attach($groups);
+        if ($problem->status === 'на рассмотрении') {
+            $problem->status = 'в работе';
+            $problem->save();
+        }
 
         return response()->json($problem->groups, 200);
     }

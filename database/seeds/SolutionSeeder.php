@@ -30,9 +30,7 @@ class SolutionSeeder extends Seeder
 
             $list[] = [
                 'name' => $name,
-                'in_work' => $inWork,
                 'status' => $status,
-                'creator_id' => $userId,
                 'problem_id' => $problemId,
                 'created_at' => $created_at,
                 'updated_at' => $created_at,

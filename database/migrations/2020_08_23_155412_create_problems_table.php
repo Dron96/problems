@@ -15,8 +15,16 @@ class CreateProblemsTable extends Migration
     {
         Schema::create('problems', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 150);
             $table->unsignedBigInteger('creator_id');
+            $table->string('description', 350)->nullable();
+            $table->string('possible_solution', 250)->nullable();
+            $table->string('status')->default('на рассмотрении');
+            $table->string('experience')->nullable();
+            $table->string('result')->nullable();
+            $table->string('urgency')->default('обычная');
+            $table->string('importance')->default('обычная');
+            $table->unsignedInteger('progress')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
