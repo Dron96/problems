@@ -15,11 +15,13 @@ class CreateSolutionsTable extends Migration
     {
         Schema::create('solutions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 250);
             $table->unsignedBigInteger('problem_id');
             $table->string('status')->nullable()->default(null);
             $table->date('deadline')->nullable();
             $table->unsignedBigInteger('executor_id')->nullable();
+            $table->string('plan')->nullable();
+            $table->string('team')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

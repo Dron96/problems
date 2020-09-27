@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\SolutionCreateRequest;
+use App\Http\Requests\Solution\SolutionCreateRequest;
 use App\Models\Solution;
 
 class SolutionService
@@ -25,21 +25,6 @@ class SolutionService
         return $solution;
     }
 
-    /**
-     * @param Solution $solution
-     * @return Solution|\Illuminate\Http\JsonResponse
-     */
-    public function changeInWork(Solution $solution, $inWork)
-    {
-        if ($solution->in_work === false & (bool)$inWork === false) {
-            return response()->json(['errors' => 'Решение не в работе'], 422);
-        }
-        $solution->in_work = boolval($inWork);
-        $solution->save();
-
-        return response()->json($solution, 200);
-    }
-
     public function changeStatus(Solution $solution, $status)
     {
         $solution->status = $status;
@@ -59,6 +44,22 @@ class SolutionService
     public function setExecutor(Solution $solution, $executorId)
     {
         $solution->executor_id = $executorId;
+        $solution->save();
+
+        return $solution;
+    }
+
+    public function setPlan(Solution $solution, $plan)
+    {
+        $solution->plan = $plan;
+        $solution->save();
+
+        return $solution;
+    }
+
+    public function setTeam(Solution $solution, $team)
+    {
+        $solution->team = $team;
         $solution->save();
 
         return $solution;

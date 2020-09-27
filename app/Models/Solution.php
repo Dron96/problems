@@ -64,15 +64,13 @@ class Solution extends Model
      * @param $id
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
-    public function hasSolutionProblem($id)
+    public function hasProblem($id)
     {
         $rules = [
             'problem_id' => 'exists:problems,id,deleted_at,NULL',
-            'id' => 'exists:solutions,id,deleted_at,NULL',
         ];
         $messages = [
             'problem_id.exists' => 'Такой проблемы не существует',
-            'id.exists' => 'Такого решения не существует',
         ];
 
         return Validator::make(Solution::find($id)->toArray(), $rules, $messages);

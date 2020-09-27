@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Solution;
 
-use App\Models\Solution;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\Rule;
 
-class SolutionCreateRequest extends FormRequest
+class SolutionNameChangeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +19,7 @@ class SolutionCreateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array[]|JsonResponse|string[]
+     * @return array
      */
     public function rules()
     {
@@ -30,12 +27,9 @@ class SolutionCreateRequest extends FormRequest
             'name' => [
                 'required',
                 'min:6',
-                'max:100',
+                'max:250',
                 'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
-                Rule::unique('solutions', 'name')
-                    ->where('problem_id', request()->problem->id)
-                    ->whereNull('deleted_at'),
-                ]
+            ]
         ];
     }
 
@@ -44,9 +38,8 @@ class SolutionCreateRequest extends FormRequest
         return [
             'name.required' => 'Описание решения должно содержать не менее 6 символов',
             'name.min' => 'Описание решения должно содержать не менее 6 символов',
-            'name.max' => 'Описание решения должно содержать не более 100 символов',
+            'name.max' => 'Описание решения должно содержать не более 250 символов',
             'name.regex' => 'Для описания решения доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9.',
-            'name.unique' => 'Такое решение уже существует'
         ];
     }
 }

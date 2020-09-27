@@ -18,6 +18,7 @@ class CreateGroupsTable extends Migration
             $table->string('name', 100);
             $table->string('short_name', 10)->nullable();
             $table->unsignedBigInteger('leader_id');
+            $table->string('experience', 350)->nullable();
 
             $table->timestamps();
             $table->softDeletes();

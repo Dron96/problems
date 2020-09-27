@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProblemCreateRequest;
-use App\Http\Requests\ProblemName;
+use App\Http\Requests\Problem\ProblemChangeExperienceRequest;
+use App\Http\Requests\Problem\ProblemCreateRequest;
 use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
@@ -148,5 +148,13 @@ class ProblemController extends Controller
         }
 
         return response()->json($problem->groups, 200);
+    }
+
+    public function setExperience(ProblemChangeExperienceRequest $request, Problem $problem)
+    {
+        $problem->fill($request->validated());
+        $problem->save();
+
+        return response()->json($problem, 200);
     }
 }

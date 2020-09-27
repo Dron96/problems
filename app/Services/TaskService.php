@@ -24,9 +24,9 @@ class TaskService
         if (!(Problem::where('id', $problemId)->exists())) {
             return response()->json(['errors' => 'Такой проблемы не существует'], 404);
         }
-        if (!$solutionInWork) {
-            return response()->json(['errors' => 'Это решение не в работе'], 422);
-        }
+//        if (!$solutionInWork) {
+//            return response()->json(['errors' => 'Это решение не в работе'], 422);
+//        }
         $countTask = Task::where('solution_id', $solutionId)->count();
         if ($countTask >= 25) {
             return response()->json(['errors' => 'Задач слишком много, удалите хотя бы 1, чтобы продолжить'], 422);

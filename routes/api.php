@@ -36,17 +36,18 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{problem}', 'API\ProblemController@show');
         Route::post('/{problem}/like', 'API\ProblemController@likeProblem');
         Route::post('/{problem}/send-to-group', 'API\ProblemController@sendToGroup');
+        Route::put('/{problem}/set-experience', 'API\ProblemController@setExperience');
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
         Route::post('/{problem}/solution', 'API\SolutionController@store');
-        Route::get('/{problem}/solution-in-work', 'API\SolutionController@showInWork');
     });
 
     Route::prefix('solution/{solution}')->group(function () {
         Route::delete('/', 'API\SolutionController@destroy');
         Route::put('/', 'API\SolutionController@update');
         Route::get('/', 'API\SolutionController@show');
-        Route::put('/change-in-work', 'API\SolutionController@changeInWork');
+        Route::put('/set-plan', 'API\SolutionController@setPlan');
+        Route::put('/set-team', 'API\SolutionController@setTeam');
         Route::put('/change-status', 'API\SolutionController@changeStatus');
         Route::put('/set-deadline', 'API\SolutionController@setDeadline');
         Route::put('/set-executor', 'API\SolutionController@setExecutor');
