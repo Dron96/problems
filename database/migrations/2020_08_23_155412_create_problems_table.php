@@ -20,8 +20,8 @@ class CreateProblemsTable extends Migration
             $table->string('description', 350)->nullable();
             $table->string('possible_solution', 250)->nullable();
             $table->string('status')->default('на рассмотрении');
-            $table->string('experience')->nullable();
-            $table->string('result')->nullable();
+            $table->string('experience', 350)->nullable();
+            $table->string('result', 350)->nullable();
             $table->string('urgency')->default('обычная');
             $table->string('importance')->default('обычная');
             $table->unsignedInteger('progress')->default(0);

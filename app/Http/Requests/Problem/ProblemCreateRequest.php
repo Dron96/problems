@@ -33,8 +33,8 @@ class ProblemCreateRequest extends FormRequest
                     'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
                     Rule::unique('problems','name')->whereNull('deleted_at'),
                 ],
-            'description' => 'min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
-            'possible_solution' => 'min:6|max:250|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+            'description' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+            'possible_solution' => 'nullable|min:6|max:250|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
         ];
     }
 

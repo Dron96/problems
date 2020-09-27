@@ -13,4 +13,12 @@ class ProblemService
 
         return in_array(auth()->id(), $userIds);
     }
+
+    public function update(Problem $problem, $data)
+    {
+        $problem->fill($data);
+        $problem->save();
+
+        return $problem;
+    }
 }

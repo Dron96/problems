@@ -38,6 +38,11 @@ class Problem extends Model
         = [
             'name',
             'creator_id',
+            'experience',
+            'possible_solution',
+            'result',
+            'progress',
+            'description',
         ];
 
     protected $cascadeDeletes = ['solutions'];

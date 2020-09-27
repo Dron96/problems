@@ -37,6 +37,9 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/{problem}/like', 'API\ProblemController@likeProblem');
         Route::post('/{problem}/send-to-group', 'API\ProblemController@sendToGroup');
         Route::put('/{problem}/set-experience', 'API\ProblemController@setExperience');
+        Route::put('/{problem}/set-result', 'API\ProblemController@setResult');
+        Route::put('/{problem}/set-possible-solution', 'API\ProblemController@setPossibleSolution');
+        Route::put('/{problem}/set-description', 'API\ProblemController@setDescription');
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
         Route::post('/{problem}/solution', 'API\SolutionController@store');

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Problem\ProblemChangeDescriptionRequest;
 use App\Http\Requests\Problem\ProblemChangeExperienceRequest;
+use App\Http\Requests\Problem\ProblemChangePossibleSolutionRequest;
+use App\Http\Requests\Problem\ProblemChangeResultRequest;
 use App\Http\Requests\Problem\ProblemCreateRequest;
 use App\Models\Group;
 use App\Models\Like;
@@ -95,10 +98,7 @@ class ProblemController extends Controller
      */
     public function update(ProblemCreateRequest $request, Problem $problem)
     {
-        $problem->fill($request->validated());
-        $problem->save();
-
-        return response()->json($problem, 200);
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
     }
 
     /**
@@ -152,9 +152,21 @@ class ProblemController extends Controller
 
     public function setExperience(ProblemChangeExperienceRequest $request, Problem $problem)
     {
-        $problem->fill($request->validated());
-        $problem->save();
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+    }
 
-        return response()->json($problem, 200);
+    public function setResult(ProblemChangeResultRequest $request, Problem $problem)
+    {
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+    }
+
+    public function setPossibleSolution(ProblemChangePossibleSolutionRequest $request, Problem $problem)
+    {
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+    }
+
+    public function setDescription(ProblemChangeDescriptionRequest $request, Problem $problem)
+    {
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
     }
 }
