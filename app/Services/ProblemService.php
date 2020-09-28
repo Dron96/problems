@@ -33,26 +33,37 @@ class ProblemService
         if ($solution->status !== 'Выполнено') {
             return response()->json(['error' => 'Решение не выполнено'], 422);
         }
-        if ($solution->result === NULL) {
+        if ($problem->result === null) {
             return response()->json(['error' => 'Поле “Результат” не заполнено'], 422);
         }
-        $problem->status = 'На проверке заказчика';
-        $problem->save();
+        $data = ['status' => 'На проверке заказчика'];
+        $correctStatuses = ['На рассмотрении', 'В работе'];
+        $error = 'Действие возможно только при статусе проблемы "На рассмотрении" или "В работе"';
 
-        return response()->json($problem, 200);
+        return $this->updateWithStatusCheck($problem, $data, $correctStatuses, $error);
     }
 
-    public function rejectSolution(Problem $problem)
+    public function isIncorrectStatus($problemStatus, $correctStatuses)
     {
-        $problem->status = 'На рассмотрении';
-        $problem->save();
-
-        return response()->json($problem, 200);
+        if (in_array($problemStatus, $correctStatuses)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    public function confirmSolution(Problem $problem)
+    /**
+     * @param Problem $problem
+     * @param $data
+     * @param array $correctStatus
+     * @return Problem|\Illuminate\Http\JsonResponse
+     */
+    public function updateWithStatusCheck(Problem $problem, $data, $correctStatuses, $error)
     {
-        $problem->status = 'Решена';
+        if ($this->isIncorrectStatus($problem->status, $correctStatuses)) {
+            return response()->json(['error' => $error], 422);
+        }
+        $problem->fill($data);
         $problem->save();
 
         return response()->json($problem, 200);

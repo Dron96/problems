@@ -101,7 +101,10 @@ class ProblemController extends Controller
      */
     public function update(ProblemCreateRequest $request, Problem $problem)
     {
-        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+        $correctStatuses = ['На рассмотрении'];
+        $error = 'Действие возможно только при статусе проблемы “на рассмотрении”';
+
+        return $this->problemService->updateWithStatusCheck($problem, $request->validated(), $correctStatuses, $error);
     }
 
     /**
@@ -113,9 +116,15 @@ class ProblemController extends Controller
      */
     public function destroy(Problem $problem)
     {
-        $problem->delete();
+        $correctStatuses = ['Решена', 'Удалена'];
+        if (!$this->problemService->isIncorrectStatus($problem->status, $correctStatuses)) {
+            return response()->json(['error' => 'Действие возможно при любом статусе проблемы, кроме “Удалена” и “Решена”'], 422);
+        }
+        $problem->status = 'Удалена';
+        $problem->save();
+        //$problem->delete();
 
-        return response()->json(['message' => 'Проблема успешно удалена'], 200);
+        return response()->json([$problem, 'message' => 'Проблема успешно удалена'], 200);
     }
 
     public function likeProblem(Problem $problem)
@@ -165,12 +174,18 @@ class ProblemController extends Controller
 
     public function setPossibleSolution(ProblemChangePossibleSolutionRequest $request, Problem $problem)
     {
-        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+        $correctStatuses = ['На рассмотрении'];
+        $error = 'Действие возможно только при статусе проблемы “на рассмотрении”';
+
+        return $this->problemService->updateWithStatusCheck($problem, $request->validated(), $correctStatuses, $error);
     }
 
     public function setDescription(ProblemChangeDescriptionRequest $request, Problem $problem)
     {
-        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+        $correctStatuses = ['На рассмотрении'];
+        $error = 'Действие возможно только при статусе проблемы “на рассмотрении”';
+
+        return $this->problemService->updateWithStatusCheck($problem, $request->validated(), $correctStatuses, $error);
     }
 
     public function setImportance(ProblemChangeImportanceRequest $request, Problem $problem)
@@ -195,11 +210,19 @@ class ProblemController extends Controller
 
     public function rejectSolution(Problem $problem)
     {
-        return $this->problemService->rejectSolution($problem);
+        $data = ['status' => 'На рассмотрении'];
+        $correctStatuses = ['На проверке заказчика'];
+        $error = 'Действие возможно только при статусе проблемы “На проверке заказчика”';
+
+        return $this->problemService->updateWithStatusCheck($problem, $data, $correctStatuses, $error);
     }
 
     public function confirmSolution(Problem $problem)
     {
-        return $this->problemService->rejectConfirmation($problem);
+        $data = ['status' => 'Решена'];
+        $correctStatuses = ['На проверке заказчика'];
+        $error = 'Действие возможно только при статусе проблемы “На проверке заказчика”';
+
+        return $this->problemService->updateWithStatusCheck($problem, $data, $correctStatuses, $error);
     }
 }
