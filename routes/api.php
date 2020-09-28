@@ -40,6 +40,12 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{problem}/set-result', 'API\ProblemController@setResult');
         Route::put('/{problem}/set-possible-solution', 'API\ProblemController@setPossibleSolution');
         Route::put('/{problem}/set-description', 'API\ProblemController@setDescription');
+        Route::put('/{problem}/set-importance', 'API\ProblemController@setImportance');
+        Route::put('/{problem}/set-progress', 'API\ProblemController@setProgress');
+        Route::put('/{problem}/set-urgency', 'API\ProblemController@setUrgency');
+        Route::put('/{problem}/send-for-confirmation', 'API\ProblemController@sendForConfirmation');
+        Route::put('/{problem}/reject-solution', 'API\ProblemController@rejectSolution');
+        Route::put('/{problem}/confirm-solution', 'API\ProblemController@confirmSolution');
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
         Route::post('/{problem}/solution', 'API\SolutionController@store');

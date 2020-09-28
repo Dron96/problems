@@ -5,8 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Problem\ProblemChangeDescriptionRequest;
 use App\Http\Requests\Problem\ProblemChangeExperienceRequest;
+use App\Http\Requests\Problem\ProblemChangeImportanceRequest;
 use App\Http\Requests\Problem\ProblemChangePossibleSolutionRequest;
+use App\Http\Requests\Problem\ProblemChangeProgressRequest;
 use App\Http\Requests\Problem\ProblemChangeResultRequest;
+use App\Http\Requests\Problem\ProblemChangeUrgencyRequest;
 use App\Http\Requests\Problem\ProblemCreateRequest;
 use App\Models\Group;
 use App\Models\Like;
@@ -168,5 +171,35 @@ class ProblemController extends Controller
     public function setDescription(ProblemChangeDescriptionRequest $request, Problem $problem)
     {
         return response()->json($this->problemService->update($problem, $request->validated()), 200);
+    }
+
+    public function setImportance(ProblemChangeImportanceRequest $request, Problem $problem)
+    {
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+    }
+
+    public function setProgress(ProblemChangeProgressRequest $request, Problem $problem)
+    {
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+    }
+
+    public function setUrgency(ProblemChangeUrgencyRequest $request, Problem $problem)
+    {
+        return response()->json($this->problemService->update($problem, $request->validated()), 200);
+    }
+
+    public function sendForConfirmation(Problem $problem)
+    {
+        return $this->problemService->sendForConfirmation($problem, $problem->creator_id, $problem->solution);
+    }
+
+    public function rejectSolution(Problem $problem)
+    {
+        return $this->problemService->rejectSolution($problem);
+    }
+
+    public function confirmSolution(Problem $problem)
+    {
+        return $this->problemService->rejectConfirmation($problem);
     }
 }

@@ -19,11 +19,11 @@ class CreateProblemsTable extends Migration
             $table->unsignedBigInteger('creator_id');
             $table->string('description', 350)->nullable();
             $table->string('possible_solution', 250)->nullable();
-            $table->string('status')->default('на рассмотрении');
+            $table->string('status')->default('На рассмотрении');
             $table->string('experience', 350)->nullable();
             $table->string('result', 350)->nullable();
-            $table->string('urgency')->default('обычная');
-            $table->string('importance')->default('обычная');
+            $table->string('urgency')->default('Обычная');
+            $table->string('importance')->default('Обычная');
             $table->unsignedInteger('progress')->default(0);
 
             $table->timestamps();

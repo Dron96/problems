@@ -43,13 +43,15 @@ class Problem extends Model
             'result',
             'progress',
             'description',
+            'importance',
+            'urgency'
         ];
 
     protected $cascadeDeletes = ['solutions'];
 
-    public function solutions()
+    public function solution()
     {
-        return $this->hasMany(Solution::class, 'problem_id', 'id');
+        return $this->hasOne(Solution::class, 'problem_id', 'id');
     }
 
     public function likes()

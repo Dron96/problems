@@ -926,7 +926,7 @@
 |4. | problem.show    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
 |5. | problem.destroy | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
 |6. | problem.likeProblem | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST        | Нет параметров        |
-|7. | problem.sendToGroup | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST        | group_id - массив id подразделений |
+|7. | problem.sendToGroup | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST        | group_ids - массив id подразделений |
 
 
 ## Ответы:

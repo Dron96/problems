@@ -58,10 +58,10 @@ class SolutionController extends Controller
     public function store(SolutionCreateRequest $request, Problem $problem)
     {
         $countSolution = Solution::where('problem_id', $problem->id)->count();
-        if ($countSolution < 25) {
+        if ($countSolution < 1) {
             return response()->json($this->solutionService->store($request, $problem->id, auth()->id()), 201);
         } else {
-            return response()->json(['errors' => 'Решений слишком много, удалите хотя бы 1, чтобы продолжить'], 422);
+            return response()->json(['errors' => 'У данной проблемы уже есть решение'], 422);
         }
     }
 
