@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Solution\SolutionChangePlanRequest;
 use App\Http\Requests\Solution\SolutionChangeTeamRequest;
 use App\Http\Requests\Solution\SolutionNameChangeRequest;
-use App\Http\Requests\Solution\SolutionCreateRequest;
 use App\Models\Problem;
 use App\Models\Solution;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -49,23 +47,6 @@ class SolutionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param SolutionCreateRequest $request
-     * @param Problem $problem
-     * @return JsonResponse
-     */
-    public function store(SolutionCreateRequest $request, Problem $problem)
-    {
-        $countSolution = Solution::where('problem_id', $problem->id)->count();
-        if ($countSolution < 1) {
-            return response()->json($this->solutionService->store($request, $problem->id, auth()->id()), 201);
-        } else {
-            return response()->json(['errors' => 'У данной проблемы уже есть решение'], 422);
-        }
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param Solution $solution
@@ -94,24 +75,6 @@ class SolutionController extends Controller
         }
 
         return response()->json($this->solutionService->update($solution, $request->validated()), 200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Solution $solution
-     * @return JsonResponse
-     * @throws Exception
-     */
-    public function destroy(Solution $solution)
-    {
-        $validator = $solution->hasProblem($solution->id);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->messages()], 404);
-        }
-        $solution->delete();
-
-        return response()->json(['message' => 'Решение успешно удалено'], 200);
     }
 
     /**

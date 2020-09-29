@@ -48,11 +48,9 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{problem}/confirm-solution', 'API\ProblemController@confirmSolution');
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
-        Route::post('/{problem}/solution', 'API\SolutionController@store');
     });
 
     Route::prefix('solution/{solution}')->group(function () {
-        Route::delete('/', 'API\SolutionController@destroy');
         Route::put('/', 'API\SolutionController@update');
         Route::get('/', 'API\SolutionController@show');
         Route::put('/set-plan', 'API\SolutionController@setPlan');

@@ -154,8 +154,8 @@ class ProblemController extends Controller
         }
         $problem->groups()->detach();
         $problem->groups()->attach($groups);
-        if ($problem->status === 'на рассмотрении') {
-            $problem->status = 'в работе';
+        if ($problem->status === 'На рассмотрении') {
+            $problem->status = 'В работе';
             $problem->save();
         }
 

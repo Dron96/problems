@@ -7,6 +7,294 @@
 
 ## Описание:
 
+### Авторизация и регистрация:
+|№  | Имя метода | Описание операции               | URL           | Метод запроса | Принимаемые параметры |
+|---|------------|---------------------------------|---------------|:-------------:|-----------------------|
+|1. | [register](#1.-register)   | Регистрация нового пользователя | /api/register | POST          | <ol><li>name - имя пользователя</li><li>surname - фамилия пользователя</li><li>father_name - отчество пользователя</li><li>password - пароль</li><li>password_confirmation - повторите пароль</li><li>email - электронная почта</li></ol>      |
+|2. | [login](#2.-login)      | Авторизация пользователя        | /api/login    | POST          | <ol><li>email - электронная почта</li><li>password - пароль</li></ol> |
+|3. | [logout](#3.-logout)     | Авторизация пользователя        | /api/logout   | POST          | Нет параметров        |
+
+### Операции над проблемой:
+|№  | Имя метода      | Описание операции             | URL                    | Метод запроса | Принимаемые параметры |
+|---|-----------------|-------------------------------|------------------------|:-------------:|-----------------------|
+|1. | [problem.index](#1.-problem.index)   | Получение списка всех проблем | /api/problem           | GET / HEAD    | Нет параметров        |
+|2. | [problem.store](#2.-problem.store)   | Создание проблемы             | /api/problem           | POST          | <ol><li>name - название проблемы</li><li>description - описание</li><li>possible_solution - возможное решение</li></ol> |
+|3. | [problem.update](#3.-problem.update)  | Изменение названия проблемы  | /api/problem/{problem} | PUT           | name - имя проблемы   |
+|4. | [problem.show](#4.-problem.show)    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
+|5. | [problem.destroy](#5.-problem.destroy) | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
+|6. | [problem.likeProblem](#6.-problem.likeProblem) | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST | Нет параметров        |
+|7. | [problem.sendToGroup](#7.-problem.sendToGroup) | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST | group_ids - массив id подразделений |
+|8. | [problem.setExperience](#8.-problem.setExperience) | Задать/изменить опыт | /api/problem/{problem}/{problem}/set-experience | PUT | experience - опыт |
+|9. | [problem.setResult](#9.-problem.setResult) | Задать/изменить результат | /api/problem/{problem}/set-result | PUT | result - результат |
+|10. | [problem.setPossibleSolution](#10.-problem.setPossibleSolution) | Изменение возможного решения проблемы | /api/problem/{problem}/set-possible-solution | PUT | possible_solution - возможное решение |
+|11. | [problem.setDescription](#11.-problem.setDescription) | Изменение описания проблемы | /api/problem/{problem}/set-description | PUT | description - описание проблемы |
+|12. | [problem.setImportance](#12.-problem.setImportance) | Изменение важности проблемы | /api/problem/{problem}/set-importance | PUT | importance - важность проблемы |
+|13. | [problem.setProgress](#13.-problem.setProgress) | Изменение прогресса решения проблемы | /api/problem/{problem}/set-progress | PUT | progress - прогресс решения |
+|14. | [problem.setUrgency](#14.-problem.setUrgency) | Изменение срочности проблемы | /api/problem/{problem}/set-urgency | PUT | urgency - срочность решения |
+|15. | [problem.sendForConfirmation](#15.-problem.sendForConfirmation) | Направить проблему заказчику для подтверждения решения  | /api/problem/{problem}/send-for-confirmation | PUT | Нет параметров |
+|16. | [problem.rejectSolution](#16.-problem.rejectSolution) | Отклонить решение проблемы  | /api/problem/{problem}/reject-solution | PUT | Нет параметров |
+|17. | [problem.confirmSolution](#17.-problem.confirmSolution) | Подтвердить решение проблемы  | /api/problem/{problem}/confirm-solution | PUT | Нет параметров |
+
+
+
+## Ответы:
+
+### Авторизация и регистрация:
+#### 1. register
+##### Удачная операция:
+##### Код: 201
+```json
+{
+    "message": "Вы успешно зарегистрированы"
+}
+```
+##### Ошибки валидации:
+##### Код: 422
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "password": [
+            "В поле "Пароль" должно быть не менее 8 символов"
+        ]
+    }
+}
+```
+
+#### 2. login
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "user": {
+            "id": 1,
+            "name": "Гарри",
+            "surname": "Куликов",
+            "father_name": "Максимовна",
+            "email": "artemeva.gennadii@example.org",
+            "created_at": "2020-09-10T14:13:25.000000Z",
+            "updated_at": "2020-09-10T14:13:25.000000Z"
+        },
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjM2YzY0YTZiZTIzMzBhMDkyNmJjZTU..."
+}
+```
+##### Ошибки валидации:
+##### Код: 422
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "password": [
+            "В поле \"Пароль\" должно быть не менее 8 символов"
+        ]
+    }
+}
+```
+##### Неправильный логин или пароль:
+##### Код: 401
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "name": [
+            "Адрес электронной почты или пароль неправильные"
+        ]
+    }
+}
+```
+
+#### 3. logout
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "message": "Вы успешно вышли"
+}
+```
+
+
+### Операции над проблемой:
+#### 1. problem.index
+##### Удачная операция:
+##### Код: 200
+```json
+[
+    {
+        "id": 31,
+        "name": "_________",
+        "created_at": "2020-08-25T18:01:20.000000Z",
+        "updated_at": "2020-08-25T18:01:20.000000Z",
+        "likes_count": 1,
+        "is_liked": true,
+    },
+    {
+        "id": 30,
+        "name": "123456",
+        "created_at": "2020-08-25T17:42:03.000000Z",
+        "updated_at": "2020-08-25T17:42:03.000000Z",
+        "likes_count": 0,
+        "is_liked": false,
+    }
+]
+```
+
+#### 2. problem.store
+##### Удачная операция:
+##### Код: 201
+```json
+{
+    "name": "dddddd",
+    "updated_at": "2020-08-26T03:33:13.000000Z",
+    "created_at": "2020-08-26T03:33:13.000000Z",
+    "id": 33,
+    "likes_count": 1,
+}
+```
+##### Ошибка:
+##### Код: 422
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "name": [
+            "Название проблемы должно быть не менее 6 символов"
+        ]
+    }
+}
+```
+
+#### 3. problem.update
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "id": 15,
+    "name": "Важная проблема",
+    "created_at": "2020-08-24T12:52:31.000000Z",
+    "updated_at": "2020-08-26T03:40:24.000000Z",
+}
+```
+##### Ошибка:
+##### Код: 422
+```json
+{
+    "message": "The given data was invalid.",
+    "errors": {
+        "name": [
+            "Название проблемы должно быть не менее 6 символов"
+        ]
+    }
+}
+```
+##### Ошибка отсутствия данного объекта:
+##### Код: 404
+```json
+{
+    "message": "Объект не найден"
+}
+```
+
+
+#### 4. problem.show
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "id": 5,
+    "name": "gh1ggg",
+    "created_at": "2020-07-13T09:29:48.000000Z",
+    "updated_at": "2020-08-25T07:27:49.000000Z",
+    "likes_count": 1,
+    "is_liked": true,
+}
+```
+##### Ошибка отсутствия данного объекта:
+##### Код: 404
+```json
+{
+    "message": "Объект не найден"
+}
+```
+
+#### 5. problem.destroy
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "message": "Проблема успешно удалена"
+}
+```
+##### Ошибка отсутствия данного объекта:
+##### Код: 404
+```json
+{
+    "message": "Объект не найден"
+}
+```
+
+#### 6. problem.likeProblem
+##### Удачная операция:
+##### Код: 200
+```json
+{
+    "message": "Успешно"
+}
+```
+
+#### 7. problem.sendToGroup
+##### Удачная операция:
+##### Код: 200
+```json
+[
+    {
+        "id": 1,
+        "name": "ООО ВостокСантехИнфо",
+        "short_name": "Corrupti.",
+        "leader_id": 2,
+        "created_at": "2020-08-22T04:19:19.000000Z",
+        "updated_at": "2020-08-22T04:19:19.000000Z",
+        "deleted_at": null,
+        "pivot": {
+            "problem_id": 30,
+            "group_id": 1
+        }
+    },
+    {
+        "id": 2,
+        "name": "ОАО ЖелДор",
+        "short_name": "Qui qui.",
+        "leader_id": 4,
+        "created_at": "2020-07-22T12:18:51.000000Z",
+        "updated_at": "2020-07-22T12:18:51.000000Z",
+        "deleted_at": null,
+        "pivot": {
+            "problem_id": 30,
+            "group_id": 2
+        }
+    },
+    {
+        "id": 3,
+        "name": "МКК ОблСантехМоторМашина",
+        "short_name": "Omnis.",
+        "leader_id": 4,
+        "created_at": "2020-08-21T19:09:48.000000Z",
+        "updated_at": "2020-08-21T19:09:48.000000Z",
+        "deleted_at": null,
+        "pivot": {
+            "problem_id": 30,
+            "group_id": 3
+        }
+    }
+]
+```
+##### Подразделение не существует:
+##### Код: 422
+```json
+{
+    "error": "Выбрано не существующее подразделение"
+}
+```
+
 ### Операции над подразделениями:
 |№   | Имя метода                | Описание операции                         | URL                                     | Метод запроса | Принимаемые параметры   |
 |----|---------------------------|-------------------------------------------|-----------------------------------------|:-------------:|-------------------------|
@@ -907,282 +1195,5 @@
 ```json
 {
     "message": "Такого решения не существует"
-}
-```
-
-### Авторизация и регистрация:
-|№  | Имя метода | Описание операции               | URL           | Метод запроса | Принимаемые параметры |
-|---|------------|---------------------------------|---------------|:-------------:|-----------------------|
-|1. | register   | Регистрация нового пользователя | /api/register | POST          | <ol><li>name - имя пользователя</li><li>surname - фамилия пользователя</li><li>father_name - отчество пользователя</li><li>password - пароль</li><li>password_confirmation - повторите пароль</li><li>email - электронная почта</li></ol>      |
-|2. | login      | Авторизация пользователя        | /api/login    | POST          | <ol><li>email - электронная почта</li><li>password - пароль</li></ol> |
-|3. | logout     | Авторизация пользователя        | /api/logout   | POST          | Нет параметров        |
-
-### Операции над проблемой:
-|№  | Имя метода      | Описание операции             | URL                    | Метод запроса | Принимаемые параметры |
-|---|-----------------|-------------------------------|------------------------|:-------------:|-----------------------|
-|1. | problem.index   | Получение списка всех проблем | /api/problem           | GET / HEAD    | Нет параметров        |
-|2. | problem.store   | Создание проблемы             | /api/problem           | POST          | name - имя проблемы   |
-|3. | problem.update  | Изменение имеющейся проблемы  | /api/problem/{problem} | PUT           | name - имя проблемы   |
-|4. | problem.show    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
-|5. | problem.destroy | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
-|6. | problem.likeProblem | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST        | Нет параметров        |
-|7. | problem.sendToGroup | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST        | group_ids - массив id подразделений |
-
-
-## Ответы:
-
-### Авторизация и регистрация:
-#### 1. register
-##### Удачная операция:
-##### Код: 201
-```json
-{
-    "message": "Вы успешно зарегистрированы"
-}
-```
-##### Ошибки валидации:
-##### Код: 422
-```json
-{
-    "message": "The given data was invalid.",
-    "errors": {
-        "password": [
-            "В поле "Пароль" должно быть не менее 8 символов"
-        ]
-    }
-}
-```
-
-#### 1. login
-##### Удачная операция:
-##### Код: 200
-```json
-{
-    "user": {
-            "id": 1,
-            "name": "Гарри",
-            "surname": "Куликов",
-            "father_name": "Максимовна",
-            "email": "artemeva.gennadii@example.org",
-            "created_at": "2020-09-10T14:13:25.000000Z",
-            "updated_at": "2020-09-10T14:13:25.000000Z"
-        },
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjM2YzY0YTZiZTIzMzBhMDkyNmJjZTU..."
-}
-```
-##### Ошибки валидации:
-##### Код: 422
-```json
-{
-    "message": "The given data was invalid.",
-    "errors": {
-        "password": [
-            "В поле \"Пароль\" должно быть не менее 8 символов"
-        ]
-    }
-}
-```
-##### Неправильный логин или пароль:
-##### Код: 401
-```json
-{
-    "message": "The given data was invalid.",
-    "errors": {
-        "name": [
-            "Адрес электронной почты или пароль неправильные"
-        ]
-    }
-}
-```
-
-#### 1. logout
-##### Удачная операция:
-##### Код: 200
-```json
-{
-    "message": "Вы успешно вышли"
-}
-```
-
-
-### Операции над проблемой:
-#### 1. problem.index
-##### Удачная операция:
-##### Код: 200
-```json
-[
-    {
-        "id": 31,
-        "name": "_________",
-        "created_at": "2020-08-25T18:01:20.000000Z",
-        "updated_at": "2020-08-25T18:01:20.000000Z",
-        "likes_count": 1,
-        "is_liked": true,
-    },
-    {
-        "id": 30,
-        "name": "123456",
-        "created_at": "2020-08-25T17:42:03.000000Z",
-        "updated_at": "2020-08-25T17:42:03.000000Z",
-        "likes_count": 0,
-        "is_liked": false,
-    }
-]
-```
-
-#### 2. problem.store
-##### Удачная операция:
-##### Код: 201
-```json
-{
-    "name": "dddddd",
-    "updated_at": "2020-08-26T03:33:13.000000Z",
-    "created_at": "2020-08-26T03:33:13.000000Z",
-    "id": 33,
-    "likes_count": 1,
-}
-```
-##### Ошибка:
-##### Код: 422
-```json
-{
-    "message": "The given data was invalid.",
-    "errors": {
-        "name": [
-            "Название проблемы должно быть не менее 6 символов"
-        ]
-    }
-}
-```
-
-#### 3. problem.update
-##### Удачная операция:
-##### Код: 200
-```json
-{
-    "id": 15,
-    "name": "Важная проблема",
-    "created_at": "2020-08-24T12:52:31.000000Z",
-    "updated_at": "2020-08-26T03:40:24.000000Z",
-}
-```
-##### Ошибка:
-##### Код: 422
-```json
-{
-    "message": "The given data was invalid.",
-    "errors": {
-        "name": [
-            "Название проблемы должно быть не менее 6 символов"
-        ]
-    }
-}
-```
-##### Ошибка отсутствия данного объекта:
-##### Код: 404
-```json
-{
-    "message": "Объект не найден"
-}
-```
-
-
-#### 4. problem.show
-##### Удачная операция:
-##### Код: 200
-```json
-{
-    "id": 5,
-    "name": "gh1ggg",
-    "created_at": "2020-07-13T09:29:48.000000Z",
-    "updated_at": "2020-08-25T07:27:49.000000Z",
-    "likes_count": 1,
-    "is_liked": true,
-}
-```
-##### Ошибка отсутствия данного объекта:
-##### Код: 404
-```json
-{
-    "message": "Объект не найден"
-}
-```
-
-#### 5. problem.destroy
-##### Удачная операция:
-##### Код: 200
-```json
-{
-    "message": "Проблема успешно удалена"
-}
-```
-##### Ошибка отсутствия данного объекта:
-##### Код: 404
-```json
-{
-    "message": "Объект не найден"
-}
-```
-
-#### 6. problem.likeProblem
-##### Удачная операция:
-##### Код: 200
-```json
-{
-    "message": "Успешно"
-}
-```
-
-#### 6. problem.sendToGroup
-##### Удачная операция:
-##### Код: 200
-```json
-[
-    {
-        "id": 1,
-        "name": "ООО ВостокСантехИнфо",
-        "short_name": "Corrupti.",
-        "leader_id": 2,
-        "created_at": "2020-08-22T04:19:19.000000Z",
-        "updated_at": "2020-08-22T04:19:19.000000Z",
-        "deleted_at": null,
-        "pivot": {
-            "problem_id": 30,
-            "group_id": 1
-        }
-    },
-    {
-        "id": 2,
-        "name": "ОАО ЖелДор",
-        "short_name": "Qui qui.",
-        "leader_id": 4,
-        "created_at": "2020-07-22T12:18:51.000000Z",
-        "updated_at": "2020-07-22T12:18:51.000000Z",
-        "deleted_at": null,
-        "pivot": {
-            "problem_id": 30,
-            "group_id": 2
-        }
-    },
-    {
-        "id": 3,
-        "name": "МКК ОблСантехМоторМашина",
-        "short_name": "Omnis.",
-        "leader_id": 4,
-        "created_at": "2020-08-21T19:09:48.000000Z",
-        "updated_at": "2020-08-21T19:09:48.000000Z",
-        "deleted_at": null,
-        "pivot": {
-            "problem_id": 30,
-            "group_id": 3
-        }
-    }
-]
-```
-##### Подразделение не существует:
-##### Код: 422
-```json
-{
-    "error": "Выбрано не существующее подразделение"
 }
 ```
