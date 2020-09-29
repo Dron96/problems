@@ -48,8 +48,7 @@ class TaskController extends Controller
         return $this->taskService->store($request,
             $solution->id,
             $solution->problem_id,
-            auth()->id(),
-            $solution->in_work);
+            auth()->id());
     }
 
     /**
