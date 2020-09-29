@@ -17,9 +17,9 @@
 ### Операции над проблемой:
 |№  | Имя метода      | Описание операции             | URL                    | Метод запроса | Принимаемые параметры |
 |---|-----------------|-------------------------------|------------------------|:-------------:|-----------------------|
-|1. | [problem.index](#1.-problem.index)   | Получение списка всех проблем | /api/problem           | GET / HEAD    | Нет параметров        |
-|2. | [problem.store](#2.-problem.store)   | Создание проблемы             | /api/problem           | POST          | <ol><li>name - название проблемы</li><li>description - описание</li><li>possible_solution - возможное решение</li></ol> |
-|3. | [problem.update](#3.-problem.update)  | Изменение названия проблемы  | /api/problem/{problem} | PUT           | name - имя проблемы   |
+|1. | [problem.index](#1-problemindex)   | Получение списка всех проблем | /api/problem           | GET / HEAD    | Нет параметров        |
+|2. | [problem.store](#2-problemstore)   | Создание проблемы             | /api/problem           | POST          | <ol><li>name - название проблемы</li><li>description - описание</li><li>possible_solution - возможное решение</li></ol> |
+|3. | [problem.update](#3-problemupdate)  | Изменение названия проблемы  | /api/problem/{problem} | PUT           | name - имя проблемы   |
 |4. | [problem.show](#4.-problem.show)    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
 |5. | [problem.destroy](#5.-problem.destroy) | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
 |6. | [problem.likeProblem](#6.-problem.likeProblem) | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST | Нет параметров        |
