@@ -31,6 +31,15 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('problem')->group(function () {
         Route::post('/', 'API\ProblemController@store');
         Route::get('/', 'API\ProblemController@index');
+        Route::get('/my-problems', 'API\ProblemController@userProblems');
+        Route::get('/group-problems', 'API\ProblemController@problemsForConfirmation');
+        Route::get('/problems-for-execution', 'API\ProblemController@problemsForExecution');
+        Route::get('/problems-by-groups', 'API\ProblemController@problemsByGroups');
+        Route::get('/problems-of-all-groups', 'API\ProblemController@problemsOfAllGroups');
+        Route::get('/problems-archive', 'API\ProblemController@problemsArchive');
+        Route::get('/problems-user-archive', 'API\ProblemController@problemsUserArchive');
+        Route::get('/problems-group-archive', 'API\ProblemController@problemsGroupArchive');
+
         Route::delete('/{problem}', 'API\ProblemController@destroy');
         Route::put('/{problem}', 'API\ProblemController@update');
         Route::get('/{problem}', 'API\ProblemController@show');
@@ -46,6 +55,7 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{problem}/send-for-confirmation', 'API\ProblemController@sendForConfirmation');
         Route::put('/{problem}/reject-solution', 'API\ProblemController@rejectSolution');
         Route::put('/{problem}/confirm-solution', 'API\ProblemController@confirmSolution');
+
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
     });

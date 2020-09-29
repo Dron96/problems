@@ -137,7 +137,13 @@ class GroupController extends Controller
      */
     public function getUsers(Group $group)
     {
-        return response()->json($group->users->whereNotIn('id', $group->leader_id)->sortBy('father_name')->sortBy('name')->sortBy('surname')->values(), 200);
+        return response()->json($group->users
+            ->whereNotIn('id', $group->leader_id)
+            ->sortBy('father_name')
+            ->sortBy('name')
+            ->sortBy('surname')
+            ->values(),
+            200);
     }
 
     /**

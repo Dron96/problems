@@ -15,7 +15,9 @@ use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
 use App\Models\Solution;
+use App\Models\Task;
 use App\Services\ProblemService;
+use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -224,5 +226,91 @@ class ProblemController extends Controller
         $error = 'Действие возможно только при статусе проблемы “На проверке заказчика”';
 
         return $this->problemService->updateWithStatusCheck($problem, $data, $correctStatuses, $error);
+    }
+
+    public function userProblems()
+    {
+        $problems = Problem::where('creator_id', auth()->id())
+            ->whereNotIn('status', ['Решена', 'Удалена'])
+            ->get();
+
+        return response()->json($problems, 200);
+    }
+
+    public function problemsForConfirmation()
+    {
+        $user = auth()->user();
+        $group = Group::whereId($user->group_id)->first();
+        $groupLeader = $group['leader_id'];
+        if ($groupLeader === auth()->id()) {
+            $groupUsersIds = $group->users()->select('id')->get()->toArray();
+            $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                ->where('status', 'На рассмотрении')
+                ->get();
+        }
+
+        return response()->json($problems, 200);
+    }
+
+    public function problemsForExecution()
+    {
+        $user = auth()->user();
+        $solutionsWhereUserIsExecutorOfTasks = Task::where('executor_id', $user->id)->get('solution_id')->toArray();
+        $problems = array_map('current', Solution::whereIn('id', $solutionsWhereUserIsExecutorOfTasks)
+            ->orWhere('executor_id', $user->id)
+            ->get('problem_id')
+            ->toArray());
+        $problems = Problem::whereIn('id', $problems)->get();
+
+        return response()->json($problems, 200);
+    }
+
+    public function problemsByGroups()
+    {
+        $problems = Group::with(['problems' => function ($query) {
+                $query->whereIn('status', ['В работе', 'На проверке заказчика']);
+            }])->get();
+
+        return response()->json($problems, 200);
+    }
+
+    public function problemsOfAllGroups()
+    {
+        $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])->get();
+
+        return response()->json($problems, 200);
+    }
+
+    public function problemsArchive()
+    {
+        $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
+            ->has('groups')
+            ->get();
+
+        return response()->json($problems, 200);
+    }
+
+    public function problemsUserArchive()
+    {
+        $problems = Problem::where('creator_id', auth()->id())
+            ->doesntHave('groups')
+            ->get();
+
+        return response()->json($problems, 200);
+    }
+
+    public function problemsGroupArchive()
+    {
+        $user = auth()->user();
+        $group = Group::whereId($user->group_id)->first();
+        $groupLeader = $group['leader_id'];
+        if ($groupLeader === auth()->id()) {
+            $groupUsersIds = $group->users()->select('id')->get()->toArray();
+            $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                ->doesntHave('groups')
+                ->get();
+        }
+
+        return response()->json($problems, 200);
     }
 }
