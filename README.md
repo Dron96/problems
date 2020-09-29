@@ -20,20 +20,63 @@
 |1. | [problem.index](#1-problemindex)   | Получение списка всех проблем | /api/problem           | GET / HEAD    | Нет параметров        |
 |2. | [problem.store](#2-problemstore)   | Создание проблемы             | /api/problem           | POST          | <ol><li>name - название проблемы</li><li>description - описание</li><li>possible_solution - возможное решение</li></ol> |
 |3. | [problem.update](#3-problemupdate)  | Изменение названия проблемы  | /api/problem/{problem} | PUT           | name - имя проблемы   |
-|4. | [problem.show](#4.-problem.show)    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
-|5. | [problem.destroy](#5.-problem.destroy) | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
-|6. | [problem.likeProblem](#6.-problem.likeProblem) | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST | Нет параметров        |
-|7. | [problem.sendToGroup](#7.-problem.sendToGroup) | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST | group_ids - массив id подразделений |
-|8. | [problem.setExperience](#8.-problem.setExperience) | Задать/изменить опыт | /api/problem/{problem}/{problem}/set-experience | PUT | experience - опыт |
-|9. | [problem.setResult](#9.-problem.setResult) | Задать/изменить результат | /api/problem/{problem}/set-result | PUT | result - результат |
-|10. | [problem.setPossibleSolution](#10.-problem.setPossibleSolution) | Изменение возможного решения проблемы | /api/problem/{problem}/set-possible-solution | PUT | possible_solution - возможное решение |
-|11. | [problem.setDescription](#11.-problem.setDescription) | Изменение описания проблемы | /api/problem/{problem}/set-description | PUT | description - описание проблемы |
-|12. | [problem.setImportance](#12.-problem.setImportance) | Изменение важности проблемы | /api/problem/{problem}/set-importance | PUT | importance - важность проблемы |
-|13. | [problem.setProgress](#13.-problem.setProgress) | Изменение прогресса решения проблемы | /api/problem/{problem}/set-progress | PUT | progress - прогресс решения |
-|14. | [problem.setUrgency](#14.-problem.setUrgency) | Изменение срочности проблемы | /api/problem/{problem}/set-urgency | PUT | urgency - срочность решения |
-|15. | [problem.sendForConfirmation](#15.-problem.sendForConfirmation) | Направить проблему заказчику для подтверждения решения  | /api/problem/{problem}/send-for-confirmation | PUT | Нет параметров |
-|16. | [problem.rejectSolution](#16.-problem.rejectSolution) | Отклонить решение проблемы  | /api/problem/{problem}/reject-solution | PUT | Нет параметров |
-|17. | [problem.confirmSolution](#17.-problem.confirmSolution) | Подтвердить решение проблемы  | /api/problem/{problem}/confirm-solution | PUT | Нет параметров |
+|4. | [problem.show](#4-problemshow)    | Получение проблемы            | /api/problem/{problem} | GET / HEAD    | Нет параметров        |
+|5. | [problem.destroy](#5-problemdestroy) | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
+|6. | [problem.likeProblem](#6-problemlikeProblem) | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST | Нет параметров        |
+|7. | [problem.sendToGroup](#7-problemsendToGroup) | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST | group_ids - массив id подразделений |
+|8. | [problem.setExperience](#8-problemsetExperience) | Задать/изменить опыт | /api/problem/{problem}/{problem}/set-experience | PUT | experience - опыт |
+|9. | [problem.setResult](#9-problemsetResult) | Задать/изменить результат | /api/problem/{problem}/set-result | PUT | result - результат |
+|10. | [problem.setPossibleSolution](#10-problemsetPossibleSolution) | Изменение возможного решения проблемы | /api/problem/{problem}/set-possible-solution | PUT | possible_solution - возможное решение |
+|11. | [problem.setDescription](#11-problemsetDescription) | Изменение описания проблемы | /api/problem/{problem}/set-description | PUT | description - описание проблемы |
+|12. | [problem.setImportance](#12-problemsetImportance) | Изменение важности проблемы | /api/problem/{problem}/set-importance | PUT | importance - важность проблемы |
+|13. | [problem.setProgress](#13-problemsetProgress) | Изменение прогресса решения проблемы | /api/problem/{problem}/set-progress | PUT | progress - прогресс решения |
+|14. | [problem.setUrgency](#1-problemsetUrgency) | Изменение срочности проблемы | /api/problem/{problem}/set-urgency | PUT | urgency - срочность решения |
+|15. | [problem.sendForConfirmation](#15-problemsendForConfirmation) | Направить проблему заказчику для подтверждения решения  | /api/problem/{problem}/send-for-confirmation | PUT | Нет параметров |
+|16. | [problem.rejectSolution](#16-problemrejectSolution) | Отклонить решение проблемы  | /api/problem/{problem}/reject-solution | PUT | Нет параметров |
+|17. | [problem.confirmSolution](#17-problemconfirmSolution) | Подтвердить решение проблемы  | /api/problem/{problem}/confirm-solution | PUT | Нет параметров |
+
+### Операции над решением:
+|№   | Имя метода            | Описание операции                                   | URL                                     | Метод запроса | Принимаемые параметры   |
+|----|-----------------------|-----------------------------------------------------|-----------------------------------------|:-------------:|-------------------------|
+|1.  | [solution.index](#1-solutionindex)        | Получение списка всех решений для проблемы          | /api/problem/{problem}/solution         | GET / HEAD    | Нет параметров          |
+|2.  | [solution.show](#2-solutionshow)         | Получение решения                                   | /api/solution/{solution}                | GET / HEAD    | Нет параметров          |
+|3.  | [solution.update](#3-solutionupdate)       | Изменение описания решения                          | /api/solution/{solution}                | PUT           | name - описание решения |
+|4.  | [solution.changeStatus](#4-solutionchangestatus) | Изменение статуса решения                           | /api/solution/{solution}/change-status  | PUT           | status - статус решения в работе (В процессе, Выполнено, "") |
+|5.  | [solution.setDeadline](#5-solutionsetdeadline)  | Установка срока исполнения решения                  | /api/solution/{solution}/set-deadline   | PUT           | deadline - дата в формате ГГГГ-ММ-ДД |
+|6. | [solution.setExecutor](#6-solutionsetexecutor)  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor   | PUT           | executor_id - id пользователя |
+
+|7. | [solution.setPlan](#10-solutionsetplan)  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor   | PUT           | executor_id - id пользователя |
+|8. | [solution.setTeam](#10-solutionsetteam)  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor   | PUT           | executor_id - id пользователя |
+
+
+### Операции над подразделениями:
+|№   | Имя метода                | Описание операции                         | URL                                     | Метод запроса | Принимаемые параметры   |
+|----|---------------------------|-------------------------------------------|-----------------------------------------|:-------------:|-------------------------|
+|1.  | [group.index](#1-groupindex)               | Получение списка всех подразделений       | /api/group                              | GET / HEAD    | Нет параметров          |
+|2.  | [group.store](#2-groupstore)               | Создание подразделения                    | /api/group                              | POST          | <ol><li>name - полное название подразделения</li><li>short_name - краткое название подразделения</li><li>leader_id - id начальника подразделения</li></ol>|
+|3.  | [group.show](#3-groupshow)                | Получение подразделения                   | /api/group/{group}                      | GET / HEAD    | Нет параметров          |
+|4.  | [group.update](#4-groupupdate)              | Изменение полного названия подразделения  | /api/group/{group}                      | PUT           | name - полное название подразделени |
+|5.  | [group.updateShortName](#5-groupupdateshortname)     | Изменение краткого названия подразделения | /api/group/{group}/change-short-name    | PUT           | short_name - краткое название подразделения |
+|6.  | [group.destroy](#6-groupdestroy)             | Удаление подразделения                    | /api/group/{group}                      | DELETE        | Нет параметров          |
+|7.  | [group.addUser](#7-groupadduser)             | Добавление сотрудника в подразделение     | /api/group/{group}/user/{user}          | PUT           | Нет параметров          |
+|8.  | [group.getLeader](#8-groupgetleader)           | Получить начальника подразделения         | /api/group/{group}/leader               | GET / HEAD    | Нет параметров          |
+|9.  | [group.getUsers](#9-groupgetusers)            | Получить список сотрудников подразделения | /api/group/{group}/user                 | GET / HEAD    | Нет параметров          |
+|10. | [group.removeUserFromGroup](#10-groupremoveuserfromgroup) | Удалить сотрудника из подразделения       | /api/group/{group}/remove-user/{user}   | PUT           | Нет параметров          |
+|11. | [group.changeLeader](#11-groupchangeleader)        | Сменить начальника подразделения          | /api/group/{group}/change-leader/{user} | PUT           | Нет параметров          |
+
+
+### Операции над задачей:
+|№   | Имя метода       | Описание операции                              | URL                            | Метод запроса | Принимаемые параметры   |
+|----|------------------|------------------------------------------------|--------------------------------|:-------------:|-------------------------|
+|1. | [task.index](#1-taskindex)        | Получение списка всех задач для решения        | /api/solution/{solution}/task  | GET / HEAD    | Нет параметров          |
+|2. | [task.store](#2-taskstore)        | Создание задачи для решения                    | /api/solution/{solution}/task  | POST          | <ol><li>description - описание задачи</li><li>executor_id - id ответственного</li><li>status - статус задачи ('К исполнению', 'В процессе', 'Выполнено')</li><li>deadline - срок исполнения (Формат: ДД-ММ-ГГГГ)</li></ol>|
+|3. | [task.show](#3-taskshow)         | Получение задачи                               | /api/task/{task}               | GET / HEAD    | Нет параметров          |
+|4. | [task.update](#4-taskupdate)       | Изменение описания задачи                      | /api/task/{task}               | PUT           | description - описание задачия |
+|5. | [task.destroy](#5-taskdestroy)      | Удаление задачи                                | /api/task/{task}               | DELETE        | Нет параметров          |
+|6. | [task.changeStatus](#6-taskchangestatus) | Изменение статуса задачи                       | /api/task/{task}/change-status | PUT           | status - статус задачи ('К исполнению', 'В процессе', 'Выполнено') |
+|7. | [task.setDeadline](#7-tasksetdeadline)  | Установка срока исполнения задачи              | /api/task/{task}/set-deadline  | PUT           | deadline - дата в формате ГГГГ-ММ-ДД |
+|8. | [task.setExecutor](#8-tasksetexecutor)  | Назначить исполнителя/ответственного за задачу | /api/task/{task}/set-executor  | PUT           | executor_id - id пользователя |
+
 
 
 
@@ -295,21 +338,6 @@
 }
 ```
 
-### Операции над подразделениями:
-|№   | Имя метода                | Описание операции                         | URL                                     | Метод запроса | Принимаемые параметры   |
-|----|---------------------------|-------------------------------------------|-----------------------------------------|:-------------:|-------------------------|
-|1.  | group.index               | Получение списка всех подразделений       | /api/group                              | GET / HEAD    | Нет параметров          |
-|2.  | group.store               | Создание подразделения                    | /api/group                              | POST          | <ol><li>name - полное название подразделения</li><li>short_name - краткое название подразделения</li><li>leader_id - id начальника подразделения</li></ol>|
-|3.  | group.show                | Получение подразделения                   | /api/group/{group}                      | GET / HEAD    | Нет параметров          |
-|4.  | group.update              | Изменение полного названия подразделения  | /api/group/{group}                      | PUT           | name - полное название подразделени |
-|5.  | group.updateShortName     | Изменение краткого названия подразделения | /api/group/{group}/change-short-name    | PUT           | short_name - краткое название подразделения |
-|6.  | group.destroy             | Удаление подразделения                    | /api/group/{group}                      | DELETE        | Нет параметров          |
-|7.  | group.addUser             | Добавление сотрудника в подразделение     | /api/group/{group}/user/{user}          | PUT           | Нет параметров          |
-|8.  | group.getLeader           | Получить начальника подразделения         | /api/group/{group}/leader               | GET / HEAD    | Нет параметров          |
-|9.  | group.getUsers            | Получить список сотрудников подразделения | /api/group/{group}/user                 | GET / HEAD    | Нет параметров          |
-|10. | group.removeUserFromGroup | Удалить сотрудника из подразделения       | /api/group/{group}/remove-user/{user}   | PUT           | Нет параметров          |
-|11. | group.changeLeader        | Сменить начальника подразделения          | /api/group/{group}/change-leader/{user} | PUT           | Нет параметров          |
-
 
 ### Ответы:
 #### 1. group.index
@@ -568,17 +596,6 @@
 }
 ```
 
-### Операции над задачей:
-|№   | Имя метода       | Описание операции                              | URL                            | Метод запроса | Принимаемые параметры   |
-|----|------------------|------------------------------------------------|--------------------------------|:-------------:|-------------------------|
-|1. | task.index        | Получение списка всех задач для решения        | /api/solution/{solution}/task  | GET / HEAD    | Нет параметров          |
-|2. | task.store        | Создание задачи для решения                    | /api/solution/{solution}/task  | POST          | <ol><li>description - описание задачи</li><li>executor_id - id ответственного</li><li>status - статус задачи ('К исполнению', 'В процессе', 'Выполнено')</li><li>deadline - срок исполнения (Формат: ДД-ММ-ГГГГ)</li></ol>|
-|3. | task.show         | Получение задачи                               | /api/task/{task}               | GET / HEAD    | Нет параметров          |
-|4. | task.update       | Изменение описания задачи                      | /api/task/{task}               | PUT           | description - описание задачия |
-|5. | task.destroy      | Удаление задачи                                | /api/task/{task}               | DELETE        | Нет параметров          |
-|6. | task.changeStatus | Изменение статуса задачи                       | /api/task/{task}/change-status | PUT           | status - статус задачи ('К исполнению', 'В процессе', 'Выполнено') |
-|7. | task.setDeadline  | Установка срока исполнения задачи              | /api/task/{task}/set-deadline  | PUT           | deadline - дата в формате ГГГГ-ММ-ДД |
-|8. | task.setExecutor  | Назначить исполнителя/ответственного за задачу | /api/task/{task}/set-executor  | PUT           | executor_id - id пользователя |
 
 ### Ответы:
 #### 1. task.index
@@ -832,19 +849,6 @@
 }
 ```
 
-### Операции над решением:
-|№   | Имя метода            | Описание операции                                   | URL                                     | Метод запроса | Принимаемые параметры   |
-|----|-----------------------|-----------------------------------------------------|-----------------------------------------|:-------------:|-------------------------|
-|1.  | solution.index        | Получение списка всех решений для проблемы          | /api/problem/{problem}/solution         | GET / HEAD    | Нет параметров          |
-|2.  | solution.store        | Создание решения для проблемы                       | /api/problem/{problem}/solution         | POST          | name - описание решения |
-|3.  | solution.in-work      | Получение списка всех решений в работе для проблемы | /api/problem/{problem}/solution-in-work | GET / HEAD    | Нет параметров          |
-|4.  | solution.show         | Получение решения                                   | /api/solution/{solution}                | GET / HEAD    | Нет параметров          |
-|5.  | solution.changeInWork | Смена статуса "в работе" для решения                | /solution/{solution}/change-in-work     | PUT           | in_work - статус в работе (да - любая не пустая строка, 1; нет - пустая строка, 0) |
-|6.  | solution.update       | Изменение описания решения                          | /api/solution/{solution}                | PUT           | name - описание решения |
-|7.  | solution.destroy      | Удаление решения                                    | /api/solution/{solution}                | DELETE        | Нет параметров          |
-|8.  | solution.changeStatus | Изменение статуса решения                           | /api/solution/{solution}/change-status  | PUT           | status - статус решения в работе (В процессе, Выполнено, "") |
-|9.  | solution.setDeadline  | Установка срока исполнения решения                  | /api/solution/{solution}/set-deadline   | PUT           | deadline - дата в формате ГГГГ-ММ-ДД |
-|10. | solution.setExecutor  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor   | PUT           | executor_id - id пользователя |
 
 ### Ответы:
 #### 1. solution.index
@@ -955,7 +959,7 @@
 }
 ```
 
-#### 4. solution.show
+#### 2. solution.show
 ##### Удачная операция:
 ##### Код: 200
 ```json
@@ -1010,7 +1014,7 @@
 }
 ```
 
-#### 6. solution.update
+#### 3. solution.update
 ##### Удачная операция:
 ##### Код: 200
 ```json
@@ -1062,7 +1066,7 @@
 }
 ```
 
-#### 8. solution.changeStatus
+#### 4. solution.changeStatus
 ##### Удачная операция:
 ##### Код: 200
 ```json
@@ -1107,7 +1111,7 @@
 }
 ```
 
-#### 9. solution.setDeadline
+#### 5. solution.setDeadline
 ##### Удачная операция:
 ##### Код: 200
 ```json
@@ -1153,7 +1157,7 @@
 }
 ```
 
-#### 10. solution.setExecutor
+#### 6. solution.setExecutor
 ##### Удачная операция:
 ##### Код: 200
 ```json
