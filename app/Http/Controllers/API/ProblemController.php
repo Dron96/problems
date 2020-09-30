@@ -11,6 +11,7 @@ use App\Http\Requests\Problem\ProblemChangeProgressRequest;
 use App\Http\Requests\Problem\ProblemChangeResultRequest;
 use App\Http\Requests\Problem\ProblemChangeUrgencyRequest;
 use App\Http\Requests\Problem\ProblemCreateRequest;
+use App\Http\Requests\Problem\ProblemFiltrationRequest;
 use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
@@ -312,5 +313,10 @@ class ProblemController extends Controller
         }
 
         return response()->json($problems, 200);
+    }
+
+    public function filtration(ProblemFiltrationRequest $request)
+    {
+        dd($request->validated());
     }
 }

@@ -44,7 +44,8 @@ class Problem extends Model
             'progress',
             'description',
             'importance',
-            'urgency'
+            'urgency',
+            'status'
         ];
 
     protected $cascadeDeletes = ['solutions'];
