@@ -315,8 +315,94 @@ class ProblemController extends Controller
         return response()->json($problems, 200);
     }
 
+
+    private function getCurrentQuartalNumber() {
+        $mapArray = array(
+            1 => '01',
+            2 => '01',
+            3 => '01',
+            4 => '02',
+            5 => '02',
+            6 => '02',
+            7 => '03',
+            8 => '03',
+            9 => '03',
+            10 => '04',
+            11 => '04',
+            12 => '04'
+        );
+        $currentQuarter = $mapArray[(integer)date('m')];
+        $quarterMonths = array_keys($mapArray, $currentQuarter);
+        $otherMonths = array_diff(array_keys($mapArray), $quarterMonths);
+        return ['quarter' => $currentQuarter, 'months' => $quarterMonths, 'otherMonths' => $otherMonths];
+    }
+
+    private function getGapIndex($deadline)
+    {
+        $index = 0;
+        foreach ($deadline as $key=>$value) {
+            if ($key - $index > 1)
+                return [$index, $key];
+            $index = $key;
+        }
+    }
+
     public function filtration(ProblemFiltrationRequest $request)
     {
-        dd($request->validated());
+        $filters = $request->validated();
+        $month = date('m');
+        $year = date('yy');
+        $quarter = $this->getCurrentQuartalNumber();
+        $filterDeadline = $filters['deadline'];
+
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
+        if ($this->problemService->isNeedFiltration($filters)) {
+            $problems = Problem::where($filters)
+                ->with('solution')
+                ->get()
+                ->toArray();
+        } else {
+            $problems = Problem::with('solution')
+                ->get()
+                ->toArray();
+        }
+
+        switch ($filterDeadline) {
+            case 'Текущий квартал':
+                foreach ($quarter['months'] as &$month) {
+                    $month = $year . '-' . $month;
+                }
+                $deadline = $quarter['months'];
+                $startDate = (strtotime(min($deadline) . '-01'));
+                $endDate = strtotime(date("Y-m-t", strtotime(max($deadline))));
+                $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
+                    if (!empty($problem['solution']['deadline'])){
+                        $deadline = strtotime($problem['solution']['deadline']);
+                        return $startDate <= $deadline and  $deadline <= $endDate;
+                    }
+                }));
+                break;
+            case 'Остальные':
+                foreach ($quarter['otherMonths'] as &$month) {
+                    $month = '01.' . $month . '.' . $year;
+                }
+                $deadline = $quarter['otherMonths'];
+                $gapIndex = $this->getGapIndex($deadline);
+                $endDate = (strtotime(($deadline[$gapIndex[1]]) . '-01'));
+                $startDate = strtotime(date("Y-m-t", strtotime($deadline[$gapIndex[0]])));
+                $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
+                    if (!empty($problem['solution']['deadline'])){
+                        $deadline = strtotime($problem['solution']['deadline']);
+                        return $startDate >= $deadline or  $deadline >= $endDate;
+                    }
+                }));
+                break;
+            case null:
+                $deadline = null;
+                break;
+        }
+
+        return $response;
     }
 }

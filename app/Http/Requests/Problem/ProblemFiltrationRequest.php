@@ -26,20 +26,20 @@ class ProblemFiltrationRequest extends FormRequest
     {
         return [
             'urgency' => [
-                'nullable',
-                Rule::in(['Срочная', null])
+                'present',
+                Rule::in(['Срочная', 'Обычная', null])
             ],
             'importance' => [
-                'nullable',
-                Rule::in(['Важная', null])
+                'present',
+                Rule::in(['Важная', 'Обычная', null])
             ],
             'deadline' => [
-                'nullable',
-                Rule::in(['Now', 'Not now', null])
+                'present',
+                Rule::in(['Текущий квартал', 'Остальные', null])
             ],
             'status' => [
-                'nullable',
-                Rule::in(['На рассмотрении', 'В работе', 'На проверке заказчика', null])
+                'present',
+                Rule::in(['На рассмотрении', 'В работе', 'На проверке заказчика', 'Решена', 'Удалена', null])
             ],
         ];
     }

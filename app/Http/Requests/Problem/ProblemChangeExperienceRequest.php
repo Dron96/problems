@@ -24,7 +24,7 @@ class ProblemChangeExperienceRequest extends FormRequest
     public function rules()
     {
         return [
-            'experience' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u'
+            'experience' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:\n]+$/u'
         ];
     }
 

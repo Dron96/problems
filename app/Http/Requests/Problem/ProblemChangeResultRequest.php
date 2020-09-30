@@ -24,7 +24,7 @@ class ProblemChangeResultRequest extends FormRequest
     public function rules()
     {
         return [
-            'result' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u'
+            'result' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:\n]+$/u'
         ];
     }
 

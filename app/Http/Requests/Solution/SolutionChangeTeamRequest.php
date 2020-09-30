@@ -28,7 +28,7 @@ class SolutionChangeTeamRequest extends FormRequest
                 'nullable',
                 'min:6',
                 'max:350',
-                'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
+                'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:\n]+$/u',
             ]
         ];
     }

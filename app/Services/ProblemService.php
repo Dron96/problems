@@ -68,4 +68,9 @@ class ProblemService
 
         return response()->json($problem, 200);
     }
+
+    public function isNeedFiltration($filters)
+    {
+        return !empty($filters);
+    }
 }
