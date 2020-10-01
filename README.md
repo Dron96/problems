@@ -24,7 +24,7 @@
 |5. | [problem.destroy](#5-problemdestroy) | Удаление проблемы             | /api/problem/{problem} | DELETE        | Нет параметров        |
 |6. | [problem.likeProblem](#6-problemlikeProblem) | Поставить/убрать лайк проблеме   | /api/problem/{problem}/like | POST | Нет параметров        |
 |7. | [problem.sendToGroup](#7-problemsendToGroup) | Направление проблемы в подразделения | /api/problem/{problem}/send-to-group | POST | group_ids - массив id подразделений |
-|8. | [problem.setExperience](#8-problemsetExperience) | Задать/изменить опыт | /api/problem/{problem}/{problem}/set-experience | PUT | experience - опыт |
+|8. | [problem.setExperience](#8-problemsetExperience) | Задать/изменить опыт | /api/problem/{problem}/set-experience | PUT | experience - опыт |
 |9. | [problem.setResult](#9-problemsetResult) | Задать/изменить результат | /api/problem/{problem}/set-result | PUT | result - результат |
 |10. | [problem.setPossibleSolution](#10-problemsetPossibleSolution) | Изменение возможного решения проблемы | /api/problem/{problem}/set-possible-solution | PUT | possible_solution - возможное решение |
 |11. | [problem.setDescription](#11-problemsetDescription) | Изменение описания проблемы | /api/problem/{problem}/set-description | PUT | description - описание проблемы |
@@ -34,6 +34,16 @@
 |15. | [problem.sendForConfirmation](#15-problemsendForConfirmation) | Направить проблему заказчику для подтверждения решения  | /api/problem/{problem}/send-for-confirmation | PUT | Нет параметров |
 |16. | [problem.rejectSolution](#16-problemrejectSolution) | Отклонить решение проблемы  | /api/problem/{problem}/reject-solution | PUT | Нет параметров |
 |17. | [problem.confirmSolution](#17-problemconfirmSolution) | Подтвердить решение проблемы  | /api/problem/{problem}/confirm-solution | PUT | Нет параметров |
+|18. | [problem.userProblems](#17-problemuserproblems) | Подтвердить решение проблемы  | /api/problem/my-problems | GET | Нет параметров |
+|19. | [problem.problemsForConfirmation](#17-problemproblemsforconfirmation) | Подтвердить решение проблемы  | /api/problem/group-problems | GET | Нет параметров |
+|20. | [problem.problemsForExecution](#17-problemproblemsforexecution) | Подтвердить решение проблемы  | /api/problem/problems-for-execution | GET | Нет параметров |
+|21. | [problem.problemsByGroups](#17-problemproblemsbygroups) | Подтвердить решение проблемы  | /api/problem/problems-by-groups | GET | Нет параметров |
+|22. | [problem.problemsOfAllGroups](#17-problemproblemsofallgroups) | Подтвердить решение проблемы  | /api/problem/problems-of-all-groups | GET | Нет параметров |
+|23. | [problem.problemsArchive](#17-problemproblemsarchive) | Подтвердить решение проблемы  | /api/problem/problems-archive | GET | Нет параметров |
+|24. | [problem.problemsUserArchive](#17-problemproblemsuserarchive) | Подтвердить решение проблемы  | /api/problem/problems-user-archive | GET | Нет параметров |
+|25. | [problem.problemsGroupArchive](#17-problemproblemsgrouparchive) | Подтвердить решение проблемы  | /api/problem/problems-group-archive| GET | Нет параметров |
+|26. | [problem.filtration](#17-problemfiltration) | Подтвердить решение проблемы  | /api/problem/filtration| GET | null обозначает, что по данному критерию не нужно фильтровать (т.е. все)<ol><li>urgency - срочность проблемы (Возможные варианты: 'Срочная', 'Обычная', null)</li><li>importance - важность проблемы (Возможные варианты: 'Важная', 'Обычная', null)</li><li>deadline - срок исполнения проблемы (Возможные варианты: 'Текущий квартал', 'Остальные', null)</li><li>status - статус проблемы (Возможные варианты: 'На рассмотрении', 'В работе', 'На проверке заказчика', 'Решена', 'Удалена', null)</li></ol> |
+
 
 ### Операции над решением:
 |№   | Имя метода            | Описание операции                                   | URL                                     | Метод запроса | Принимаемые параметры   |
