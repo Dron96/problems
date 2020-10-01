@@ -34,15 +34,15 @@
 |15. | [problem.sendForConfirmation](#15-problemsendForConfirmation) | Направить проблему заказчику для подтверждения решения  | /api/problem/{problem}/send-for-confirmation | PUT | Нет параметров |
 |16. | [problem.rejectSolution](#16-problemrejectSolution) | Отклонить решение проблемы  | /api/problem/{problem}/reject-solution | PUT | Нет параметров |
 |17. | [problem.confirmSolution](#17-problemconfirmSolution) | Подтвердить решение проблемы  | /api/problem/{problem}/confirm-solution | PUT | Нет параметров |
-|18. | [problem.userProblems](#17-problemuserproblems) | Подтвердить решение проблемы  | /api/problem/my-problems | GET | Нет параметров |
-|19. | [problem.problemsForConfirmation](#17-problemproblemsforconfirmation) | Подтвердить решение проблемы  | /api/problem/group-problems | GET | Нет параметров |
-|20. | [problem.problemsForExecution](#17-problemproblemsforexecution) | Подтвердить решение проблемы  | /api/problem/problems-for-execution | GET | Нет параметров |
-|21. | [problem.problemsByGroups](#17-problemproblemsbygroups) | Подтвердить решение проблемы  | /api/problem/problems-by-groups | GET | Нет параметров |
-|22. | [problem.problemsOfAllGroups](#17-problemproblemsofallgroups) | Подтвердить решение проблемы  | /api/problem/problems-of-all-groups | GET | Нет параметров |
-|23. | [problem.problemsArchive](#17-problemproblemsarchive) | Подтвердить решение проблемы  | /api/problem/problems-archive | GET | Нет параметров |
-|24. | [problem.problemsUserArchive](#17-problemproblemsuserarchive) | Подтвердить решение проблемы  | /api/problem/problems-user-archive | GET | Нет параметров |
-|25. | [problem.problemsGroupArchive](#17-problemproblemsgrouparchive) | Подтвердить решение проблемы  | /api/problem/problems-group-archive| GET | Нет параметров |
-|26. | [problem.filtration](#17-problemfiltration) | Подтвердить решение проблемы  | /api/problem/filtration| GET | null обозначает, что по данному критерию не нужно фильтровать (т.е. все)<ol><li>urgency - срочность проблемы (Возможные варианты: 'Срочная', 'Обычная', null)</li><li>importance - важность проблемы (Возможные варианты: 'Важная', 'Обычная', null)</li><li>deadline - срок исполнения проблемы (Возможные варианты: 'Текущий квартал', 'Остальные', null)</li><li>status - статус проблемы (Возможные варианты: 'На рассмотрении', 'В работе', 'На проверке заказчика', 'Решена', 'Удалена', null)</li></ol> |
+|18. | [problem.userProblems](#17-problemuserproblems) | Проблемы текущего авторизованного пользователя (пользователь является их создателем) со всеми статусами, кроме “решена” и “удалена”  | /api/problem/my-problems | GET | Нет параметров |
+|19. | [problem.problemsForConfirmation](#17-problemproblemsforconfirmation) | Проблемы со статусом “на рассмотрении” сотрудников подразделения | /api/problem/group-problems | GET | Нет параметров |
+|20. | [problem.problemsForExecution](#17-problemproblemsforexecution) | Проблемы со статусом “в работе”, для которых пользователь является ответственным за решение и/или ответственным для (исполнителем) задачи + проблемы со статусом “на проверке заказчика”, для которых пользователь является ответственным за решение | /api/problem/problems-for-execution | GET | Нет параметров |
+|21. | [problem.problemsByGroups](#17-problemproblemsbygroups) | Списки тех проблем, которые были направлены в подразделения со статусом “в работе”, “на проверке заказчика” | /api/problem/problems-by-groups | GET | Нет параметров |
+|22. | [problem.problemsOfAllGroups](#17-problemproblemsofallgroups) | Проблемы всех подразделений со статусом “в работе”, “на проверке заказчика” | /api/problem/problems-of-all-groups | GET | Нет параметров |
+|23. | [problem.problemsArchive](#17-problemproblemsarchive) | Проблемы со статусом “решена”, “удалена” | /api/problem/problems-archive | GET | Нет параметров |
+|24. | [problem.problemsUserArchive](#17-problemproblemsuserarchive) | Проблемы, которые не были направлены ни в одно из подразделений, видны только для создателя проблемы | /api/problem/problems-user-archive | GET | Нет параметров |
+|25. | [problem.problemsGroupArchive](#17-problemproblemsgrouparchive) | Проблемы, которые не были направлены ни в одно из подразделений, видны руководителю его подразделения  | /api/problem/problems-group-archive| GET | Нет параметров |
+|26. | [problem.filtration](#17-problemfiltration) | Фильтрация списка проблем | /api/problem/filtration| GET | null обозначает, что по данному критерию не нужно фильтровать (т.е. все)<ol><li>urgency - срочность проблемы (Возможные варианты: 'Срочная', 'Обычная', null)</li><li>importance - важность проблемы (Возможные варианты: 'Важная', 'Обычная', null)</li><li>deadline - срок исполнения проблемы (Возможные варианты: 'Текущий квартал', 'Остальные', null)</li><li>status - статус проблемы (Возможные варианты: 'На рассмотрении', 'В работе', 'На проверке заказчика', 'Решена', 'Удалена', null)</li></ol> |
 
 
 ### Операции над решением:
