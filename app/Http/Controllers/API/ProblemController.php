@@ -22,6 +22,7 @@ use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use function GuzzleHttp\Psr7\str;
 
 class ProblemController extends Controller
 {
@@ -229,90 +230,220 @@ class ProblemController extends Controller
         return $this->problemService->updateWithStatusCheck($problem, $data, $correctStatuses, $error);
     }
 
-    public function userProblems()
+    public function userProblems(ProblemFiltrationRequest $request)
     {
-        $problems = Problem::where('creator_id', auth()->id())
-            ->whereNotIn('status', ['Решена', 'Удалена'])
-            ->get();
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
 
-        return response()->json($problems, 200);
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
+
+        if ($this->problemService->isNeedFiltration($filters)) {
+            $problems = Problem::where('creator_id', auth()->id())
+                ->whereNotIn('status', ['Решена', 'Удалена'])
+                ->where($filters)
+                ->with('solution')
+                ->get()
+                ->toArray();
+        } else {
+            $problems = Problem::where('creator_id', auth()->id())
+                ->whereNotIn('status', ['Решена', 'Удалена'])
+                ->with('solution')
+                ->get()
+                ->toArray();
+        }
+
+        return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsForConfirmation()
+    public function problemsForConfirmation(ProblemFiltrationRequest $request)
     {
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();
         $groupLeader = $group['leader_id'];
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
         if ($groupLeader === auth()->id()) {
             $groupUsersIds = $group->users()->select('id')->get()->toArray();
-            $problems = Problem::whereIn('creator_id', $groupUsersIds)
-                ->where('status', 'На рассмотрении')
-                ->get();
+            if ($this->problemService->isNeedFiltration($filters)) {
+                $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                    ->where('status', 'На рассмотрении')
+                    ->where($filters)
+                    ->with('solution')
+                    ->get()
+                    ->toArray();
+            } else {
+                $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                    ->where('status', 'На рассмотрении')
+                    ->with('solution')
+                    ->get()
+                    ->toArray();
+            }
         }
 
-        return response()->json($problems, 200);
+        return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsForExecution()
+    public function problemsForExecution(ProblemFiltrationRequest $request)
     {
         $user = auth()->user();
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
         $solutionsWhereUserIsExecutorOfTasks = Task::where('executor_id', $user->id)->get('solution_id')->toArray();
         $problems = array_map('current', Solution::whereIn('id', $solutionsWhereUserIsExecutorOfTasks)
             ->orWhere('executor_id', $user->id)
             ->get('problem_id')
             ->toArray());
-        $problems = Problem::whereIn('id', $problems)->get();
+        if ($this->problemService->isNeedFiltration($filters)) {
+            $problems = Problem::whereIn('id', $problems)
+                ->where($filters)
+                ->with('solution')
+                ->get()
+                ->toArray();
+        } else {
+            $problems = Problem::whereIn('id', $problems)
+                ->with('solution')
+                ->get()
+                ->toArray();
+        }
 
-        return response()->json($problems, 200);
+        return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsByGroups()
+    public function problemsByGroups(ProblemFiltrationRequest $request)
     {
-        $problems = Group::with(['problems' => function ($query) {
-                $query->whereIn('status', ['В работе', 'На проверке заказчика']);
-            }])->get();
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
 
-        return response()->json($problems, 200);
+        if ($this->problemService->isNeedFiltration($filters)) {
+            $problems = Group::with(['problems' => function ($query) use ($filters) {
+                $query->whereIn('status', ['В работе', 'На проверке заказчика'])
+                    ->where($filters)
+                    ->with('solution');
+            }])
+                ->get()
+                ->toArray();
+        } else {
+            $problems = Group::with(['problems' => function ($query) {
+                $query->whereIn('status', ['В работе', 'На проверке заказчика'])
+                    ->with('solution');
+            }])
+
+                ->get()
+                ->toArray();
+        }
+
+        return response()->json($this->filtration($filterDeadline, $problems), 200);;
     }
 
-    public function problemsOfAllGroups()
+    public function problemsOfAllGroups(ProblemFiltrationRequest $request)
     {
-        $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])->get();
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
+        if ($this->problemService->isNeedFiltration($filters)) {
+            $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
+                ->where($filters)
+                ->with('solution')
+                ->get()
+                ->toArray();
+        } else {
+            $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
+                ->with('solution')
+                ->get()
+                ->toArray();
+        }
 
-        return response()->json($problems, 200);
+        return response()->json($this->filtration($filterDeadline, $problems), 200);;
     }
 
-    public function problemsArchive()
+    public function problemsArchive(ProblemFiltrationRequest $request)
     {
-        $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
-            ->has('groups')
-            ->get();
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
+        if ($this->problemService->isNeedFiltration($filters)) {
+            $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
+                ->has('groups')
+                ->where($filters)
+                ->with('solution')
+                ->get()
+                ->toArray();
+        } else {
+            $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
+                ->has('groups')
+                ->with('solution')
+                ->get()
+                ->toArray();
+        }
 
-        return response()->json($problems, 200);
+        return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsUserArchive()
+    public function problemsUserArchive(ProblemFiltrationRequest $request)
     {
-        $problems = Problem::where('creator_id', auth()->id())
-            ->doesntHave('groups')
-            ->get();
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
+        if ($this->problemService->isNeedFiltration($filters)) {
+            $problems = Problem::where('creator_id', auth()->id())
+                ->whereIn('status', ['Решена', 'Удалена'])
+                ->doesntHave('groups')
+                ->where($filters)
+                ->with('solution')
+                ->get()
+                ->toArray();
+        } else {
+            $problems = Problem::where('creator_id', auth()->id())
+                ->whereIn('status', ['Решена', 'Удалена'])
+                ->doesntHave('groups')
+                ->with('solution')
+                ->get()
+                ->toArray();
+        }
 
-        return response()->json($problems, 200);
+        return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsGroupArchive()
+    public function problemsGroupArchive(ProblemFiltrationRequest $request)
     {
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();
         $groupLeader = $group['leader_id'];
+        $filters = $request->validated();
+        $filterDeadline = $filters['deadline'];
+        unset($filters['deadline']);
+        $filters = array_filter($filters);
         if ($groupLeader === auth()->id()) {
             $groupUsersIds = $group->users()->select('id')->get()->toArray();
-            $problems = Problem::whereIn('creator_id', $groupUsersIds)
-                ->doesntHave('groups')
-                ->get();
+            if ($this->problemService->isNeedFiltration($filters)) {
+                $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                    ->whereIn('status', ['Решена', 'Удалена'])
+                    ->doesntHave('groups')
+                    ->where($filters)
+                    ->with('solution')
+                    ->get()
+                    ->toArray();
+            } else {
+                $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                    ->whereIn('status', ['Решена', 'Удалена'])
+                    ->doesntHave('groups')
+                    ->with('solution')
+                    ->get()
+                    ->toArray();
+            }
         }
 
-        return response()->json($problems, 200);
+        return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
 
@@ -333,75 +464,76 @@ class ProblemController extends Controller
         );
         $currentQuarter = $mapArray[(integer)date('m')];
         $quarterMonths = array_keys($mapArray, $currentQuarter);
-        $otherMonths = array_diff(array_keys($mapArray), $quarterMonths);
-        return ['quarter' => $currentQuarter, 'months' => $quarterMonths, 'otherMonths' => $otherMonths];
+        return ['quarter' => $currentQuarter, 'months' => $quarterMonths];
     }
 
-    private function getGapIndex($deadline)
+    private function filtration($filterDeadline, $problems, $byGroups = false)
     {
-        $index = 0;
-        foreach ($deadline as $key=>$value) {
-            if ($key - $index > 1)
-                return [$index, $key];
-            $index = $key;
-        }
-    }
-
-    public function filtration(ProblemFiltrationRequest $request)
-    {
-        $filters = $request->validated();
-        $month = date('m');
         $year = date('yy');
         $quarter = $this->getCurrentQuartalNumber();
-        $filterDeadline = $filters['deadline'];
 
-        unset($filters['deadline']);
-        $filters = array_filter($filters);
-        if ($this->problemService->isNeedFiltration($filters)) {
-            $problems = Problem::where($filters)
-                ->with('solution')
-                ->get()
-                ->toArray();
-        } else {
-            $problems = Problem::with('solution')
-                ->get()
-                ->toArray();
+        foreach ($quarter['months'] as &$month) {
+            $month = $year . '-' . $month;
         }
+        $deadline = $quarter['months'];
+        $startDate = (strtotime(min($deadline) . '-01'));
+        $endDate = strtotime(date("Y-m-t", strtotime(max($deadline))));
 
-        switch ($filterDeadline) {
-            case 'Текущий квартал':
-                foreach ($quarter['months'] as &$month) {
-                    $month = $year . '-' . $month;
-                }
-                $deadline = $quarter['months'];
-                $startDate = (strtotime(min($deadline) . '-01'));
-                $endDate = strtotime(date("Y-m-t", strtotime(max($deadline))));
-                $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
-                    if (!empty($problem['solution']['deadline'])){
-                        $deadline = strtotime($problem['solution']['deadline']);
-                        return $startDate <= $deadline and  $deadline <= $endDate;
-                    }
-                }));
-                break;
-            case 'Остальные':
-                foreach ($quarter['otherMonths'] as &$month) {
-                    $month = '01.' . $month . '.' . $year;
-                }
-                $deadline = $quarter['otherMonths'];
-                $gapIndex = $this->getGapIndex($deadline);
-                $endDate = (strtotime(($deadline[$gapIndex[1]]) . '-01'));
-                $startDate = strtotime(date("Y-m-t", strtotime($deadline[$gapIndex[0]])));
-                $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
-                    if (!empty($problem['solution']['deadline'])){
-                        $deadline = strtotime($problem['solution']['deadline']);
-                        return $startDate >= $deadline or  $deadline >= $endDate;
-                    }
-                }));
-                break;
-            case null:
-                $deadline = null;
-                break;
-        }
+        //if (!$byGroups) {
+            switch ($filterDeadline) {
+                case 'Текущий квартал':
+                    $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
+                        if (!empty($problem['solution']['deadline'])){
+                            $deadline = strtotime($problem['solution']['deadline']);
+                            return $startDate <= $deadline and  $deadline <= $endDate;
+                        }
+                    }));
+                    break;
+                case 'Остальные':
+                    $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
+                        if (!empty($problem['solution']['deadline'])){
+                            $deadline = strtotime($problem['solution']['deadline']);
+                            return $startDate > $deadline or $deadline > $endDate;
+                        }
+                    }));
+
+                    break;
+                case null:
+                    $response = $problems;
+                    break;
+            }
+//        } else {
+//            switch ($filterDeadline) {
+//                case 'Текущий квартал':
+//                    foreach ($problems as $group) {
+//                        $response = array_values(array_filter($group['problems'], function ($problem) use ($startDate, $endDate) {
+//                            if (!empty($problem['problem']['solution']['deadline'])) {
+//                                $deadline = strtotime($problem['problem']['solution']['deadline']);
+//                                return $startDate <= $deadline and $deadline <= $endDate;
+//                            }
+//                        }));
+//                    }
+//                    break;
+//                case 'Остальные':
+//                    $response = $problems;
+//                    foreach ($response as $group) {
+//                            $problematic = array_values(array_filter($group['problems'], function ($problem) use ($startDate, $endDate) {
+//                                if (!empty($problem['solution']['deadline'])) {
+//                                    $deadline = strtotime($problem['solution']['deadline']);
+//                                    return $startDate > $deadline or $deadline > $endDate;
+//                                }
+//                            }));
+//                            $group['problems'] = $problematic;
+//                            //print_r($problematic);
+//                    }
+//
+//                    break;
+//                case null:
+//                    $response = $problems;
+//                    break;
+//            }
+//        }
+
 
         return $response;
     }

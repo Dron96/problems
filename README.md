@@ -42,7 +42,6 @@
 |23. | [problem.problemsArchive](#17-problemproblemsarchive) | Проблемы со статусом “решена”, “удалена” | /api/problem/problems-archive | GET | Нет параметров |
 |24. | [problem.problemsUserArchive](#17-problemproblemsuserarchive) | Проблемы, которые не были направлены ни в одно из подразделений, видны только для создателя проблемы | /api/problem/problems-user-archive | GET | Нет параметров |
 |25. | [problem.problemsGroupArchive](#17-problemproblemsgrouparchive) | Проблемы, которые не были направлены ни в одно из подразделений, видны руководителю его подразделения  | /api/problem/problems-group-archive| GET | Нет параметров |
-|26. | [problem.filtration](#17-problemfiltration) | Фильтрация списка проблем | /api/problem/filtration| GET | null обозначает, что по данному критерию не нужно фильтровать (т.е. все)<ol><li>urgency - срочность проблемы (Возможные варианты: 'Срочная', 'Обычная', null)</li><li>importance - важность проблемы (Возможные варианты: 'Важная', 'Обычная', null)</li><li>deadline - срок исполнения проблемы (Возможные варианты: 'Текущий квартал', 'Остальные', null)</li><li>status - статус проблемы (Возможные варианты: 'На рассмотрении', 'В работе', 'На проверке заказчика', 'Решена', 'Удалена', null)</li></ol> |
 
 
 ### Операции над решением:

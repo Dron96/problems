@@ -39,7 +39,6 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/problems-archive', 'API\ProblemController@problemsArchive');
         Route::get('/problems-user-archive', 'API\ProblemController@problemsUserArchive');
         Route::get('/problems-group-archive', 'API\ProblemController@problemsGroupArchive');
-        Route::get('/filtration', 'API\ProblemController@filtration');
 
         Route::delete('/{problem}', 'API\ProblemController@destroy');
         Route::put('/{problem}', 'API\ProblemController@update');
