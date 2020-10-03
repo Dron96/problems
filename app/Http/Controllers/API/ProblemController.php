@@ -94,30 +94,12 @@ class ProblemController extends Controller
      */
     public function destroy(Problem $problem)
     {
-        $correctStatuses = ['Решена', 'Удалена'];
-        if (!$this->problemService->isIncorrectStatus($problem->status, $correctStatuses)) {
-            return response()->json(['error' => 'Действие возможно при любом статусе проблемы, кроме “Удалена” и “Решена”'], 422);
-        }
-        $problem->status = 'Удалена';
-        $problem->save();
-        //$problem->delete();
-
-        return response()->json([$problem, 'message' => 'Проблема успешно удалена'], 200);
+        return $this->problemService->delete($problem);
     }
 
     public function likeProblem(Problem $problem)
     {
-        $userIds = array_map('current', $problem->likes()->select('user_id')->get()->toArray());
-        if (in_array(auth()->id(), $userIds)) {
-            Like::where('user_id', auth()->id())->delete();
-        } else {
-            Like::create([
-                'user_id' => auth()->id(),
-                'problem_id' => $problem->id,
-                ]);
-        }
-
-        return response()->json(['message' => 'Успешно'], 200);
+        return $this->problemService->likeProblem($problem);
     }
 
     public function sendToGroup(Request $request, Problem $problem)
