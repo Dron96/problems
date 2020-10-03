@@ -11,7 +11,10 @@ use App\Http\Requests\Problem\ProblemChangeProgressRequest;
 use App\Http\Requests\Problem\ProblemChangeResultRequest;
 use App\Http\Requests\Problem\ProblemChangeUrgencyRequest;
 use App\Http\Requests\Problem\ProblemCreateRequest;
+use App\Http\Requests\Problem\ProblemFiltrationForConfirmationRequest;
 use App\Http\Requests\Problem\ProblemFiltrationRequest;
+use App\Http\Requests\Problem\ProblemsArchiveFiltrationRequest;
+use App\Http\Requests\Problem\UserProblemsFiltrationRequest;
 use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
@@ -22,7 +25,6 @@ use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use function GuzzleHttp\Psr7\str;
 
 class ProblemController extends Controller
 {
@@ -230,7 +232,7 @@ class ProblemController extends Controller
         return $this->problemService->updateWithStatusCheck($problem, $data, $correctStatuses, $error);
     }
 
-    public function userProblems(ProblemFiltrationRequest $request)
+    public function userProblems(UserProblemsFiltrationRequest $request)
     {
         $filters = $request->validated();
         $filterDeadline = $filters['deadline'];
@@ -256,7 +258,7 @@ class ProblemController extends Controller
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsForConfirmation(ProblemFiltrationRequest $request)
+    public function problemsForConfirmation(ProblemFiltrationForConfirmationRequest $request)
     {
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();
@@ -364,7 +366,7 @@ class ProblemController extends Controller
         return response()->json($this->filtration($filterDeadline, $problems), 200);;
     }
 
-    public function problemsArchive(ProblemFiltrationRequest $request)
+    public function problemsArchive(ProblemsArchiveFiltrationRequest $request)
     {
         $filters = $request->validated();
         $filterDeadline = $filters['deadline'];
@@ -388,7 +390,7 @@ class ProblemController extends Controller
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsUserArchive(ProblemFiltrationRequest $request)
+    public function problemsUserArchive(ProblemsArchiveFiltrationRequest $request)
     {
         $filters = $request->validated();
         $filterDeadline = $filters['deadline'];
@@ -414,7 +416,7 @@ class ProblemController extends Controller
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsGroupArchive(ProblemFiltrationRequest $request)
+    public function problemsGroupArchive(ProblemsArchiveFiltrationRequest $request)
     {
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();

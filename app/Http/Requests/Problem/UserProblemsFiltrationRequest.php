@@ -5,7 +5,7 @@ namespace App\Http\Requests\Problem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProblemFiltrationRequest extends FormRequest
+class UserProblemsFiltrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

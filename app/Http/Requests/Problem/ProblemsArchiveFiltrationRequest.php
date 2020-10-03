@@ -5,7 +5,7 @@ namespace App\Http\Requests\Problem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProblemFiltrationRequest extends FormRequest
+class ProblemsArchiveFiltrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -39,7 +39,7 @@ class ProblemFiltrationRequest extends FormRequest
             ],
             'status' => [
                 'present',
-                Rule::in(['На рассмотрении', 'В работе', 'На проверке заказчика', null])
+                Rule::in(['Решена', 'Удалена', null])
             ],
         ];
     }
