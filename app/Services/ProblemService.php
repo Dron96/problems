@@ -2,20 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Like;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\User;
 
 class ProblemService
 {
-    public function isLikedProblem($id)
-    {
-        $problem = Problem::where('id', $id)->with('likes')->first()->toArray();
-        $userIds = array_column($problem["likes"], 'user_id');
-
-        return in_array(auth()->id(), $userIds);
-    }
-
     public function update(Problem $problem, $data)
     {
         $problem->fill($data);
@@ -72,5 +65,27 @@ class ProblemService
     public function isNeedFiltration($filters)
     {
         return !empty($filters);
+    }
+
+    public function store($input)
+    {
+        if (auth()->user()->group_id === NULL) {
+            return response()->json(['error' => 'Вы не состоите ни в одном из подразделений'], 422);
+        }
+        if (Problem::all()->count() >= 10000 ) {
+            return response()->json(['error' => 'Список проблем переполнен'], 422);
+        }
+        $input['creator_id'] = auth()->id();
+        $problem = Problem::create($input);
+        Like::create([
+            'user_id' => auth()->id(),
+            'problem_id' => $problem->id,
+        ]);
+        Solution::create([
+            'name' => '',
+            'problem_id' => $problem->id,
+        ]);
+
+        return response()->json($problem, 201);
     }
 }

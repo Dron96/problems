@@ -20,6 +20,7 @@ use App\Models\Like;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\Task;
+use App\Repositories\ProblemRepository;
 use App\Services\ProblemService;
 use App\User;
 use Exception;
@@ -29,9 +30,11 @@ use Illuminate\Http\Request;
 class ProblemController extends Controller
 {
     private $problemService;
+    private $problemRepository;
 
     public function __construct()
     {
+        $this->problemRepository = app(ProblemRepository::class);
         $this->problemService = app(ProblemService::class);
     }
 
@@ -42,13 +45,7 @@ class ProblemController extends Controller
      */
     public function index()
     {
-        $problems = Problem::withCount('likes')->orderBy('name')->get()->toArray();
-        foreach ($problems as &$problem) {
-            $isLiked = $this->problemService->isLikedProblem($problem['id']);
-            $problem['is_liked'] = $isLiked;
-        }
-
-        return response()->json($problems, 200);
+        return response()->json($this->problemRepository->getProblems(), 200);
     }
 
     /**
@@ -59,25 +56,7 @@ class ProblemController extends Controller
      */
     public function store(ProblemCreateRequest $request)
     {
-        if (auth()->user()->group_id === NULL) {
-            return response()->json(['error' => 'Вы не состоите ни в одном из подразделений'], 422);
-        }
-        if (Problem::all()->count() >= 10000 ) {
-            return response()->json(['error' => 'Список проблем переполнен'], 422);
-        }
-        $input = $request->validated();
-        $input['creator_id'] = auth()->id();
-        $problem = Problem::create($input);
-        Like::create([
-            'user_id' => auth()->id(),
-            'problem_id' => $problem->id,
-        ]);
-        Solution::create([
-            'name' => '',
-            'problem_id' => $problem->id,
-        ]);
-
-        return response()->json($problem, 201);
+        return $this->problemService->store($request->validated());
     }
 
     /**
@@ -88,14 +67,7 @@ class ProblemController extends Controller
      */
     public function show(Problem $problem)
     {
-        $data = $problem->toArray();
-        $isLiked = $this->problemService->isLikedProblem($problem->id);
-        $data = array_merge($data, [
-            'likes_count' => $problem->likes()->count(),
-            'is_liked' => $isLiked,
-            ]);
-
-        return response()->json($data, 200);
+        return response()->json($this->problemRepository->showProblem($problem), 200);
     }
 
     /**
