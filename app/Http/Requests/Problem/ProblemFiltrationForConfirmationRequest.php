@@ -25,21 +25,18 @@ class ProblemFiltrationForConfirmationRequest extends FormRequest
     public function rules()
     {
         return [
-            [
-                'urgency' => [
-                    'present',
-                    Rule::in(['Срочная', 'Обычная', null])
-                ],
-                'importance' => [
-                    'present',
-                    Rule::in(['Важная', 'Обычная', null])
-                ],
-                'deadline' => [
-                    'present',
-                    Rule::in(['Текущий квартал', 'Остальные', null])
-                ],
-
+            'urgency' => [
+                'present',
+                Rule::in(['Срочная', 'Обычная', null])
             ],
+            'importance' => [
+                'present',
+                Rule::in(['Важная', 'Обычная', null])
+            ],
+            'deadline' => [
+                'present',
+                Rule::in(['Текущий квартал', 'Остальные', null])
+            ]
         ];
     }
 }

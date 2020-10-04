@@ -176,6 +176,7 @@ class ProblemController extends Controller
     public function problemsForConfirmation(ProblemFiltrationForConfirmationRequest $request)
     {
         $filters = $request->validated();
+        dd($filters);
 
         return $this->problemRepository->problemsForConfirmation($filters);
     }
