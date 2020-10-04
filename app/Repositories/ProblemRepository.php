@@ -74,7 +74,6 @@ class ProblemRepository
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();
         $groupLeader = $group['leader_id'];
-        dd($filters);
         $filterDeadline = $filters['deadline'];
         unset($filters['deadline']);
         $filters = array_filter($filters);
