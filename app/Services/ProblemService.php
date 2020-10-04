@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
 use App\Models\Solution;
@@ -62,11 +63,6 @@ class ProblemService
         return response()->json($problem, 200);
     }
 
-    public function isNeedFiltration($filters)
-    {
-        return !empty($filters);
-    }
-
     public function store($input)
     {
         if (auth()->user()->group_id === NULL) {
@@ -114,5 +110,24 @@ class ProblemService
         }
 
         return response()->json(['message' => 'Успешно'], 200);
+    }
+
+    public function sendToGroup(Problem $problem, $groupIds)
+    {
+        $groups = Group::find($groupIds);
+        if ($groupIds == NULL) {
+            return response()->json(['error' => 'Выберите хотя бы одно подразделение для отправки проблемы']);
+        }
+        if (sizeof($groups) !== sizeof($groupIds)) {
+            return response()->json(['error' => 'Выбрано не существующее подразделение'], 422);
+        }
+        $problem->groups()->detach();
+        $problem->groups()->attach($groups);
+        if ($problem->status === 'На рассмотрении') {
+            $problem->status = 'В работе';
+            $problem->save();
+        }
+
+        return response()->json($problem->groups, 200);
     }
 }

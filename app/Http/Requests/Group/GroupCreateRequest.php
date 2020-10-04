@@ -43,6 +43,7 @@ class GroupCreateRequest extends FormRequest
             'leader_id' =>
                 [
                     'required',
+                    'integer',
                     'exists:users,id',
                     Rule::unique('groups', 'leader_id')->whereNull('deleted_at'),
                 ]
@@ -64,6 +65,7 @@ class GroupCreateRequest extends FormRequest
             'leader_id.required' => 'Руководитель для подразделения не выбран',
             'leader_id.exists' => 'Такого пользователя не существует',
             'leader_id.unique' => 'Пользователь уже состоит в другом подразделении',
+            'leader_id.integer' => 'ID пользователя долже быть целым числом',
         ];
     }
 }
