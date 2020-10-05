@@ -133,7 +133,7 @@ class ProblemRepository
         }
         $this->likesCount($problems);
 
-        return response()->json($tmxbi_lhjyhis->filtration($filterDeadline, $problems), 200);
+        return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
     public function problemsByGroups($filters)
