@@ -15,6 +15,7 @@ use App\Http\Requests\Problem\ProblemFiltrationForConfirmationRequest;
 use App\Http\Requests\Problem\ProblemFiltrationRequest;
 use App\Http\Requests\Problem\ProblemsArchiveFiltrationRequest;
 use App\Http\Requests\Problem\UserProblemsFiltrationRequest;
+use App\Models\Group;
 use App\Models\Problem;
 use App\Repositories\ProblemRepository;
 use App\Services\ProblemService;
@@ -187,11 +188,11 @@ class ProblemController extends Controller
         return $this->problemRepository->problemsForExecution($filters);
     }
 
-    public function problemsByGroups(ProblemFiltrationRequest $request)
+    public function problemsByGroups(ProblemFiltrationRequest $request, Group $group)
     {
         $filters = $request->validated();
 
-        return $this->problemRepository->problemsByGroups($filters);
+        return $this->problemRepository->problemsByGroups($filters, $group);
     }
 
     public function problemsOfAllGroups(ProblemFiltrationRequest $request)

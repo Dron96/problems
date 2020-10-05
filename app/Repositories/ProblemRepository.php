@@ -136,22 +136,22 @@ class ProblemRepository
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
 
-    public function problemsByGroups($filters)
+    public function problemsByGroups($filters, Group $group)
     {
         $filterDeadline = $filters['deadline'];
         unset($filters['deadline']);
         $filters = array_filter($filters);
         if ($this->isNeedFiltration($filters)) {
-            $problems = Group::with(['problems' => function ($query) use ($filters) {
-                $query->whereIn('status', ['В работе', 'На проверке заказчика'])
-                    ->where($filters)
-                    ->with('solution');
-            }])->get();
+            $problems = $group->problems()
+                ->whereIn('status', ['В работе', 'На проверке заказчика'])
+                ->where($filters)
+                ->with('solution')
+                ->get();
         } else {
-            $problems = Group::with(['problems' => function ($query) {
-                $query->whereIn('status', ['В работе', 'На проверке заказчика'])
-                    ->with('solution');
-            }])->get();
+            $problems = $group->problems()
+                ->whereIn('status', ['В работе', 'На проверке заказчика'])
+                ->with('solution')
+                ->get();
         }
         $this->likesCount($problems);
 

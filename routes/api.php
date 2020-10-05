@@ -34,7 +34,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/my-problems', 'API\ProblemController@userProblems');
         Route::get('/group-problems', 'API\ProblemController@problemsForConfirmation');
         Route::get('/problems-for-execution', 'API\ProblemController@problemsForExecution');
-        Route::get('/problems-by-groups', 'API\ProblemController@problemsByGroups');
+        Route::get('/problems-by-groups/{group}', 'API\ProblemController@problemsByGroups');
         Route::get('/problems-of-all-groups', 'API\ProblemController@problemsOfAllGroups');
         Route::get('/problems-archive', 'API\ProblemController@problemsArchive');
         Route::get('/problems-user-archive', 'API\ProblemController@problemsUserArchive');
