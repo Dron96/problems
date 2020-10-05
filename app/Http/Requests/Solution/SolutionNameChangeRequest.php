@@ -25,7 +25,8 @@ class SolutionNameChangeRequest extends FormRequest
     {
         return [
             'name' => [
-                'required',
+                'present',
+                'nullable',
                 'min:6',
                 'max:250',
                 'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',

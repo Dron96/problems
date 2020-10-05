@@ -15,7 +15,7 @@ class CreateSolutionsTable extends Migration
     {
         Schema::create('solutions', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 250);
+            $table->string('name', 250)->nullable();
             $table->unsignedBigInteger('problem_id');
             $table->string('status')->nullable()->default(null);
             $table->date('deadline')->nullable();

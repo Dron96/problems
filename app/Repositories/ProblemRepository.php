@@ -40,6 +40,17 @@ class ProblemRepository
         return $data;
     }
 
+    public function likesCount($problems)
+    {
+        foreach ($problems as $problem) {
+            $isLiked = $this->isLikedProblem($problem->id);
+            $problem->likes_count = $problem->likes()->count();
+            $problem->is_liked = $isLiked;
+        }
+
+        return $problems;
+    }
+
 
 
 
@@ -56,15 +67,14 @@ class ProblemRepository
                 ->whereNotIn('status', ['Решена', 'Удалена'])
                 ->where($filters)
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         } else {
             $problems = Problem::where('creator_id', auth()->id())
                 ->whereNotIn('status', ['Решена', 'Удалена'])
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
@@ -73,6 +83,9 @@ class ProblemRepository
     {
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();
+        if (empty($group)) {
+            return response()->json(['error' => 'Вы не состоите ни в одном из подразделений'], 422);
+        }
         $groupLeader = $group['leader_id'];
         $filterDeadline = $filters['deadline'];
         unset($filters['deadline']);
@@ -84,16 +97,15 @@ class ProblemRepository
                     ->where('status', 'На рассмотрении')
                     ->where($filters)
                     ->with('solution')
-                    ->get()
-                    ->toArray();
+                    ->get();
             } else {
                 $problems = Problem::whereIn('creator_id', $groupUsersIds)
                     ->where('status', 'На рассмотрении')
                     ->with('solution')
-                    ->get()
-                    ->toArray();
+                    ->get();
             }
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
@@ -113,14 +125,13 @@ class ProblemRepository
             $problems = Problem::whereIn('id', $problems)
                 ->where($filters)
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         } else {
             $problems = Problem::whereIn('id', $problems)
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
@@ -135,17 +146,14 @@ class ProblemRepository
                 $query->whereIn('status', ['В работе', 'На проверке заказчика'])
                     ->where($filters)
                     ->with('solution');
-            }])
-                ->get()
-                ->toArray();
+            }])->get();
         } else {
             $problems = Group::with(['problems' => function ($query) {
                 $query->whereIn('status', ['В работе', 'На проверке заказчика'])
                     ->with('solution');
-            }])
-                ->get()
-                ->toArray();
+            }])->get();
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
@@ -159,14 +167,13 @@ class ProblemRepository
             $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->where($filters)
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         } else {
             $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
@@ -181,15 +188,14 @@ class ProblemRepository
                 ->has('groups')
                 ->where($filters)
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         } else {
             $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
                 ->has('groups')
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
@@ -205,16 +211,15 @@ class ProblemRepository
                 ->doesntHave('groups')
                 ->where($filters)
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         } else {
             $problems = Problem::where('creator_id', auth()->id())
                 ->whereIn('status', ['Решена', 'Удалена'])
                 ->doesntHave('groups')
                 ->with('solution')
-                ->get()
-                ->toArray();
+                ->get();
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
@@ -235,17 +240,16 @@ class ProblemRepository
                     ->doesntHave('groups')
                     ->where($filters)
                     ->with('solution')
-                    ->get()
-                    ->toArray();
+                    ->get();
             } else {
                 $problems = Problem::whereIn('creator_id', $groupUsersIds)
                     ->whereIn('status', ['Решена', 'Удалена'])
                     ->doesntHave('groups')
                     ->with('solution')
-                    ->get()
-                    ->toArray();
+                    ->get();
             }
         }
+        $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
     }
