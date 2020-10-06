@@ -12,6 +12,7 @@ use App\Http\Requests\Problem\ProblemChangeResultRequest;
 use App\Http\Requests\Problem\ProblemChangeUrgencyRequest;
 use App\Http\Requests\Problem\ProblemCreateRequest;
 use App\Http\Requests\Problem\ProblemFiltrationForConfirmationRequest;
+use App\Http\Requests\Problem\ProblemFiltrationForExecutionRequest;
 use App\Http\Requests\Problem\ProblemFiltrationRequest;
 use App\Http\Requests\Problem\ProblemsArchiveFiltrationRequest;
 use App\Http\Requests\Problem\UserProblemsFiltrationRequest;
@@ -181,7 +182,7 @@ class ProblemController extends Controller
         return $this->problemRepository->problemsForConfirmation($filters);
     }
 
-    public function problemsForExecution(ProblemFiltrationRequest $request)
+    public function problemsForExecution(ProblemFiltrationForExecutionRequest $request)
     {
         $filters = $request->validated();
 

@@ -123,13 +123,13 @@ class ProblemRepository
             ->toArray());
         if ($this->isNeedFiltration($filters)) {
             $problems = Problem::whereIn('id', $problems)
-                ->whereNotIn('status', ['Удалена', 'Решена'])
+                ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
                 ->where($filters)
                 ->with('solution')
                 ->get();
         } else {
             $problems = Problem::whereIn('id', $problems)
-                ->whereNotIn('status', ['Удалена', 'Решена'])
+                ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
                 ->with('solution')
                 ->get();
         }
