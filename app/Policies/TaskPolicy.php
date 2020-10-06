@@ -7,7 +7,6 @@ use App\Models\Solution;
 use App\Models\Task;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
 class TaskPolicy
 {
