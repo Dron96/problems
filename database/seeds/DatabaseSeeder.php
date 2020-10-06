@@ -12,6 +12,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $admin = [
+            'name' => 'Admin',
+            'surname' => 'Admin',
+            'father_name' => 'Adminovich',
+            'email' => 'admin@admin.ru',
+            'password' => bcrypt('administrator'),
+            'is_admin' => true,
+        ];
+        DB::table('users')->insert($admin);
+
         for($i = 1; $i <= 4; $i++) {
             $user = factory(User::class)->create();
             $user->createToken('authToken')->accessToken;

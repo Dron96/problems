@@ -275,7 +275,7 @@ class ProblemRepository
         return ['quarter' => $currentQuarter, 'months' => $quarterMonths];
     }
 
-    private function filtration($filterDeadline, $problems, $byGroups = false)
+    private function filtration($filterDeadline, $problems)
     {
         $year = date('yy');
         $quarter = $this->getCurrentQuartalNumber();
@@ -286,8 +286,8 @@ class ProblemRepository
         $deadline = $quarter['months'];
         $startDate = (strtotime(min($deadline) . '-01'));
         $endDate = strtotime(date("Y-m-t", strtotime(max($deadline))));
+        $problems = $problems->toArray();
 
-        //if (!$byGroups) {
         switch ($filterDeadline) {
             case 'Текущий квартал':
                 $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
@@ -310,38 +310,6 @@ class ProblemRepository
                 $response = $problems;
                 break;
         }
-//        } else {
-//            switch ($filterDeadline) {
-//                case 'Текущий квартал':
-//                    foreach ($problems as $group) {
-//                        $response = array_values(array_filter($group['problems'], function ($problem) use ($startDate, $endDate) {
-//                            if (!empty($problem['problem']['solution']['deadline'])) {
-//                                $deadline = strtotime($problem['problem']['solution']['deadline']);
-//                                return $startDate <= $deadline and $deadline <= $endDate;
-//                            }
-//                        }));
-//                    }
-//                    break;
-//                case 'Остальные':
-//                    $response = $problems;
-//                    foreach ($response as $group) {
-//                            $problematic = array_values(array_filter($group['problems'], function ($problem) use ($startDate, $endDate) {
-//                                if (!empty($problem['solution']['deadline'])) {
-//                                    $deadline = strtotime($problem['solution']['deadline']);
-//                                    return $startDate > $deadline or $deadline > $endDate;
-//                                }
-//                            }));
-//                            $group['problems'] = $problematic;
-//                            //print_r($problematic);
-//                    }
-//
-//                    break;
-//                case null:
-//                    $response = $problems;
-//                    break;
-//            }
-//        }
-
 
         return $response;
     }
