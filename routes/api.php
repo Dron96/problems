@@ -69,17 +69,23 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/set-deadline', 'API\SolutionController@setDeadline');
         Route::put('/set-executor', 'API\SolutionController@setExecutor');
 
-        Route::post('/task', 'API\TaskController@store');
+        Route::post('/task', 'API\TaskController@store')
+            ->middleware('can:create,App\Task,solution');
         Route::get('/task', 'API\TaskController@index');
     });
 
     Route::prefix('task/{task}')->group(function () {
-        Route::put('/', 'API\TaskController@update');
-        Route::delete('/', 'API\TaskController@destroy');
-        Route::put('/set-executor', 'API\TaskController@setExecutor');
-        Route::put('/set-deadline', 'API\TaskController@setDeadline');
-        Route::put('/change-status', 'API\TaskController@changeStatus');
         Route::get('/', 'API\TaskController@show');
+
+        Route::middleware('can:allFunctionExceptUpdateStatus,task')->group(function () {
+            Route::put('/', 'API\TaskController@update');
+            Route::delete('/', 'API\TaskController@destroy');
+            Route::put('/set-executor', 'API\TaskController@setExecutor');
+            Route::put('/set-deadline', 'API\TaskController@setDeadline');
+        });
+
+        Route::put('/change-status', 'API\TaskController@changeStatus')
+            ->middleware('can:changeStatus,task');
     });
 
     Route::prefix('group')->group(function () {
