@@ -28,13 +28,13 @@ class TaskPolicy
     public function create(User $user, $solution)
     {
         return $user->id === $solution->executor_id or
-            $user->id ===  $user->group->leader_id;
+            $user->id === $user->group->leader_id;
     }
 
     public function allFunctionExceptUpdateStatus(User $user, Task $task)
     {
         return $user->id === $task->solution->executor_id or
-            $user->id ===  $user->group->leader_id;
+            $user->id === $user->group->leader_id;
     }
 
     /**
@@ -47,7 +47,7 @@ class TaskPolicy
     public function changeStatus(User $user, Task $task)
     {
         return $user->id === $task->solution->executor_id or
-            $user->id ===  $user->group->leader_id or
+            $user->id === $user->group->leader_id or
             $task->user_id === $user->id;
     }
 }

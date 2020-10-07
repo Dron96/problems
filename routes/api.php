@@ -61,13 +61,20 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::prefix('solution/{solution}')->group(function () {
-        Route::put('/', 'API\SolutionController@update');
         Route::get('/', 'API\SolutionController@show');
-        Route::put('/set-plan', 'API\SolutionController@setPlan');
-        Route::put('/set-team', 'API\SolutionController@setTeam');
-        Route::put('/change-status', 'API\SolutionController@changeStatus');
-        Route::put('/set-deadline', 'API\SolutionController@setDeadline');
-        Route::put('/set-executor', 'API\SolutionController@setExecutor');
+
+        Route::put('/', 'API\SolutionController@update')
+            ->middleware('can:changeName,solution');
+
+        Route::middleware('can:changePlanTeamStatusDeadline,solution')->group(function () {
+            Route::put('/set-plan', 'API\SolutionController@setPlan');
+            Route::put('/set-team', 'API\SolutionController@setTeam');
+            Route::put('/change-status', 'API\SolutionController@changeStatus');
+            Route::put('/set-deadline', 'API\SolutionController@setDeadline');
+        });
+
+        Route::put('/set-executor', 'API\SolutionController@setExecutor')
+            ->middleware('can:changeExecutor,solution');
 
         Route::post('/task', 'API\TaskController@store')
             ->middleware('can:create,App\Task,solution');

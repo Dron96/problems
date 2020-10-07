@@ -10,85 +10,43 @@ class SolutionPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function viewAny(User $user)
+    public function before($user)
     {
-        //
+        if ($user->is_admin) {
+            return true;
+        }
     }
 
     /**
-     * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Solution  $solution
      * @return mixed
      */
-    public function view(User $user, Solution $solution)
+    public function changeName(User $user, Solution $solution)
     {
-        //
+        return $user->id === $solution->executor_id or
+            $user->id === $user->group->leader_id;
     }
 
     /**
-     * Determine whether the user can create models.
      *
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function changePlanTeamStatusDeadline(User $user, Solution $solution)
     {
-        //
+        return $user->id === $solution->executor_id;
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Solution  $solution
-     * @return mixed
-     */
-    public function update(User $user, Solution $solution)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Solution  $solution
      * @return mixed
      */
-    public function delete(User $user, Solution $solution)
+    public function changeExecutor(User $user, Solution $solution)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Solution  $solution
-     * @return mixed
-     */
-    public function restore(User $user, Solution $solution)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Solution  $solution
-     * @return mixed
-     */
-    public function forceDelete(User $user, Solution $solution)
-    {
-        //
+        return $user->id === $user->group->leader_id;
     }
 }
