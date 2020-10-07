@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Group;
 use App\Models\Problem;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -10,85 +11,58 @@ class ProblemPolicy
 {
     use HandlesAuthorization;
 
+    public function before($user)
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+    }
+
     /**
-     * Determine whether the user can view any models.
      *
      * @param  \App\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function changeOwnModeratingProblem(User $user, Problem $problem)
     {
-        //
+        if ($problem->status === 'На рассмотрении') {
+            return $user->id === $problem->creator_id;
+        }
     }
 
     /**
-     * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Problem  $problem
      * @return mixed
      */
-    public function view(User $user, Problem $problem)
+    public function changeOwnProblem(User $user, Problem $problem)
     {
-        //
+        return $user->id === $problem->creator_id;
     }
 
     /**
-     * Determine whether the user can create models.
      *
      * @param  \App\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function changeUrgencyImportanceProgress(User $user, Problem $problem)
     {
-        //
+        return $user->id === $problem->solution->executor_id;
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Problem  $problem
-     * @return mixed
-     */
-    public function update(User $user, Problem $problem)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can delete the model.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Problem  $problem
      * @return mixed
      */
-    public function delete(User $user, Problem $problem)
+    public function changeExperienceResultSendForConfirmationSendToGroup(User $user, Problem $problem)
     {
-        //
-    }
+        $creator = User::find($problem->creator_id);
+        $leader_id = $creator->group->leader_id;
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Problem  $problem
-     * @return mixed
-     */
-    public function restore(User $user, Problem $problem)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Problem  $problem
-     * @return mixed
-     */
-    public function forceDelete(User $user, Problem $problem)
-    {
-        //
+        return $user->id === $problem->solution->executor_id or
+            $user->id === $leader_id;
     }
 }

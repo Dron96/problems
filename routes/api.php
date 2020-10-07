@@ -40,22 +40,36 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/problems-user-archive', 'API\ProblemController@problemsUserArchive');
         Route::get('/problems-group-archive', 'API\ProblemController@problemsGroupArchive');
 
-        Route::delete('/{problem}', 'API\ProblemController@destroy');
-        Route::put('/{problem}', 'API\ProblemController@update');
         Route::get('/{problem}', 'API\ProblemController@show');
         Route::post('/{problem}/like', 'API\ProblemController@likeProblem');
-        Route::post('/{problem}/send-to-group', 'API\ProblemController@sendToGroup');
-        Route::put('/{problem}/set-experience', 'API\ProblemController@setExperience');
-        Route::put('/{problem}/set-result', 'API\ProblemController@setResult');
-        Route::put('/{problem}/set-possible-solution', 'API\ProblemController@setPossibleSolution');
-        Route::put('/{problem}/set-description', 'API\ProblemController@setDescription');
-        Route::put('/{problem}/set-importance', 'API\ProblemController@setImportance');
-        Route::put('/{problem}/set-progress', 'API\ProblemController@setProgress');
-        Route::put('/{problem}/set-urgency', 'API\ProblemController@setUrgency');
-        Route::put('/{problem}/send-for-confirmation', 'API\ProblemController@sendForConfirmation');
-        Route::put('/{problem}/reject-solution', 'API\ProblemController@rejectSolution');
-        Route::put('/{problem}/confirm-solution', 'API\ProblemController@confirmSolution');
 
+        Route::middleware('can:changeUrgencyImportanceProgress,problem')->group(function () {
+            Route::put('/{problem}/set-importance', 'API\ProblemController@setImportance');
+            Route::put('/{problem}/set-progress', 'API\ProblemController@setProgress');
+            Route::put('/{problem}/set-urgency', 'API\ProblemController@setUrgency');
+        });
+
+        Route::middleware('can:changeExperienceResultSendForConfirmationSendToGroup,problem')
+            ->group(function () {
+                Route::put('/{problem}/set-experience', 'API\ProblemController@setExperience');
+                Route::put('/{problem}/set-result', 'API\ProblemController@setResult');
+                Route::post('/{problem}/send-to-group', 'API\ProblemController@sendToGroup');
+                Route::put('/{problem}/send-for-confirmation', 'API\ProblemController@sendForConfirmation');
+            });
+
+        Route::middleware('can:changeOwnProblem,problem')
+            ->group(function () {
+                Route::put('/{problem}/reject-solution', 'API\ProblemController@rejectSolution');
+                Route::put('/{problem}/confirm-solution', 'API\ProblemController@confirmSolution');
+                Route::delete('/{problem}', 'API\ProblemController@destroy');
+            });
+
+        Route::middleware('can:changeOwnModeratingProblem,problem')
+            ->group(function () {
+                Route::put('/{problem}/set-possible-solution', 'API\ProblemController@setPossibleSolution');
+                Route::put('/{problem}/set-description', 'API\ProblemController@setDescription');
+                Route::put('/{problem}', 'API\ProblemController@update');
+            });
 
         Route::get('/{problem}/solution', 'API\SolutionController@index');
     });
