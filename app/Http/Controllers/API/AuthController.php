@@ -7,7 +7,6 @@ use App\Http\Requests\Login;
 use App\Http\Requests\Register;
 use App\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -53,5 +52,16 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Вы успешно вышли',
         ], 200);
+    }
+
+    public function isGroupLeader()
+    {
+        $user = auth()->guard('api')->user();
+        $group = $user->group;
+        if (empty($group)) {
+            return response()->json(['error' => 'Пользователь не состоит в подразделении'], 422);
+        }
+
+        return $group->leader_id === $user->id;
     }
 }

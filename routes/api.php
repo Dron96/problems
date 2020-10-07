@@ -22,6 +22,7 @@ Route::post('/register', 'API\AuthController@register')
     ->name('register');
 Route::post('/login', 'API\AuthController@login')
     ->name('login');
+Route::get('/is-group-leader', 'API\AuthController@isGroupLeader');
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'API\AuthController@logout');
