@@ -62,6 +62,6 @@ class AuthController extends Controller
             return response()->json(['error' => 'Пользователь не состоит в подразделении'], 422);
         }
 
-        return var_dump($group->leader_id === $user->id);
+        return response()->json($group->leader_id === $user->id);
     }
 }
