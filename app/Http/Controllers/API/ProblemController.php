@@ -223,4 +223,9 @@ class ProblemController extends Controller
 
         return $this->problemRepository->problemsGroupArchive($filters);
     }
+
+    public function statistic()
+    {
+        return response()->json($this->problemRepository->statistic(), 200);
+    }
 }

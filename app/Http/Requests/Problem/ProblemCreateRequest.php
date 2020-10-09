@@ -31,7 +31,6 @@ class ProblemCreateRequest extends FormRequest
                     'min:6',
                     'max:150',
                     'regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
-                    Rule::unique('problems','name')->whereNull('deleted_at'),
                 ],
             'description' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
             'possible_solution' => 'nullable|min:6|max:250|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',
@@ -47,7 +46,6 @@ class ProblemCreateRequest extends FormRequest
             'name.max' => 'Название проблемы должно быть не более 150 символов',
             'name.min' => 'Название проблемы должно быть не менее 6 символов',
             'name.required' => 'Название проблемы должно быть не менее 6 символов',
-            'name.unique' => 'Проблема с таким названием уже существует',
             'name.regex' => 'Для названия доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9',
 
             'description.max' => 'Описание проблемы должно быть не более 350 символов',

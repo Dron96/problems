@@ -320,4 +320,41 @@ class ProblemRepository
     {
         return !empty($filters);
     }
+
+    public function statistic()
+    {
+        return $this->countAllProblems();
+    }
+
+    public function countAllProblems()
+    {
+        $countProblems = Problem::count();
+        $countResolved = Problem::where('status', 'Решена')->count();
+        $countUnresolved = Problem::where('status', '!=', 'Решена')->count();
+
+        $halfYearBefore = date('Y-m-d H:i:s', strtotime("-6 months"));
+        $countUnresolvedForMoreThanHalfYear = Problem::where('created_at', '<=', $halfYearBefore)
+            ->count();
+
+        $now = date('Y-m-d H:i:s');
+        $countUnresolvedWithBrokenDeadline = Problem::whereNotIn('status', ['Решена', 'Удалена'])
+            ->with('solution')
+            ->whereHas('solution', function ($query) use ($now) {
+                $query->where('deadline', '<=', $now);
+            })->count();
+
+        $countResolvedWithoutSendingToGroup = Problem::where('status', 'Решена')
+            ->without('groups')
+            ->count();
+
+        return [
+            'Всего проблем заведено в системе' => $countProblems,
+            'решено' => $countResolved,
+            'не решено' => $countUnresolved,
+            'Количество проблем, которые не решены  уже более чем полгода' => $countUnresolvedForMoreThanHalfYear,
+            'Текущее кол-во нерешенных проблем с нарушенным сроком исполнения решения' => $countUnresolvedWithBrokenDeadline,
+            'Кол-во и процент проблем, решенных на уровне сотрудник - руководитель сотрудника (процент от общего кол-ва решенных проблем)'
+                => $countResolvedWithoutSendingToGroup,
+            ];
+    }
 }
