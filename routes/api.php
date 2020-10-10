@@ -40,7 +40,9 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/problems-archive', 'API\ProblemController@problemsArchive');
         Route::get('/problems-user-archive', 'API\ProblemController@problemsUserArchive');
         Route::get('/problems-group-archive', 'API\ProblemController@problemsGroupArchive');
-        Route::get('/statistic', 'API\ProblemController@statistic');
+        Route::get('/statistic/quantitative-indicators', 'API\ProblemController@statisticQuantitativeIndicators');
+        Route::get('/statistic/categories', 'API\ProblemController@statisticCategories');
+        Route::get('/statistic/quarterly', 'API\ProblemController@statisticQuarterly');
 
         Route::get('/{problem}', 'API\ProblemController@show');
         Route::post('/{problem}/like', 'API\ProblemController@likeProblem');

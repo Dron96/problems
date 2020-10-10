@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
@@ -91,5 +92,10 @@ class Solution extends Model
         static::deleting(function ($solution) {
             $solution->tasks()->delete();
         });
+    }
+
+    public function executor()
+    {
+        return $this->belongsTo(User::class, 'executor_id', 'id');
     }
 }

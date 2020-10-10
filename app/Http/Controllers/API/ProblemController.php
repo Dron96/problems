@@ -224,8 +224,18 @@ class ProblemController extends Controller
         return $this->problemRepository->problemsGroupArchive($filters);
     }
 
-    public function statistic()
+    public function statisticQuantitativeIndicators()
     {
-        return response()->json($this->problemRepository->statistic(), 200);
+        return response()->json($this->problemRepository->statisticQuantitativeIndicators(), 200);
+    }
+
+    public function statisticCategories()
+    {
+        return response()->json($this->problemRepository->statisticCategories(), 200);
+    }
+
+    public function statisticQuarterly()
+    {
+        return response()->json($this->problemRepository->statisticQuarterly(), 200);
     }
 }

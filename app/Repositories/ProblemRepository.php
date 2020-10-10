@@ -3,9 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\Group;
+use App\Models\Like;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\Task;
+use App\User;
 
 class ProblemRepository
 {
@@ -67,11 +69,13 @@ class ProblemRepository
                 ->whereNotIn('status', ['Решена', 'Удалена'])
                 ->where($filters)
                 ->with('solution')
+                ->with('groups')
                 ->get();
         } else {
             $problems = Problem::where('creator_id', auth()->id())
                 ->whereNotIn('status', ['Решена', 'Удалена'])
                 ->with('solution')
+                ->with('groups')
                 ->get();
         }
         $this->likesCount($problems);
@@ -97,11 +101,13 @@ class ProblemRepository
                     ->where('status', 'На рассмотрении')
                     ->where($filters)
                     ->with('solution')
+                    ->with('groups')
                     ->get();
             } else {
                 $problems = Problem::whereIn('creator_id', $groupUsersIds)
                     ->where('status', 'На рассмотрении')
                     ->with('solution')
+                    ->with('groups')
                     ->get();
             }
         }
@@ -126,11 +132,13 @@ class ProblemRepository
                 ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
                 ->where($filters)
                 ->with('solution')
+                ->with('groups')
                 ->get();
         } else {
             $problems = Problem::whereIn('id', $problems)
                 ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
                 ->with('solution')
+                ->with('groups')
                 ->get();
         }
         $this->likesCount($problems);
@@ -148,11 +156,13 @@ class ProblemRepository
                 ->whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->where($filters)
                 ->with('solution')
+                ->with('groups')
                 ->get();
         } else {
             $problems = $group->problems()
                 ->whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->with('solution')
+                ->with('groups')
                 ->get();
         }
         $this->likesCount($problems);
@@ -169,10 +179,12 @@ class ProblemRepository
             $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->where($filters)
                 ->with('solution')
+                ->with('groups')
                 ->get();
         } else {
             $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->with('solution')
+                ->with('groups')
                 ->get();
         }
         $this->likesCount($problems);
@@ -190,11 +202,13 @@ class ProblemRepository
                 ->has('groups')
                 ->where($filters)
                 ->with('solution')
+                ->with('groups')
                 ->get();
         } else {
             $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
                 ->has('groups')
                 ->with('solution')
+                ->with('groups')
                 ->get();
         }
         $this->likesCount($problems);
@@ -273,18 +287,16 @@ class ProblemRepository
             12 => '04'
         );
         $currentQuarter = $mapArray[(integer)date('m')];
-        $quarterMonths = array_keys($mapArray, $currentQuarter);
-        return ['quarter' => $currentQuarter, 'months' => $quarterMonths];
+        $months = array_keys($mapArray, $currentQuarter);
+        foreach ($months as &$month) {
+            $month = date('Y') . '-' . $month;
+        }
+        return ['quarter' => $currentQuarter, 'months' => $months];
     }
 
     private function filtration($filterDeadline, $problems)
     {
-        $year = date('yy');
         $quarter = $this->getCurrentQuartalNumber();
-
-        foreach ($quarter['months'] as &$month) {
-            $month = $year . '-' . $month;
-        }
         $deadline = $quarter['months'];
         $startDate = (strtotime(min($deadline) . '-01'));
         $endDate = strtotime(date("Y-m-t", strtotime(max($deadline))));
@@ -304,6 +316,8 @@ class ProblemRepository
                     if (!empty($problem['solution']['deadline'])){
                         $deadline = strtotime($problem['solution']['deadline']);
                         return $startDate > $deadline or $deadline > $endDate;
+                    } else {
+                        return empty($deadline);
                     }
                 }));
 
@@ -321,19 +335,15 @@ class ProblemRepository
         return !empty($filters);
     }
 
-    public function statistic()
-    {
-        return $this->countAllProblems();
-    }
-
-    public function countAllProblems()
+    public function statisticQuantitativeIndicators()
     {
         $countProblems = Problem::count();
         $countResolved = Problem::where('status', 'Решена')->count();
-        $countUnresolved = Problem::where('status', '!=', 'Решена')->count();
+        $countUnresolved = Problem::whereNotIn('status', ['Решена', 'Удалена'])->count();
 
         $halfYearBefore = date('Y-m-d H:i:s', strtotime("-6 months"));
-        $countUnresolvedForMoreThanHalfYear = Problem::where('created_at', '<=', $halfYearBefore)
+        $countUnresolvedForMoreThanHalfYear = Problem::whereNotIn('status', ['Решена', 'Удалена'])
+            ->where('created_at', '<=', $halfYearBefore)
             ->count();
 
         $now = date('Y-m-d H:i:s');
@@ -356,5 +366,66 @@ class ProblemRepository
             'Кол-во и процент проблем, решенных на уровне сотрудник - руководитель сотрудника (процент от общего кол-ва решенных проблем)'
                 => $countResolvedWithoutSendingToGroup,
             ];
+    }
+
+    public function statisticCategories()
+    {
+        $problems = Problem::withCount('likes')
+            ->orderBy('likes_count', 'desc')
+            ->get();
+        $max = $problems->max('likes_count');
+        if ($max < 7) {
+            $mostLikedProblems = $problems->where('likes_count', $max)
+                ->take(5)
+                ->sortBy('name')
+                ->values();
+        } else {
+            $mostLikedProblems = $problems->where('likes_count', $max)
+                ->sortBy('name')
+                ->values();
+        }
+
+        $oldestProblem = Problem::whereNotIn('status', ['Решена', 'Удалена'])
+            ->orderBy('created_at')->first();
+
+        $users = User::withCount('solutions')
+            ->orderBy('solutions_count', 'desc')
+            ->get();
+        $max = $users->max('solutions_count');
+        $busiestWorkers = $users->where('solutions_count', $max)
+            ->sortBy('surname')
+            ->values();
+
+        return [
+            'Проблема (проблемы) с наибольшим кол-во “лайков”' => $mostLikedProblems,
+            'Проблема, которая не решается дольше всего с указанием дней с момента заведения в системе'
+                => [$oldestProblem, $oldestProblem->created_at->diffInDays()],
+            'Сотрудник (сотрудники), являющийся ответственным за решение для наибольшего кол-ва нерешенных проблем'
+                => $busiestWorkers
+            ];
+    }
+
+    public function statisticQuarterly()
+    {
+        $quarter = $this->getCurrentQuartalNumber();
+
+        for ($i = 0; $i <= 3; $i++) {
+            $quarterProblems = Problem::whereBetween('created_at',
+                [
+                    date('Y-m-d', strtotime($quarter['months'][0] . '- ' . $i*3 . " month")),
+                    date('Y-m-t H:i:s', strtotime($quarter['months'][2] . '23:59:59' . '- ' . $i*3 . " month"))
+                ])->count();
+            $afterQuarterProblems = Problem::where('created_at', '<=',
+                    date('Y-m-t H:i:s', strtotime($quarter['months'][2] . '23:59:59' . '- ' . $i*3 . " month"))
+                )->count();
+            $quartersFindProblems[] = [$quarterProblems, $afterQuarterProblems];
+        }
+
+
+        //dd($quartersFindProblems);
+        return [
+            'Кол-во проблем, выявленных за квартал/всего выявленных проблем в системе на конец этого квартала'
+                => $quartersFindProblems,
+        ];
     }
 }

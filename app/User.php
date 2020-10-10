@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Group;
 use App\Models\Like;
+use App\Models\Solution;
 use Eloquent;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -90,5 +91,10 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class, 'user_id', 'id');
+    }
+
+    public function solutions()
+    {
+        return $this->hasMany(Solution::class, 'executor_id', 'id');
     }
 }
