@@ -347,10 +347,19 @@ class ProblemRepository
             ->count();
 
         $now = date('Y-m-d H:i:s');
-        $countUnresolvedWithBrokenDeadline = Problem::whereNotIn('status', ['Решена', 'Удалена'])
+        $countUnresolvedSolutionsWithBrokenDeadline = Problem::whereNotIn('status', ['Решена', 'Удалена'])
             ->with('solution')
             ->whereHas('solution', function ($query) use ($now) {
                 $query->where('deadline', '<=', $now);
+            })->count();
+
+        $countUnresolvedTasksWithBrokenDeadline = Problem::whereNotIn('status', ['Решена', 'Удалена'])
+            ->with('solution')
+            ->whereHas('solution', function ($query) use ($now) {
+                $query->with('tasks')
+                    ->whereHas('tasks', function ($query) use ($now) {
+                        $query->where('deadline', '<=', $now);
+                    });
             })->count();
 
         $countResolvedWithoutSendingToGroup = Problem::where('status', 'Решена')
@@ -358,12 +367,15 @@ class ProblemRepository
             ->count();
 
         return [
-            'Всего проблем заведено в системе' => $countProblems,
-            'решено' => $countResolved,
-            'не решено' => $countUnresolved,
-            'Количество проблем, которые не решены  уже более чем полгода' => $countUnresolvedForMoreThanHalfYear,
-            'Текущее кол-во нерешенных проблем с нарушенным сроком исполнения решения' => $countUnresolvedWithBrokenDeadline,
-            'Кол-во и процент проблем, решенных на уровне сотрудник - руководитель сотрудника (процент от общего кол-ва решенных проблем)'
+            '1. Всего проблем заведено в системе' => $countProblems,
+            '1.1. Решено' => $countResolved,
+            '1.2. Не решено' => $countUnresolved,
+            '2. Количество проблем, которые не решены  уже более чем полгода' => $countUnresolvedForMoreThanHalfYear,
+            '3. Текущее кол-во нерешенных проблем с нарушенным сроком исполнения решения'
+                => $countUnresolvedSolutionsWithBrokenDeadline,
+            '4. Текущее кол-во нерешенных проблем с нарушенным сроком исполнения задач'
+                => $countUnresolvedTasksWithBrokenDeadline,
+            '5. Кол-во и процент проблем, решенных на уровне сотрудник - руководитель сотрудника (процент от общего кол-ва решенных проблем)'
                 => $countResolvedWithoutSendingToGroup,
             ];
     }
@@ -397,10 +409,10 @@ class ProblemRepository
             ->values();
 
         return [
-            'Проблема (проблемы) с наибольшим кол-во “лайков”' => $mostLikedProblems,
-            'Проблема, которая не решается дольше всего с указанием дней с момента заведения в системе'
+            '1. Проблема (проблемы) с наибольшим кол-во “лайков”' => $mostLikedProblems,
+            '2. Проблема, которая не решается дольше всего с указанием дней с момента заведения в системе'
                 => [$oldestProblem, $oldestProblem->created_at->diffInDays()],
-            'Сотрудник (сотрудники), являющийся ответственным за решение для наибольшего кол-ва нерешенных проблем'
+            '3. Сотрудник (сотрудники), являющийся ответственным за решение для наибольшего кол-ва нерешенных проблем'
                 => $busiestWorkers
             ];
     }
@@ -410,22 +422,45 @@ class ProblemRepository
         $quarter = $this->getCurrentQuartalNumber();
 
         for ($i = 0; $i <= 3; $i++) {
-            $quarterProblems = Problem::whereBetween('created_at',
-                [
-                    date('Y-m-d', strtotime($quarter['months'][0] . '- ' . $i*3 . " month")),
-                    date('Y-m-t H:i:s', strtotime($quarter['months'][2] . '23:59:59' . '- ' . $i*3 . " month"))
-                ])->count();
-            $afterQuarterProblems = Problem::where('created_at', '<=',
-                    date('Y-m-t H:i:s', strtotime($quarter['months'][2] . '23:59:59' . '- ' . $i*3 . " month"))
-                )->count();
-            $quartersFindProblems[] = [$quarterProblems, $afterQuarterProblems];
+            $startDate = date('Y-m-d', strtotime($quarter['months'][0] . '- ' . $i*3 . " month"));
+            $endDate = date('Y-m-t H:i:s', strtotime($quarter['months'][2] . '23:59:59' . '- ' . $i*3 . " month"));
+            $quarterProblems = Problem::whereBetween('created_at', [$startDate, $endDate])->count();
+            $afterQuarterProblems = Problem::where('created_at', '<=', $endDate)->count();
+            $solutionPlanned = Solution::whereBetween('deadline', [$startDate, $endDate])->count();
+            $problemsQuarterlySolved = Problem::where('status', 'Решена')
+                ->whereBetween('updated_at', [$startDate, $endDate])->count();
+            $problemsAllSolved = Problem::where('status', 'Решена')
+                ->where('updated_at', '<=', $endDate)->count();
+
+            $quartersFindProblems[] = [
+                'Квартал' => $this->getQuarterAndYear($startDate),
+                'Кол-во выявленных проблем (квартал)' => $quarterProblems,
+                'Кол-во выявленных проблем (всего)' => $afterQuarterProblems,
+                'Кол-во проблем, планируемых к решению (квартал)' => $solutionPlanned,
+                'Кол-во решенных проблем (квартал)' => $problemsQuarterlySolved,
+                'Кол-во решенных проблем (всего)' => $problemsAllSolved,
+                ];
         }
 
+        return $quartersFindProblems;
+    }
 
-        //dd($quartersFindProblems);
-        return [
-            'Кол-во проблем, выявленных за квартал/всего выявленных проблем в системе на конец этого квартала'
-                => $quartersFindProblems,
-        ];
+    private function getQuarterAndYear($date) {
+        $mapArray = array(
+            1 => '1',
+            2 => '1',
+            3 => '1',
+            4 => '2',
+            5 => '2',
+            6 => '2',
+            7 => '3',
+            8 => '3',
+            9 => '3',
+            10 => '4',
+            11 => '4',
+            12 => '4'
+        );
+        $quarter = $mapArray[(integer)date('m', strtotime($date))];
+        return $quarter . ' квартал ' . date('Y', strtotime($date)) . ' года';
     }
 }
