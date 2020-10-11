@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/users', 'API\UserController@getUsers');
 
     Route::prefix('problem')->group(function () {
+        Route::get('/count-problems', 'API\ProblemController@countProblems');
+
         Route::post('/', 'API\ProblemController@store');
         Route::get('/', 'API\ProblemController@index');
         Route::get('/my-problems', 'API\ProblemController@userProblems');

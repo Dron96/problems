@@ -238,4 +238,10 @@ class ProblemController extends Controller
     {
         return response()->json($this->problemRepository->statisticQuarterly(), 200);
     }
+
+    public function countProblems()
+    {
+        return response()->json($this->problemRepository->countProblems(), 200);
+    }
+
 }

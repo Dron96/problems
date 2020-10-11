@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Group;
-use App\Models\Like;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\Task;
@@ -68,12 +67,14 @@ class ProblemRepository
             $problems = Problem::where('creator_id', auth()->id())
                 ->whereNotIn('status', ['Решена', 'Удалена'])
                 ->where($filters)
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
         } else {
             $problems = Problem::where('creator_id', auth()->id())
                 ->whereNotIn('status', ['Решена', 'Удалена'])
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
@@ -81,6 +82,43 @@ class ProblemRepository
         $this->likesCount($problems);
 
         return response()->json($this->filtration($filterDeadline, $problems), 200);
+    }
+
+    public function countProblems()
+    {
+        $user = auth()->user();
+
+        $userProblems = Problem::where('creator_id', auth()->id())
+            ->whereNotIn('status', ['Решена', 'Удалена'])
+            ->count();
+
+        $solutionsWhereUserIsExecutorOfTasks = Task::where('executor_id', $user->id)
+            ->get('solution_id')
+            ->toArray();
+        $problems = array_map('current', Solution::whereIn('id', $solutionsWhereUserIsExecutorOfTasks)
+            ->orWhere('executor_id', $user->id)
+            ->get('problem_id')
+            ->toArray());
+        $forExecution = Problem::whereIn('id', $problems)
+            ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
+            ->count();
+
+        $group = Group::whereId($user->group_id)->first();
+        if ($group['leader_id'] === auth()->id()) {
+            $groupUsersIds = $group->users()->select('id')->get()->toArray();
+            $forConfirmationProblems = Problem::whereIn('creator_id', $groupUsersIds)
+                ->where('status', 'На рассмотрении')
+                ->count();
+
+            return ['Предложенные мной' => $userProblems,
+                'На рассмотрении' => $forConfirmationProblems,
+                'Для исполнения' => $forExecution,
+            ];
+        } else {
+            return ['Предложенные мной' => $userProblems,
+                'Для исполнения' => $forExecution,
+            ];
+        }
     }
 
     public function problemsForConfirmation($filters)
@@ -100,12 +138,14 @@ class ProblemRepository
                 $problems = Problem::whereIn('creator_id', $groupUsersIds)
                     ->where('status', 'На рассмотрении')
                     ->where($filters)
+                    ->orderBy('name')
                     ->with('solution')
                     ->with('groups')
                     ->get();
             } else {
                 $problems = Problem::whereIn('creator_id', $groupUsersIds)
                     ->where('status', 'На рассмотрении')
+                    ->orderBy('name')
                     ->with('solution')
                     ->with('groups')
                     ->get();
@@ -131,12 +171,14 @@ class ProblemRepository
             $problems = Problem::whereIn('id', $problems)
                 ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
                 ->where($filters)
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
         } else {
             $problems = Problem::whereIn('id', $problems)
                 ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
@@ -155,12 +197,14 @@ class ProblemRepository
             $problems = $group->problems()
                 ->whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->where($filters)
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
         } else {
             $problems = $group->problems()
                 ->whereIn('status', ['В работе', 'На проверке заказчика'])
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
@@ -178,11 +222,13 @@ class ProblemRepository
         if ($this->isNeedFiltration($filters)) {
             $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
                 ->where($filters)
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
         } else {
             $problems = Problem::whereIn('status', ['В работе', 'На проверке заказчика'])
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
@@ -201,12 +247,14 @@ class ProblemRepository
             $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
                 ->has('groups')
                 ->where($filters)
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
         } else {
             $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
                 ->has('groups')
+                ->orderBy('name')
                 ->with('solution')
                 ->with('groups')
                 ->get();
@@ -226,12 +274,14 @@ class ProblemRepository
                 ->whereIn('status', ['Решена', 'Удалена'])
                 ->doesntHave('groups')
                 ->where($filters)
+                ->orderBy('name')
                 ->with('solution')
                 ->get();
         } else {
             $problems = Problem::where('creator_id', auth()->id())
                 ->whereIn('status', ['Решена', 'Удалена'])
                 ->doesntHave('groups')
+                ->orderBy('name')
                 ->with('solution')
                 ->get();
         }
@@ -255,12 +305,14 @@ class ProblemRepository
                     ->whereIn('status', ['Решена', 'Удалена'])
                     ->doesntHave('groups')
                     ->where($filters)
+                    ->orderBy('name')
                     ->with('solution')
                     ->get();
             } else {
                 $problems = Problem::whereIn('creator_id', $groupUsersIds)
                     ->whereIn('status', ['Решена', 'Удалена'])
                     ->doesntHave('groups')
+                    ->orderBy('name')
                     ->with('solution')
                     ->get();
             }
@@ -271,7 +323,7 @@ class ProblemRepository
     }
 
 
-    private function getCurrentQuartalNumber() {
+    private function getCurrentQuarterNumber() {
         $mapArray = array(
             1 => '01',
             2 => '01',
@@ -296,7 +348,7 @@ class ProblemRepository
 
     private function filtration($filterDeadline, $problems)
     {
-        $quarter = $this->getCurrentQuartalNumber();
+        $quarter = $this->getCurrentQuarterNumber();
         $deadline = $quarter['months'];
         $startDate = (strtotime(min($deadline) . '-01'));
         $endDate = strtotime(date("Y-m-t", strtotime(max($deadline))));
@@ -419,7 +471,7 @@ class ProblemRepository
 
     public function statisticQuarterly()
     {
-        $quarter = $this->getCurrentQuartalNumber();
+        $quarter = $this->getCurrentQuarterNumber();
 
         for ($i = 0; $i <= 3; $i++) {
             $startDate = date('Y-m-d', strtotime($quarter['months'][0] . '- ' . $i*3 . " month"));
