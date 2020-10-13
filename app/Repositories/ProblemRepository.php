@@ -150,6 +150,21 @@ class ProblemRepository
                     ->with('groups')
                     ->get();
             }
+        } elseif ($user->is_admin) {
+            if ($this->isNeedFiltration($filters)) {
+                $problems = Problem::where('status', 'На рассмотрении')
+                    ->where($filters)
+                    ->orderBy('name')
+                    ->with('solution')
+                    ->with('groups')
+                    ->get();
+            } else {
+                $problems = Problem::where('status', 'На рассмотрении')
+                    ->orderBy('name')
+                    ->with('solution')
+                    ->with('groups')
+                    ->get();
+            }
         }
         $this->likesCount($problems);
 
