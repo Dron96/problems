@@ -89,7 +89,7 @@ class ProblemRepository
         $user = auth()->user();
 
         $userProblems = Problem::where('creator_id', auth()->id())
-            ->whereNotIn('status', ['Решена', 'Удалена'])
+            ->where('status', 'На проверке заказчика')
             ->count();
 
         $solutionsWhereUserIsExecutorOfTasks = Task::where('executor_id', $user->id)
@@ -109,6 +109,9 @@ class ProblemRepository
             $forConfirmationProblems = Problem::whereIn('creator_id', $groupUsersIds)
                 ->where('status', 'На рассмотрении')
                 ->count();
+        if ($user->is_admin) {
+            $forConfirmationProblems = Problem::where('status', 'На рассмотрении')->count();
+        }
 
             return ['Предложенные мной' => $userProblems,
                 'На рассмотрении' => $forConfirmationProblems,
