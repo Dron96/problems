@@ -173,7 +173,7 @@ class TaskController extends Controller
         $validated = $this->validate($request,
             ['status' => [Rule::in(['К исполнению', 'В процессе', 'Выполнено'])]],
             ['status.in' => 'Неверный статус']);
-        if ( $response === true) {
+        if ($response === true) {
             $task->fill($validated);
             $task->save();
 
