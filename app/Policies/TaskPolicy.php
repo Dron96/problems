@@ -46,6 +46,6 @@ class TaskPolicy
      */
     public function changeStatus(User $user, Task $task)
     {
-        return $user->id === $task->solution->executor_id or $user->id === $task->executor_id;
+        return $user->id === $task->executor_id;
     }
 }
