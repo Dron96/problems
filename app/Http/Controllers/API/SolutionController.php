@@ -156,4 +156,9 @@ class SolutionController extends Controller
 
         return response()->json($this->solutionService->setTeam($solution, $request->team));
     }
+
+    public function getPotentialExecutors(Solution $solution)
+    {
+        return response()->json($this->solutionRepository->getPotentialExecutors($solution));
+    }
 }

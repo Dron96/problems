@@ -97,4 +97,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Solution::class, 'executor_id', 'id');
     }
+
+    public function leaderGroup()
+    {
+        return $this->belongsTo(Group::class, 'id', 'leader_id');
+    }
 }

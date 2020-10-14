@@ -26,4 +26,9 @@ class Group extends Model
     {
         return $this->belongsToMany(Problem::class);
     }
+
+    public function leader()
+    {
+        return $this->hasOne(User::class, 'id', 'leader_id');
+    }
 }

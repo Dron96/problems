@@ -29,6 +29,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/users', 'API\UserController@getUsers');
 
+    Route::get('solution/{solution}/potential-executors',
+        'API\SolutionController@getPotentialExecutors');
+
     Route::prefix('problem')->group(function () {
         Route::get('/count-problems', 'API\ProblemController@countProblems');
 

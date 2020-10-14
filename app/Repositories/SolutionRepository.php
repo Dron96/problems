@@ -2,39 +2,42 @@
 
 namespace App\Repositories;
 
+use App\Models\Group;
 use App\Models\Solution;
+use App\User;
 
 class SolutionRepository
 {
     public function  getAll($problemId)
     {
         $solutions = Solution::where('problem_id', $problemId)
-//            ->where('in_work', true)
             ->orderBy('name');
-//        $solutions2 = Solution::where('problem_id', $problemId)
-//            ->where('in_work', false)
-//            ->latest();
-//        $solutions = $solutions1->unionAll($solutions2);
 
         return $solutions;
     }
 
-//    public function getShowInWork($problemId)
-//    {
-//        $solutions = Solution::where('problem_id', $problemId)
-//            ->where('in_work', true)
-//            ->orderBy('name')
-//            ->get();
-//
-//        return $solutions;
-//    }
-//
-//    public function getCountSolutionInWork($problemId)
-//    {
-//        $countSolution = Solution::where('problem_id', $problemId)
-//            ->where('in_work', '=', true)
-//            ->count();
-//
-//        return $countSolution;
-//    }
+    public function getPotentialExecutors(Solution $solution)
+    {
+        $user = auth()->user();
+        if ($solution->executor_id === $user->id or $user->is_admin) {
+            return User::all()
+                ->sortBy('father_name')
+                ->sortBy('name')
+                ->sortBy('surname')
+                ->values();
+        } elseif (!empty($user->group) and $user->group->leader_id === $user->id) {
+            $usersFromGroup = $user->group->users;
+            $leaders = Group::with('leader')->get();
+
+            return $leaders->pluck('leader')
+                ->merge($usersFromGroup)
+                ->unique()
+                ->sortBy('father_name')
+                ->sortBy('name')
+                ->sortBy('surname')
+                ->values();
+        } else {
+            return null;
+        }
+    }
 }

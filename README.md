@@ -64,6 +64,7 @@
 |6. | [solution.setExecutor](#6-solutionsetexecutor)  | Назначить исполнителя/ответственного за решение     | /api/solution/{solution}/set-executor   | PUT           | executor_id - id пользователя |
 |7. | [solution.setPlan](#10-solutionsetplan)  | Задать/изменить план решения     | /api/solution/{solution}/set-plan   | PUT           | plan - план решения |
 |8. | [solution.setTeam](#10-solutionsetteam)  | Задать/изменить команду     | /api/solution/{solution}/set-team   | PUT           | team - команда |
+|9. | solution.getPotentialExecutors  | Список потенциальных исполнителей задач | /api/solution/{solution}/potential-executors | GET           | Нет параметров |
 
 
 ### Операции над подразделениями:
