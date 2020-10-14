@@ -24,7 +24,7 @@ class ProblemChangeDescriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u'
+            'description' => 'nullable|min:6|max:350|regex:/^[A-Za-zА-Яа-яёЁ0-9\- _!?""(),\.:\n]+$/u'
         ];
     }
 
@@ -33,7 +33,7 @@ class ProblemChangeDescriptionRequest extends FormRequest
         return [
             'description.min' => 'Описание проблемы должно быть не менее 6 символов',
             'description.max' => 'Описание проблемы должно быть не более 350 символов',
-            'description.regex' => 'Для описания доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9.',
+            'description.regex' => 'Для описания доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9, “_”, “!”, “?”, “(“, “)”, кавычки, перенос строки',
         ];
     }
 }

@@ -73,12 +73,12 @@ class TaskController extends Controller
     {
         $problemId = $task->getProblemId();
         $validated = $request->validate(
-            ['description' => 'required|min:6|max:150|regex:/^[A-Za-zА-Яа-яёЁ0-9\- ,\.:]+$/u',],
+            ['description' => 'required|min:6|max:150|regex:/^[A-Za-zА-Яа-яёЁ0-9\- _!?()"",\.:]+$/u',],
             [
                 'description.required' => 'Описание задачи должно содержать не менее 6 символов',
                 'description.min' => 'Описание задачи должно содержать не менее 6 символов',
                 'description.max' => 'Описание задачи должно содержать не более 150 символов',
-                'description.regex' => 'Для описания решения доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9.',
+                'description.regex' => 'Для описания задачи доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9, “_”, “!”, “?”, “(“, “)”, кавычки.',
             ]);
         $response = $this->taskService->update($task->solution_id, $problemId, $validated['description'], $task->executor_id);
         if ( $response === true) {

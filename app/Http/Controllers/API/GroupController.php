@@ -19,9 +19,10 @@ class GroupController extends Controller
      */
     public function index()
     {
+        $userGroup = auth()->user()->group()->get();
         $groups = Group::all()->sortBy('name')->values();
 
-        return response()->json($groups, '200');
+        return response()->json($userGroup->merge($groups), '200');
     }
 
     /**
