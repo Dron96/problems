@@ -18,13 +18,11 @@ class GroupSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++){
             $created_at = $faker->dateTimeBetween('-3 months','-10 day');
             $name = $faker->company;
-            $shortName = $faker->text(10);
             $leader_id = rand(1, 4);
 
             $list[] = [
                 'leader_id' => $leader_id,
                 'name' => $name,
-                'short_name'=> $shortName,
                 'created_at' => $created_at,
                 'updated_at' => $created_at,
             ];

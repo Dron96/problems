@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Group\GroupChangeNameRequest;
-use App\Http\Requests\Group\GroupChangeShortNameRequest;
 use App\Http\Requests\Group\GroupCreateRequest;
 use App\Models\Group;
 use App\User;
@@ -67,19 +66,6 @@ class GroupController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(GroupChangeNameRequest $request, Group $group)
-    {
-        $group->fill($request->validated());
-        $group->save();
-
-        return response()->json($group, 200);
-    }
-
-    /**
-     * @param GroupChangeShortNameRequest $request
-     * @param Group $group
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateShortName(GroupChangeShortNameRequest $request, Group $group)
     {
         $group->fill($request->validated());
         $group->save();

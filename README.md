@@ -69,16 +69,15 @@
 |№   | Имя метода                | Описание операции                         | URL                                     | Метод запроса | Принимаемые параметры   |
 |----|---------------------------|-------------------------------------------|-----------------------------------------|:-------------:|-------------------------|
 |1.  | [group.index](#1-groupindex)               | Получение списка всех подразделений       | /api/group                              | GET / HEAD    | Нет параметров          |
-|2.  | [group.store](#2-groupstore)               | Создание подразделения                    | /api/group                              | POST          | <ol><li>name - полное название подразделения</li><li>short_name - краткое название подразделения</li><li>leader_id - id начальника подразделения</li></ol>|
+|2.  | [group.store](#2-groupstore)               | Создание подразделения                    | /api/group                              | POST          | <ol><li>name - полное название подразделения</li><li>leader_id - id начальника подразделения</li></ol>|
 |3.  | [group.show](#3-groupshow)                | Получение подразделения                   | /api/group/{group}                      | GET / HEAD    | Нет параметров          |
 |4.  | [group.update](#4-groupupdate)              | Изменение полного названия подразделения  | /api/group/{group}                      | PUT           | name - полное название подразделени |
-|5.  | [group.updateShortName](#5-groupupdateshortname)     | Изменение краткого названия подразделения | /api/group/{group}/change-short-name    | PUT           | short_name - краткое название подразделения |
-|6.  | [group.destroy](#6-groupdestroy)             | Удаление подразделения                    | /api/group/{group}                      | DELETE        | Нет параметров          |
-|7.  | [group.addUser](#7-groupadduser)             | Добавление сотрудника в подразделение     | /api/group/{group}/user/{user}          | PUT           | Нет параметров          |
-|8.  | [group.getLeader](#8-groupgetleader)           | Получить начальника подразделения         | /api/group/{group}/leader               | GET / HEAD    | Нет параметров          |
-|9.  | [group.getUsers](#9-groupgetusers)            | Получить список сотрудников подразделения | /api/group/{group}/user                 | GET / HEAD    | Нет параметров          |
-|10. | [group.removeUserFromGroup](#10-groupremoveuserfromgroup) | Удалить сотрудника из подразделения       | /api/group/{group}/remove-user/{user}   | PUT           | Нет параметров          |
-|11. | [group.changeLeader](#11-groupchangeleader)        | Сменить начальника подразделения          | /api/group/{group}/change-leader/{user} | PUT           | Нет параметров          |
+|5.  | [group.destroy](#6-groupdestroy)             | Удаление подразделения                    | /api/group/{group}                      | DELETE        | Нет параметров          |
+|6.  | [group.addUser](#7-groupadduser)             | Добавление сотрудника в подразделение     | /api/group/{group}/user/{user}          | PUT           | Нет параметров          |
+|7.  | [group.getLeader](#8-groupgetleader)           | Получить начальника подразделения         | /api/group/{group}/leader               | GET / HEAD    | Нет параметров          |
+|8.  | [group.getUsers](#9-groupgetusers)            | Получить список сотрудников подразделения | /api/group/{group}/user                 | GET / HEAD    | Нет параметров          |
+|9. | [group.removeUserFromGroup](#10-groupremoveuserfromgroup) | Удалить сотрудника из подразделения       | /api/group/{group}/remove-user/{user}   | PUT           | Нет параметров          |
+|10. | [group.changeLeader](#11-groupchangeleader)        | Сменить начальника подразделения          | /api/group/{group}/change-leader/{user} | PUT           | Нет параметров          |
 
 
 ### Операции над задачей:
