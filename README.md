@@ -76,7 +76,7 @@
 |6.  | [group.addUser](#7-groupadduser)             | Добавление сотрудника в подразделение     | /api/group/{group}/user/{user}          | PUT           | Нет параметров          |
 |7.  | [group.getLeader](#8-groupgetleader)           | Получить начальника подразделения         | /api/group/{group}/leader               | GET / HEAD    | Нет параметров          |
 |8.  | [group.getUsers](#9-groupgetusers)            | Получить список сотрудников подразделения | /api/group/{group}/user                 | GET / HEAD    | Нет параметров          |
-|9. | [group.removeUserFromGroup](#10-groupremoveuserfromgroup) | Удалить сотрудника из подразделения       | /api/group/{group}/remove-user/{user}   | PUT           | Нет параметров          |
+|9.  | [group.removeUserFromGroup](#10-groupremoveuserfromgroup) | Удалить сотрудника из подразделения       | /api/group/{group}/remove-user/{user}   | PUT           | Нет параметров          |
 |10. | [group.changeLeader](#11-groupchangeleader)        | Сменить начальника подразделения          | /api/group/{group}/change-leader/{user} | PUT           | Нет параметров          |
 
 

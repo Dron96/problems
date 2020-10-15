@@ -53,12 +53,6 @@ class ProblemRepository
         return $problems;
     }
 
-
-
-
-
-
-
     public function userProblems($filters)
     {
         $filterDeadline = $filters['deadline'];
@@ -81,8 +75,9 @@ class ProblemRepository
                 ->get();
         }
         $this->likesCount($problems);
+        $problems = collect($this->deadlineFiltration($filterDeadline, $problems));
 
-        return response()->json($this->deadlineFiltration($filterDeadline, $problems), 200);
+        return $problems->groupBy('status');
     }
 
     public function countProblems()
