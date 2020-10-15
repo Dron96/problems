@@ -433,7 +433,7 @@ class ProblemRepository
             })->count();
 
         $countResolvedWithoutSendingToGroup = Problem::where('status', 'Решена')
-            ->without('groups')
+            ->doesntHave('groups')
             ->count();
 
         return [

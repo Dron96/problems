@@ -6,7 +6,6 @@ use App\Models\Group;
 use App\Models\Like;
 use App\Models\Solution;
 use Eloquent;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
