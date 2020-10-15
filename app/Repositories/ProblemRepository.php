@@ -407,7 +407,7 @@ class ProblemRepository
 
     public function statisticQuantitativeIndicators()
     {
-        $countProblems = Problem::count();
+        $countProblems = Problem::where('status', '!=', 'Удалена')->count();
         $countResolved = Problem::where('status', 'Решена')->count();
         $countUnresolved = Problem::whereNotIn('status', ['Решена', 'Удалена'])->count();
 
