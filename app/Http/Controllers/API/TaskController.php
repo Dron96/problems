@@ -45,6 +45,13 @@ class TaskController extends Controller
      */
     public function store(TaskCreateRequest $request, Solution $solution)
     {
+        if (!empty($solution->deadline and $request->deadline)) {
+            if (strtotime($request->deadline) > strtotime($solution->deadline)) {
+                return response()->json(
+                    ['error' => 'Срок исполнения задачи не может быть позже срока исполнения решения'],
+                    422);
+            }
+        }
         return $this->taskService->store($request,
             $solution->id,
             $solution->problem_id,
@@ -150,6 +157,13 @@ class TaskController extends Controller
                 'deadline.date' => 'Формат срока исполнения не верен',
                 'deadline.after_or_equal' => 'Срок исполнения не может быть раньше текущей даты'
             ]);
+        if (!empty($task->solution->deadline and $request->deadline)) {
+            if (strtotime($request->deadline) > strtotime($task->solution->deadline)) {
+                return response()->json(
+                    ['error' => 'Срок исполнения задачи не может быть позже срока исполнения решения'],
+                    422);
+            }
+        }
         if ( $response === true) {
             $task->fill($validated);
             $task->save();
