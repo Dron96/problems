@@ -134,7 +134,7 @@ class TaskController extends Controller
         $validated = $this->validate($request,
             ['executor_id' => 'exists:users,id'],
             ['executor_id.exists' => 'Такого ответственного не существует']);
-        $correctExecutor = $this->maySetThisExecutor($solution, $request);
+        $correctExecutor = $this->maySetThisExecutor($task->solution, $request);
         if (empty($correctExecutor)) {
             $response = $this->taskService->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
             if ( $response === true) {
@@ -229,7 +229,7 @@ class TaskController extends Controller
         return null;
     }
 
-    public function isCorrectDeadline(Solution $solution, Request $request)
+    private function isCorrectDeadline(Solution $solution, Request $request)
     {
         if (!empty($solution->deadline and $request->deadline)) {
             if (strtotime($request->deadline) > strtotime($solution->deadline)) {
