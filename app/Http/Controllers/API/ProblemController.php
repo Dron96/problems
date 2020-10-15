@@ -210,20 +210,6 @@ class ProblemController extends Controller
         return $this->problemRepository->problemsArchive($filters);
     }
 
-    public function problemsUserArchive(ProblemsArchiveFiltrationRequest $request)
-    {
-        $filters = $request->validated();
-
-        return $this->problemRepository->problemsUserArchive($filters);
-    }
-
-    public function problemsGroupArchive(ProblemsArchiveFiltrationRequest $request)
-    {
-        $filters = $request->validated();
-
-        return $this->problemRepository->problemsGroupArchive($filters);
-    }
-
     public function statisticQuantitativeIndicators()
     {
         return response()->json($this->problemRepository->statisticQuantitativeIndicators(), 200);

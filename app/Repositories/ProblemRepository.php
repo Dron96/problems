@@ -7,6 +7,7 @@ use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\Task;
 use App\User;
+use function GuzzleHttp\Promise\all;
 
 class ProblemRepository
 {
@@ -81,7 +82,7 @@ class ProblemRepository
         }
         $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+        return response()->json($this->deadlineFiltration($filterDeadline, $problems), 200);
     }
 
     public function countProblems()
@@ -171,7 +172,7 @@ class ProblemRepository
         }
         $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+        return response()->json($this->deadlineFiltration($filterDeadline, $problems), 200);
     }
 
     public function problemsForExecution($filters)
@@ -203,7 +204,7 @@ class ProblemRepository
         }
         $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+        return response()->json($this->deadlineFiltration($filterDeadline, $problems), 200);
     }
 
     public function problemsByGroups($filters, Group $group)
@@ -229,7 +230,7 @@ class ProblemRepository
         }
         $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+        return response()->json($this->deadlineFiltration($filterDeadline, $problems), 200);
     }
 
     public function problemsOfAllGroups($filters)
@@ -253,7 +254,7 @@ class ProblemRepository
         }
         $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+        return response()->json($this->deadlineFiltration($filterDeadline, $problems), 200);
     }
 
     public function problemsArchive($filters)
@@ -261,32 +262,56 @@ class ProblemRepository
         $filterDeadline = $filters['deadline'];
         unset($filters['deadline']);
         $filters = array_filter($filters);
-        if ($this->isNeedFiltration($filters)) {
-            $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
-                ->has('groups')
-                ->where($filters)
-                ->orderBy('name')
-                ->with('solution')
-                ->with('groups')
-                ->get();
-        } else {
-            $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
-                ->has('groups')
-                ->orderBy('name')
-                ->with('solution')
-                ->with('groups')
-                ->get();
-        }
-        $this->likesCount($problems);
+        if (auth()->user()->is_admin) {
+            if ($this->isNeedFiltration($filters)) {
+                $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
+                    ->where($filters)
+                    ->orderBy('name')
+                    ->with(['solution', 'groups'])
+                    ->get();
+            } else {
+                $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
+                    ->orderBy('name')
+                    ->with(['solution', 'groups'])
+                    ->get();
+            }
+            $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+            return $this->deadlineFiltration($filterDeadline, $problems);
+        }
+
+        $usersArchive = $this->problemsUserArchive($filters);
+        $groupArchive = $this->problemsGroupArchive($filters);
+        $archiveForEveryone = $this->problemsArchiveForEveryone($filters);
+        $archive = collect(array_merge($usersArchive, $groupArchive, $archiveForEveryone));
+        return $this->deadlineFiltration($filterDeadline, $archive->unique()->sortBy('name')->values());
     }
 
-    public function problemsUserArchive($filters)
+    private function problemsArchiveForEveryone($filters)
     {
-        $filterDeadline = $filters['deadline'];
-        unset($filters['deadline']);
-        $filters = array_filter($filters);
+        if ($this->isNeedFiltration($filters)) {
+            $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
+                ->has('groups')
+                ->where($filters)
+                ->orderBy('name')
+                ->with('solution')
+                ->with('groups')
+                ->get();
+        } else {
+            $problems = Problem::whereIn('status', ['Решена', 'Удалена'])
+                ->has('groups')
+                ->orderBy('name')
+                ->with('solution')
+                ->with('groups')
+                ->get();
+        }
+        $this->likesCount($problems);
+
+        return $problems;
+    }
+
+    private function problemsUserArchive($filters)
+    {
         if ($this->isNeedFiltration($filters)) {
             $problems = Problem::where('creator_id', auth()->id())
                 ->whereIn('status', ['Решена', 'Удалена'])
@@ -305,19 +330,18 @@ class ProblemRepository
         }
         $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+        return $problems;
     }
 
-    public function problemsGroupArchive($filters)
+    private function problemsGroupArchive($filters)
     {
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();
-        $groupLeader = $group['leader_id'];
-        $filterDeadline = $filters['deadline'];
-        unset($filters['deadline']);
-        $filters = array_filter($filters);
-        if ($groupLeader === auth()->id()) {
+        if (!empty($group) and $group['leader_id'] === auth()->id()) {
             $groupUsersIds = $group->users()->select('id')->get()->toArray();
+        }
+
+        if (!empty($groupUsersIds)) {
             if ($this->isNeedFiltration($filters)) {
                 $problems = Problem::whereIn('creator_id', $groupUsersIds)
                     ->whereIn('status', ['Решена', 'Удалена'])
@@ -334,10 +358,12 @@ class ProblemRepository
                     ->with('solution')
                     ->get();
             }
-        }
-        $this->likesCount($problems);
+            $this->likesCount($problems);
 
-        return response()->json($this->filtration($filterDeadline, $problems), 200);
+            return $problems;
+        }
+
+        return [];
     }
 
 
@@ -364,7 +390,7 @@ class ProblemRepository
         return ['quarter' => $currentQuarter, 'months' => $months];
     }
 
-    private function filtration($filterDeadline, $problems)
+    private function deadlineFiltration($filterDeadline, $problems)
     {
         $quarter = $this->getCurrentQuarterNumber();
         $deadline = $quarter['months'];
