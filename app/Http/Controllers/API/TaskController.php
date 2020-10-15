@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskCreateRequest;
 use App\Models\Solution;
 use App\Models\Task;
+use App\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,17 +46,20 @@ class TaskController extends Controller
      */
     public function store(TaskCreateRequest $request, Solution $solution)
     {
-        if (!empty($solution->deadline and $request->deadline)) {
-            if (strtotime($request->deadline) > strtotime($solution->deadline)) {
-                return response()->json(
-                    ['error' => 'Срок исполнения задачи не может быть позже срока исполнения решения'],
-                    422);
+        $correctDeadline = $this->isCorrectDeadline($solution, $request);
+        $correctExecutor = $this->maySetThisExecutor($solution, $request);
+        if (empty($correctExecutor)) {
+            if (empty($correctDeadline)) {
+                return $this->taskService->store($request,
+                    $solution->id,
+                    $solution->problem_id,
+                    auth()->id());
+            } else {
+                return $correctDeadline;
             }
+        } else {
+            return $correctExecutor;
         }
-        return $this->taskService->store($request,
-            $solution->id,
-            $solution->problem_id,
-            auth()->id());
     }
 
     /**
@@ -130,15 +134,21 @@ class TaskController extends Controller
         $validated = $this->validate($request,
             ['executor_id' => 'exists:users,id'],
             ['executor_id.exists' => 'Такого ответственного не существует']);
-        $response = $this->taskService->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
-        if ( $response === true) {
-            $task->fill($validated);
-            $task->save();
+        $correctExecutor = $this->maySetThisExecutor($solution, $request);
+        if (empty($correctExecutor)) {
+            $response = $this->taskService->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
+            if ( $response === true) {
+                $task->fill($validated);
+                $task->save();
 
-            return response()->json($task, 200);
+                return response()->json($task, 200);
+            } else {
+                return $response;
+            }
         } else {
-            return $response;
+            return $correctExecutor;
         }
+
     }
 
     /**
@@ -157,20 +167,19 @@ class TaskController extends Controller
                 'deadline.date' => 'Формат срока исполнения не верен',
                 'deadline.after_or_equal' => 'Срок исполнения не может быть раньше текущей даты'
             ]);
-        if (!empty($task->solution->deadline and $request->deadline)) {
-            if (strtotime($request->deadline) > strtotime($task->solution->deadline)) {
-                return response()->json(
-                    ['error' => 'Срок исполнения задачи не может быть позже срока исполнения решения'],
-                    422);
-            }
-        }
-        if ( $response === true) {
-            $task->fill($validated);
-            $task->save();
 
-            return response()->json($task, 200);
+        $correctDeadline = $this->isCorrectDeadline($task->solution, $request);
+        if (empty($correctDeadline)) {
+            if ( $response === true) {
+                $task->fill($validated);
+                $task->save();
+
+                return response()->json($task, 200);
+            } else {
+                return $response;
+            }
         } else {
-            return $response;
+            return $correctDeadline;
         }
     }
 
@@ -195,5 +204,41 @@ class TaskController extends Controller
         } else {
             return $response;
         }
+    }
+
+    private function maySetThisExecutor(Solution $solution, Request $request)
+    {
+        $user = auth()->user();
+        if (!empty($request->executor_id)
+            and $user->id !== $solution->executor_id
+            and !$user->is_admin) {
+            $executor = User::find($request->executor_id);
+            if (empty($executor->group)) {
+                return response()->json(
+                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего подразделения и руководителей других подразделений'],
+                    422);
+            }
+            if ($executor->group !== $user->group
+                and $executor->id !== $executor->group->leader_id) {
+                return response()->json(
+                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего подразделения и руководителей других подразделений'],
+                    422);
+            }
+        }
+
+        return null;
+    }
+
+    public function isCorrectDeadline(Solution $solution, Request $request)
+    {
+        if (!empty($solution->deadline and $request->deadline)) {
+            if (strtotime($request->deadline) > strtotime($solution->deadline)) {
+                return response()->json(
+                    ['error' => 'Срок исполнения задачи не может быть позже срока исполнения решения'],
+                    422);
+            }
+        }
+
+        return null;
     }
 }
