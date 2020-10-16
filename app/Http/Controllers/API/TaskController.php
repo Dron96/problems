@@ -218,7 +218,7 @@ class TaskController extends Controller
                     ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего подразделения и руководителей других подразделений'],
                     422);
             }
-            if ($executor->group->id === $user->group->id
+            if ($executor->group_id === $user->group_id
                 or $executor->id === $executor->group->leader_id) {
                 return null;
             } else {
