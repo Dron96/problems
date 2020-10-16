@@ -25,7 +25,7 @@ class ProblemService
             return response()->json(['error' => 'Пользователя, сообщившего о проблеме, больше не существует в системе. Обратитесь к администратору.'], 404);
         }
         if ($solution->status !== 'Выполнено' and $problem->status === 'В работе') {
-            return response()->json(['error' => 'Решение не выполнено'], 422);
+            return response()->json(['error' => 'Статус решения должен быть “выполнено”'], 422);
         }
         if ($problem->result === null) {
             return response()->json(['error' => 'Поле “Результат” не заполнено'], 422);

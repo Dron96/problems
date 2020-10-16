@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,6 +79,14 @@ class Handler extends ExceptionHandler
         }
         if ($exception instanceof AuthorizationException) {
             return response()->json(['message' => 'У вас недостаточно прав'], 403);
+        }
+
+        if ($exception instanceof QueryException){
+            if ($exception->getCode() == 23505) {
+                return response()->json([
+                    'error' => 'Должно быть уникально'
+                ], 422);
+            }
         }
 
         return parent::render($request, $exception);

@@ -77,7 +77,7 @@ class ProblemRepository
         $this->likesCount($problems);
         $problems = collect($this->deadlineFiltration($filterDeadline, $problems));
 
-        return $problems->groupBy('status');
+        return $problems;
     }
 
     public function countProblems()

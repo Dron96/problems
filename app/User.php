@@ -5,6 +5,7 @@ namespace App;
 use App\Models\Group;
 use App\Models\Like;
 use App\Models\Solution;
+use App\Models\TeamForSolution;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -100,5 +101,10 @@ class User extends Authenticatable
     public function leaderGroup()
     {
         return $this->belongsTo(Group::class, 'id', 'leader_id');
+    }
+
+    public function teamForSolution()
+    {
+        return $this->hasMany(TeamForSolution::class, 'user_id', 'id');
     }
 }

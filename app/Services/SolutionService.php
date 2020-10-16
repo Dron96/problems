@@ -2,21 +2,14 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Solution\SolutionCreateRequest;
 use App\Models\Solution;
+use App\Models\TeamForSolution;
+use App\User;
+use Validator;
+use Illuminate\Validation\Rule;
 
 class SolutionService
 {
-    public function store(SolutionCreateRequest $request, $problemId, $creatorId)
-    {
-            $input = $request->validated();
-            $input['creator_id'] = $creatorId;
-            $input['problem_id'] = $problemId;
-            $solution = Solution::create($input);
-
-            return $solution;
-    }
-
     public function update(Solution $solution, $data)
     {
         $solution->fill($data);
@@ -57,11 +50,21 @@ class SolutionService
         return $solution;
     }
 
-    public function setTeam(Solution $solution, $team)
+    public function addUserToTeam($solution_id, $user_id)
     {
-        $solution->team = $team;
-        $solution->save();
+        $data = ['user_id' => $user_id,
+            'solution_id' => $solution_id];
 
-        return $solution;
+        return TeamForSolution::create($data)->get();
+    }
+
+    public function removeUserFromTeam($solution_id, $user_id)
+    {
+        $teamForSolution = TeamForSolution::where('solution_id', $solution_id)
+            ->where('user_id', $user_id)
+            ->delete();
+
+
+        return $teamForSolution;
     }
 }

@@ -98,4 +98,9 @@ class Solution extends Model
     {
         return $this->belongsTo(User::class, 'executor_id', 'id');
     }
+
+    public function teamForSolution()
+    {
+        return $this->hasMany(TeamForSolution::class, 'solution_id', 'id');
+    }
 }

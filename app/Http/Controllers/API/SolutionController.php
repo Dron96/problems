@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Solution\SolutionChangePlanRequest;
-use App\Http\Requests\Solution\SolutionChangeTeamRequest;
 use App\Http\Requests\Solution\SolutionNameChangeRequest;
 use App\Models\Problem;
 use App\Models\Solution;
+use App\Models\TeamForSolution;
+use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -54,6 +55,12 @@ class SolutionController extends Controller
      */
     public function show(Solution $solution)
     {
+        $team = TeamForSolution::where('solution_id', $solution->id)->get();
+        foreach ($team as $user) {
+            $users[] = $user->user;
+        }
+        $solution['team'] = $users;
+
         return response()->json($solution, 200);
     }
 
@@ -147,14 +154,24 @@ class SolutionController extends Controller
         return response()->json($this->solutionService->setPlan($solution, $request->plan));
     }
 
-    public function setTeam(SolutionChangeTeamRequest $request, Solution $solution)
+    public function addUserToTeam(Solution $solution, User $user)
     {
         $validator = $solution->hasProblem($solution->id);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->messages()], 404);
         }
 
-        return response()->json($this->solutionService->setTeam($solution, $request->team));
+        return response()->json($this->solutionService->addUserToTeam($solution->id, $user->id));
+    }
+
+    public function removeUserFromTeam(Solution $solution, User $user)
+    {
+        $validator = $solution->hasProblem($solution->id);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->messages()], 404);
+        }
+
+        return response()->json($this->solutionService->removeUserFromTeam($solution->id, $user->id));
     }
 
     public function getPotentialExecutors(Solution $solution)

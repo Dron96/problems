@@ -91,7 +91,8 @@ Route::middleware('auth:api')->group(function () {
 
         Route::middleware('can:changePlanTeamStatusDeadline,solution')->group(function () {
             Route::put('/set-plan', 'API\SolutionController@setPlan');
-            Route::put('/set-team', 'API\SolutionController@setTeam');
+            Route::put('/add-user-to-team/{user}', 'API\SolutionController@addUserToTeam');
+            Route::put('/remove-user-from-team/{user}', 'API\SolutionController@removeUserFromTeam');
             Route::put('/change-status', 'API\SolutionController@changeStatus');
             Route::put('/set-deadline', 'API\SolutionController@setDeadline');
         });

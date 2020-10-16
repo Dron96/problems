@@ -21,7 +21,6 @@ class CreateSolutionsTable extends Migration
             $table->date('deadline')->nullable();
             $table->unsignedBigInteger('executor_id')->nullable();
             $table->string('plan')->nullable();
-            $table->string('team')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
