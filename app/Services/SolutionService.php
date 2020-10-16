@@ -65,6 +65,6 @@ class SolutionService
             ->delete();
 
 
-        return $teamForSolution;
+        return ['message' => 'Пользователь успешно исключен из команды'];
     }
 }
