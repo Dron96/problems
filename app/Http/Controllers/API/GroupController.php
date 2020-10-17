@@ -81,11 +81,29 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        $problems = $group->problems;
+        if ($problems->isNotEmpty()) {
+            foreach ($problems as $problem) {
+                if ($problem->groups->except($group->id)->isEmpty()) {
+                    if ($problem->status === 'В работе' or $problem->status === 'На проверке заказчика') {
+                        return response()
+                            ->json(['message' => 'Направьте проблемы этого подразделение в другое подразделение']);
+                    } elseif ($problem->status === 'Решена' or $problem->status === 'Удалена') {
+                        $problem->groups()->attach(Group::all());
+                    } elseif ($problem->status === 'На рассмотрении') {
+                        $problem->groups()->detach();
+                    }
+                }
+            }
+        }
+        $group->problems()->detach();
+
         $users = $group->users;
         foreach ($users as $user) {
             $user->group_id = NULL;
             $user->save();
         }
+
         $group->delete();
 
         return response()->json(['message' => 'Подразделение успешно удалено'], 200);
