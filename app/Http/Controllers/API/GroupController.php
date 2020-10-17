@@ -87,7 +87,7 @@ class GroupController extends Controller
                 if ($problem->groups->except($group->id)->isEmpty()) {
                     if ($problem->status === 'В работе' or $problem->status === 'На проверке заказчика') {
                         return response()
-                            ->json(['message' => 'Направьте проблемы этого подразделение в другое подразделение']);
+                            ->json(['message' => 'Направьте проблемы этого подразделение в другое подразделение'], 422);
                     } elseif ($problem->status === 'Решена' or $problem->status === 'Удалена') {
                         $problem->groups()->attach(Group::all());
                     } elseif ($problem->status === 'На рассмотрении') {
