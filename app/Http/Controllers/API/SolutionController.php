@@ -59,7 +59,12 @@ class SolutionController extends Controller
         foreach ($team as $user) {
             $users[] = $user->user;
         }
-        $solution['team'] = $users;
+        if (!empty($users)) {
+            $solution['team'] = $users;
+        } else {
+            $solution['team'] = null;
+        }
+
 
         return response()->json($solution, 200);
     }
