@@ -2,8 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Group;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GroupPolicy
@@ -13,8 +12,7 @@ class GroupPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param \App\User $user
-     * @param Group $group
+     * @param User $user
      * @return mixed
      */
     public function adminFunctional(User $user)

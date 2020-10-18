@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskCreateRequest;
 use App\Models\Solution;
 use App\Models\Task;
-use App\User;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Получение списка задач, относящихся к данному решению
      *
      * @param Solution $solution
      * @return JsonResponse
@@ -38,7 +38,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Создание новой задачи
      *
      * @param TaskCreateRequest $request
      * @param Solution $solution
@@ -63,7 +63,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Получение задачи
      *
      * @param Task $task
      * @return JsonResponse
@@ -74,7 +74,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Изменение описания задачи
      *
      * @param Request $request
      * @param Task $task
@@ -89,10 +89,11 @@ class TaskController extends Controller
                 'description.required' => 'Описание задачи должно содержать не менее 6 символов',
                 'description.min' => 'Описание задачи должно содержать не менее 6 символов',
                 'description.max' => 'Описание задачи должно содержать не более 150 символов',
-                'description.regex' => 'Для описания задачи доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9, “_”, “!”, “?”, “(“, “)”, кавычки.',
+                'description.regex' => 'Для описания задачи доступны только символы кириллицы, латиницы,
+                “.”, “,”, “:”, “ “, “-”, 0-9, “_”, “!”, “?”, “(“, “)”, кавычки.',
             ]);
         $response = $this->taskService->update($task->solution_id, $problemId, $validated['description'], $task->executor_id);
-        if ( $response === true) {
+        if ($response === true) {
             $task->fill($validated);
             $task->save();
         } else {
@@ -103,7 +104,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удаление задачи
      *
      * @param Task $task
      * @return JsonResponse
@@ -113,7 +114,7 @@ class TaskController extends Controller
     {
         $problemId = $task->getProblemId();
         $response = $this->taskService->isChangeable($task->solution_id, $problemId);
-        if ( $response === true) {
+        if ($response === true) {
             $task->delete();
 
             return response()->json(['message' => 'Задача успешно удалена'], 200);
@@ -123,6 +124,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Задать пользователя, который будет ответственным за задачу
+     *
      * @param Request $request
      * @param Task $task
      * @return bool|JsonResponse
@@ -137,7 +140,7 @@ class TaskController extends Controller
         $correctExecutor = $this->maySetThisExecutor($task->solution, $request);
         if (empty($correctExecutor)) {
             $response = $this->taskService->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
-            if ( $response === true) {
+            if ($response === true) {
                 $task->fill($validated);
                 $task->save();
 
@@ -152,6 +155,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Задать срок исполнения для задачи
+     *
      * @param Request $request
      * @param Task $task
      * @return bool|JsonResponse
@@ -170,7 +175,7 @@ class TaskController extends Controller
 
         $correctDeadline = $this->isCorrectDeadline($task->solution, $request);
         if (empty($correctDeadline)) {
-            if ( $response === true) {
+            if ($response === true) {
                 $task->fill($validated);
                 $task->save();
 
@@ -184,6 +189,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Изменить статус задачи
+     *
      * @param Request $request
      * @param Task $task
      * @return bool|JsonResponse
@@ -206,6 +213,13 @@ class TaskController extends Controller
         }
     }
 
+    /**
+     * Проверка может ли данный пользователь назначить исполнителя задачи
+     *
+     * @param Solution $solution
+     * @param Request $request
+     * @return JsonResponse|null
+     */
     private function maySetThisExecutor(Solution $solution, Request $request)
     {
         $user = auth()->user();
@@ -215,7 +229,8 @@ class TaskController extends Controller
             $executor = User::find($request->executor_id);
             if (empty($executor->group)) {
                 return response()->json(
-                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего подразделения и руководителей других подразделений'],
+                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего
+                    подразделения и руководителей других подразделений'],
                     422);
             }
             if ($executor->group_id === $user->group_id
@@ -223,7 +238,8 @@ class TaskController extends Controller
                 return null;
             } else {
                 return response()->json(
-                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего подразделения и руководителей других подразделений'],
+                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего
+                    подразделения и руководителей других подразделений'],
                     422);
             }
         }
@@ -231,6 +247,13 @@ class TaskController extends Controller
         return null;
     }
 
+    /**
+     * Проверка на правильность срока исполнения
+     *
+     * @param Solution $solution
+     * @param Request $request
+     * @return JsonResponse|null
+     */
     private function isCorrectDeadline(Solution $solution, Request $request)
     {
         if (!empty($solution->deadline and $request->deadline)) {

@@ -98,7 +98,7 @@ Route::middleware('auth:api')->group(function () {
         });
 
         Route::put('/set-executor', 'API\SolutionController@setExecutor')
-            ->middleware('can:changeExecutor,solution');
+            ->middleware('can:changeExecutor');
 
         Route::post('/task', 'API\TaskController@store')
             ->middleware('can:create,App\Task,solution');

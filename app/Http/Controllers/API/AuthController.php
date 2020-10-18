@@ -5,12 +5,14 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Login;
 use App\Http\Requests\Register;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     /**
+     * Регистрация пользователя
+     *
      * @param Register $request
      * @return JsonResponse
      */
@@ -24,12 +26,15 @@ class AuthController extends Controller
     }
 
     /**
+     * Авторизация пользователя
+     *
+     *
      * @param Login $request
      * @return JsonResponse
      */
     public function login(Login $request)
     {
-        if(!auth()->attempt($request->validated())) {
+        if (!auth()->attempt($request->validated())) {
             return response()->json([
                 'errors' => 'Адрес электронной почты или пароль неправильные',
             ], 401);
@@ -43,6 +48,9 @@ class AuthController extends Controller
     }
 
     /**
+     * Выход пользователя из аккаунта
+     *
+     *
      * @return JsonResponse
      */
     public function logout()
@@ -54,6 +62,11 @@ class AuthController extends Controller
         ], 200);
     }
 
+    /**
+     * Проверка является ли пользователь начальником подразделения
+     *
+     * @return JsonResponse
+     */
     public function isGroupLeader()
     {
         $user = auth()->guard('api')->user();

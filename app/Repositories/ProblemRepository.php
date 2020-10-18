@@ -6,8 +6,7 @@ use App\Models\Group;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\Task;
-use App\User;
-use function GuzzleHttp\Promise\all;
+use App\Models\User;
 
 class ProblemRepository
 {
@@ -83,11 +82,9 @@ class ProblemRepository
     public function countProblems()
     {
         $user = auth()->user();
-
         $userProblems = Problem::where('creator_id', auth()->id())
             ->where('status', 'На проверке заказчика')
             ->count();
-
         $solutionsWhereUserIsExecutorOfTasks = Task::where('executor_id', $user->id)
             ->get('solution_id')
             ->toArray();
@@ -361,7 +358,6 @@ class ProblemRepository
         return [];
     }
 
-
     private function getCurrentQuarterNumber() {
         $mapArray = array(
             1 => '01',
@@ -398,7 +394,7 @@ class ProblemRepository
                 $response = array_values(array_filter($problems, function ($problem) use ($startDate, $endDate) {
                     if (!empty($problem['solution']['deadline'])){
                         $deadline = strtotime($problem['solution']['deadline']);
-                        return $startDate <= $deadline and  $deadline <= $endDate;
+                        return $startDate <= $deadline and $deadline <= $endDate;
                     }
                 }));
                 break;

@@ -2,9 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Group;
 use App\Models\Problem;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProblemPolicy
@@ -16,11 +15,14 @@ class ProblemPolicy
         if ($user->is_admin) {
             return true;
         }
+
+        return false;
     }
 
     /**
      *
-     * @param  \App\User  $user
+     * @param User $user
+     * @param Problem $problem
      * @return mixed
      */
     public function changeOwnModeratingProblem(User $user, Problem $problem)
@@ -28,12 +30,14 @@ class ProblemPolicy
         if ($problem->status === 'На рассмотрении') {
             return $user->id === $problem->creator_id;
         }
+
+        return false;
     }
 
     /**
      *
-     * @param  \App\User  $user
-     * @param  \App\Models\Problem  $problem
+     * @param User $user
+     * @param Problem $problem
      * @return mixed
      */
     public function changeOwnProblem(User $user, Problem $problem)
@@ -43,7 +47,8 @@ class ProblemPolicy
 
     /**
      *
-     * @param  \App\User  $user
+     * @param User $user
+     * @param Problem $problem
      * @return mixed
      */
     public function changeUrgencyImportanceProgress(User $user, Problem $problem)
@@ -53,8 +58,8 @@ class ProblemPolicy
 
     /**
      *
-     * @param  \App\User  $user
-     * @param  \App\Models\Problem  $problem
+     * @param User $user
+     * @param Problem $problem
      * @return mixed
      */
     public function changeExperienceResultSendForConfirmationSendToGroup(User $user, Problem $problem)

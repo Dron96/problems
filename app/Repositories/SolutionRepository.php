@@ -4,18 +4,10 @@ namespace App\Repositories;
 
 use App\Models\Group;
 use App\Models\Solution;
-use App\User;
+use App\Models\User;
 
 class SolutionRepository
 {
-    public function  getAll($problemId)
-    {
-        $solutions = Solution::where('problem_id', $problemId)
-            ->orderBy('name');
-
-        return $solutions;
-    }
-
     public function getPotentialExecutors(Solution $solution)
     {
         $user = auth()->user();

@@ -2,16 +2,40 @@
 
 namespace App\Models;
 
-use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Eloquent;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 /**
  * App\Models\Solution
+ *
+ * @mixin Eloquent
+ *
+ * @property int $id
+ * @property string $name
+ * @property int $user_id
+ * @property int $problem_id
+ * @property bool $in_work
+ * @property string|null $status
+ * @property int $creator_id
+ * @property string|null $deadline
+ * @property int|null $executor_id
+ * @property string|null $plan
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $deleted_at
+ *
+ * @property-read Collection|Task[] $tasks
+ * @property-read int|null $tasks_count
+ * @property-read User|null $executor
+ * @property-read Problem $problem
+ * @property-read Collection|TeamForSolution[] $teamForSolution
+ * @property-read int|null $team_for_solution_count
  *
  * @method static Builder|Solution newModelQuery()
  * @method static Builder|Solution newQuery()
@@ -19,16 +43,6 @@ use Illuminate\Support\Facades\Validator;
  * @method static Builder|Solution query()
  * @method static \Illuminate\Database\Query\Builder|Solution withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Solution withoutTrashed()
- * @mixin Eloquent
- * @property int $id
- * @property string $name
- * @property int $user_id
- * @property int $problem_id
- * @property bool $in_work
- * @property string|null $status
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Carbon|null $deleted_at
  * @method static Builder|Solution whereCreatedAt($value)
  * @method static Builder|Solution whereDeletedAt($value)
  * @method static Builder|Solution whereId($value)
@@ -38,14 +52,10 @@ use Illuminate\Support\Facades\Validator;
  * @method static Builder|Solution whereStatus($value)
  * @method static Builder|Solution whereUpdatedAt($value)
  * @method static Builder|Solution whereUserId($value)
- * @property int $creator_id
- * @property string|null $deadline
- * @property int|null $executor_id
  * @method static Builder|Solution whereCreatorId($value)
  * @method static Builder|Solution whereDeadline($value)
  * @method static Builder|Solution whereExecutorId($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
- * @property-read int|null $tasks_count
+ * @method static Builder|Solution wherePlan($value)
  */
 class Solution extends Model
 {
@@ -62,6 +72,8 @@ class Solution extends Model
     ];
 
     /**
+     * Валидатор для проверки иммется ли проблема, к которой относится решение
+     *
      * @param $id
      * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
      */
@@ -77,14 +89,44 @@ class Solution extends Model
         return Validator::make(Solution::find($id)->toArray(), $rules, $messages);
     }
 
+    /**
+     * Получение задач, которые относятся к решению
+     *
+     * @return HasMany
+     */
     public function tasks()
     {
         return $this->hasMany(Task::class, 'solution_id', 'id');
     }
 
+    /**
+     * Получение проблемы, к которой относится решение
+     *
+     * @return BelongsTo
+     */
     public function problem()
     {
         return $this->belongsTo(Problem::class, 'problem_id', 'id');
+    }
+
+    /**
+     * Получение ответственного за решение
+     *
+     * @return BelongsTo
+     */
+    public function executor()
+    {
+        return $this->belongsTo(User::class, 'executor_id', 'id');
+    }
+
+    /**
+     * Получение команды, которая участвует в реализации решения
+     *
+     * @return HasMany
+     */
+    public function teamForSolution()
+    {
+        return $this->hasMany(TeamForSolution::class, 'solution_id', 'id');
     }
 
     protected static function booted()
@@ -92,15 +134,5 @@ class Solution extends Model
         static::deleting(function ($solution) {
             $solution->tasks()->delete();
         });
-    }
-
-    public function executor()
-    {
-        return $this->belongsTo(User::class, 'executor_id', 'id');
-    }
-
-    public function teamForSolution()
-    {
-        return $this->hasMany(TeamForSolution::class, 'solution_id', 'id');
     }
 }

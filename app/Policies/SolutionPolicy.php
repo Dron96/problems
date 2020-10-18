@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Solution;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SolutionPolicy
@@ -15,12 +15,14 @@ class SolutionPolicy
         if ($user->is_admin) {
             return true;
         }
+
+        return false;
     }
 
     /**
      *
-     * @param  \App\User  $user
-     * @param  \App\Models\Solution  $solution
+     * @param User $user
+     * @param Solution $solution
      * @return mixed
      */
     public function changeName(User $user, Solution $solution)
@@ -31,7 +33,8 @@ class SolutionPolicy
 
     /**
      *
-     * @param  \App\User  $user
+     * @param User $user
+     * @param Solution $solution
      * @return mixed
      */
     public function changePlanTeamStatusDeadline(User $user, Solution $solution)
@@ -41,11 +44,10 @@ class SolutionPolicy
 
     /**
      *
-     * @param  \App\User  $user
-     * @param  \App\Models\Solution  $solution
+     * @param User $user
      * @return mixed
      */
-    public function changeExecutor(User $user, Solution $solution)
+    public function changeExecutor(User $user)
     {
         return $user->id === $user->group->leader_id;
     }

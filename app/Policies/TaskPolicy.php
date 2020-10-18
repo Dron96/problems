@@ -2,27 +2,28 @@
 
 namespace App\Policies;
 
-use App\Models\Group;
-use App\Models\Solution;
 use App\Models\Task;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TaskPolicy
 {
     use HandlesAuthorization;
 
-    public function before($user, $ability)
+    public function before($user)
     {
         if ($user->is_admin) {
             return true;
         }
+
+        return false;
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\User  $user
+     * @param User $user
+     * @param $solution
      * @return mixed
      */
     public function create(User $user, $solution)
@@ -40,8 +41,8 @@ class TaskPolicy
     /**
      * Determine whether the user can change the status.
      *
-     * @param  \App\User  $user
-     * @param  \App\Models\Task  $task
+     * @param User $user
+     * @param Task $task
      * @return mixed
      */
     public function changeStatus(User $user, Task $task)

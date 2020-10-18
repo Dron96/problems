@@ -8,7 +8,7 @@ use App\Http\Requests\Solution\SolutionNameChangeRequest;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\TeamForSolution;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,11 +16,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Repositories\SolutionRepository;
 use App\Services\SolutionService;
+use Illuminate\Validation\ValidationException;
 
 class SolutionController extends Controller
 {
     /**
      * @var SolutionRepository
+     * @var SolutionService
      */
     private $solutionRepository;
     private $solutionService;
@@ -35,20 +37,18 @@ class SolutionController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Получение решения для проблемы
      *
      * @param Problem $problem
      * @return JsonResponse|Response
      */
     public function index(Problem $problem)
     {
-        $solutions = $this->solutionRepository->getAll($problem->id);
-
-        return response()->json($solutions->get(), 200);
+        return response()->json($problem->solution, 200);
     }
 
     /**
-     * Display the specified resource.
+     * Получение решения по его id
      *
      * @param Solution $solution
      * @return JsonResponse
@@ -65,13 +65,12 @@ class SolutionController extends Controller
             $solution['team'] = null;
         }
 
-
         return response()->json($solution, 200);
     }
 
 
     /**
-     * Update the specified resource in storage.
+     * Изменить описание решения
      *
      * @param SolutionNameChangeRequest $request
      * @param Solution $solution
@@ -90,9 +89,12 @@ class SolutionController extends Controller
     }
 
     /**
+     * Изменить статус у решения
+     *
      * @param Request $request
      * @param Solution $solution
      * @return JsonResponse
+     * @throws ValidationException
      */
     public function changeStatus(Request $request, Solution $solution)
     {
@@ -114,6 +116,14 @@ class SolutionController extends Controller
         return response()->json($this->solutionService->changeStatus($solution, $request->status));
     }
 
+    /**
+     * Установить/изменить срок исполнения для решения
+     *
+     * @param Request $request
+     * @param Solution $solution
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function setDeadline(Request $request, Solution $solution)
     {
         $validator = $solution->hasProblem($solution->id);
@@ -132,6 +142,14 @@ class SolutionController extends Controller
         return response()->json($this->solutionService->setDeadline($solution, $request->deadline));
     }
 
+    /**
+     * Задать/изменить ответственного за решение
+     *
+     * @param Request $request
+     * @param Solution $solution
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function setExecutor(Request $request, Solution $solution)
     {
         $validator = $solution->hasProblem($solution->id);
@@ -149,6 +167,13 @@ class SolutionController extends Controller
         return response()->json($this->solutionService->setExecutor($solution, $request->executor_id));
     }
 
+    /**
+     * Задать/именить план для решения
+     *
+     * @param SolutionChangePlanRequest $request
+     * @param Solution $solution
+     * @return JsonResponse
+     */
     public function setPlan(SolutionChangePlanRequest $request, Solution $solution)
     {
         $validator = $solution->hasProblem($solution->id);
@@ -159,6 +184,13 @@ class SolutionController extends Controller
         return response()->json($this->solutionService->setPlan($solution, $request->plan));
     }
 
+    /**
+     * Добавить пользователя в команду, работающую над решением
+     *
+     * @param Solution $solution
+     * @param User $user
+     * @return JsonResponse
+     */
     public function addUserToTeam(Solution $solution, User $user)
     {
         $validator = $solution->hasProblem($solution->id);
@@ -169,6 +201,13 @@ class SolutionController extends Controller
         return response()->json($this->solutionService->addUserToTeam($solution->id, $user->id));
     }
 
+    /**
+     * Исключить пользователя из команды, которая работает над решением
+     *
+     * @param Solution $solution
+     * @param User $user
+     * @return JsonResponse
+     */
     public function removeUserFromTeam(Solution $solution, User $user)
     {
         $validator = $solution->hasProblem($solution->id);
@@ -179,6 +218,12 @@ class SolutionController extends Controller
         return response()->json($this->solutionService->removeUserFromTeam($solution->id, $user->id));
     }
 
+    /**
+     * Список пользователей, которых можно добавить в команду, ответственную за решение
+     *
+     * @param Solution $solution
+     * @return JsonResponse
+     */
     public function getPotentialExecutors(Solution $solution)
     {
         return response()->json($this->solutionRepository->getPotentialExecutors($solution));
