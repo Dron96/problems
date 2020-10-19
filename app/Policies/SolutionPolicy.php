@@ -45,7 +45,7 @@ class SolutionPolicy
      * @param User $user
      * @return mixed
      */
-    public function changeExecutor(User $user)
+    public function changeExecutor(User $user, Solution $solution)
     {
         return $user->id === $user->group->leader_id;
     }

@@ -28,8 +28,6 @@ class ProblemPolicy
         if ($problem->status === 'На рассмотрении') {
             return $user->id === $problem->creator_id;
         }
-
-        return false;
     }
 
     /**

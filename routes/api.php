@@ -98,7 +98,7 @@ Route::middleware('auth:api')->group(function () {
         });
 
         Route::put('/set-executor', 'API\SolutionController@setExecutor')
-            ->middleware('can:changeExecutor');
+            ->middleware('can:changeExecutor,solution');
 
         Route::post('/task', 'API\TaskController@store')
             ->middleware('can:create,App\Task,solution');
@@ -111,7 +111,6 @@ Route::middleware('auth:api')->group(function () {
         Route::middleware('can:allFunctionExceptUpdateStatus,task')->group(function () {
             Route::put('/', 'API\TaskController@update');
             Route::delete('/', 'API\TaskController@destroy');
-            Route::put('/set-executor', 'API\TaskController@setExecutor');
             Route::put('/set-deadline', 'API\TaskController@setDeadline');
         });
 
