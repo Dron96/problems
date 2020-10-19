@@ -26,12 +26,20 @@ class TaskPolicy
      */
     public function create(User $user, $solution)
     {
+        if (empty($user->group)) {
+            return $user->id === $solution->executor_id;
+        }
+
         return $user->id === $solution->executor_id or
             $user->id === $user->group->leader_id;
     }
 
     public function allFunctionExceptUpdateStatus(User $user, Task $task)
     {
+        if (empty($user->group)) {
+            return $user->id === $task->solution->executor_id;
+        }
+
         return $user->id === $task->solution->executor_id or
             $user->id === $user->group->leader_id;
     }
