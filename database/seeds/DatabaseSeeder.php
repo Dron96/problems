@@ -22,13 +22,13 @@ class DatabaseSeeder extends Seeder
         ];
         DB::table('users')->insert($admin);
 
-        for($i = 1; $i <= 4; $i++) {
-            $user = factory(User::class)->create();
-            $user->createToken('authToken')->accessToken;
-        }
-        $this->call(GroupSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(ProblemSeeder::class);
-        $this->call(SolutionSeeder::class);
+//        for($i = 1; $i <= 4; $i++) {
+//            $user = factory(User::class)->create();
+//            $user->createToken('authToken')->accessToken;
+//        }
+//        $this->call(GroupSeeder::class);
+//        $this->call(UserSeeder::class);
+//        $this->call(ProblemSeeder::class);
+//        $this->call(SolutionSeeder::class);
     }
 }
