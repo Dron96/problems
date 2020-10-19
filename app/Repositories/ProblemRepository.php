@@ -275,7 +275,9 @@ class ProblemRepository
         $usersArchive = $this->problemsUserArchive($filters);
         $groupArchive = $this->problemsGroupArchive($filters);
         $archiveForEveryone = $this->problemsArchiveForEveryone($filters);
-        $archive = collect(array_merge($usersArchive, $groupArchive, $archiveForEveryone));
+        $archive = $archiveForEveryone
+            ->merge($usersArchive)
+            ->merge($groupArchive);
         return $this->deadlineFiltration($filterDeadline, $archive->unique()->sortBy('name')->values());
     }
 
@@ -355,7 +357,7 @@ class ProblemRepository
             return $problems;
         }
 
-        return [];
+        return collect();
     }
 
     private function getCurrentQuarterNumber() {
