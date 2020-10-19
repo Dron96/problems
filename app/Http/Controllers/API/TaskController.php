@@ -93,7 +93,7 @@ class TaskController extends Controller
                 “.”, “,”, “:”, “ “, “-”, 0-9, “_”, “!”, “?”, “(“, “)”, кавычки.',
             ]);
         $response = $this->taskService->update($task->solution_id, $problemId, $validated['description'], $task->executor_id);
-        if ($response === true) {
+        if ($response) {
             $task->fill($validated);
             $task->save();
         } else {
@@ -114,7 +114,7 @@ class TaskController extends Controller
     {
         $problemId = $task->getProblemId();
         $response = $this->taskService->isChangeable($task->solution_id, $problemId);
-        if ($response === true) {
+        if ($response) {
             $task->delete();
 
             return response()->json(['message' => 'Задача успешно удалена'], 200);
@@ -140,7 +140,7 @@ class TaskController extends Controller
         $correctExecutor = $this->maySetThisExecutor($task->solution, $request);
         if (empty($correctExecutor)) {
             $response = $this->taskService->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
-            if ($response === true) {
+            if ($response) {
                 $task->fill($validated);
                 $task->save();
 
@@ -175,7 +175,7 @@ class TaskController extends Controller
 
         $correctDeadline = $this->isCorrectDeadline($task->solution, $request);
         if (empty($correctDeadline)) {
-            if ($response === true) {
+            if ($response) {
                 $task->fill($validated);
                 $task->save();
 
@@ -203,7 +203,7 @@ class TaskController extends Controller
         $validated = $this->validate($request,
             ['status' => [Rule::in(['К исполнению', 'В процессе', 'Выполнено'])]],
             ['status.in' => 'Неверный статус']);
-        if ($response === true) {
+        if ($response) {
             $task->fill($validated);
             $task->save();
 

@@ -6,17 +6,9 @@ use App\Http\Requests\TaskCreateRequest;
 use App\Models\Solution;
 use App\Models\Task;
 use App\Models\Problem;
-use Illuminate\Support\Facades\Request;
 
 class TaskService
 {
-    /**
-     * @param TaskCreateRequest $request
-     * @param $solutionId
-     * @param $problemId
-     * @param $creatorId
-     * @return Task|\Illuminate\Database\Eloquent\Model|\Illuminate\Http\JsonResponse
-     */
     public function store(TaskCreateRequest $request, $solutionId, $problemId, $creatorId)
     {
         $input = $request->validated();
@@ -25,7 +17,8 @@ class TaskService
         }
         $countTask = Task::where('solution_id', $solutionId)->count();
         if ($countTask >= 25) {
-            return response()->json(['errors' => 'Задач слишком много, удалите хотя бы 1, чтобы продолжить'], 422);
+            return response()
+                ->json(['errors' => 'Задач слишком много, удалите хотя бы 1, чтобы продолжить'], 422);
         }
         $solutionExist = Task::where('solution_id', $solutionId)
             ->where('description', $request->description)
@@ -35,9 +28,9 @@ class TaskService
         if ($solutionExist === true) {
             return response()->json(['errors' => 'Такая задача уже существует с таким ответственным'], 422);
         }
-
         $input['creator_id'] = $creatorId;
         $input['solution_id'] = $solutionId;
+
         return response()->json(Task::create($input), 201);
     }
 
@@ -50,6 +43,7 @@ class TaskService
         if ($solution === null) {
             return response()->json(['errors' => 'Такого решения не существует'], 404);
         }
+
         return true;
     }
 
@@ -65,6 +59,7 @@ class TaskService
                 return response()->json(['errors' => 'Такая задача уже существует с таким ответственным'], 422);
             }
         }
+
         return true;
     }
 }

@@ -21,10 +21,10 @@ class ProblemRepository
         return $problems;
     }
 
-    public function isLikedProblem($id)
+    public function isLikedProblem($problemId)
     {
-        $problem = Problem::where('id', $id)->with('likes')->first()->toArray();
-        $userIds = array_column($problem["likes"], 'user_id');
+        $problem = Problem::where('id', $problemId)->with('likes')->first()->toArray();
+        $userIds = array_column($problem['likes'], 'user_id');
 
         return in_array(auth()->id(), $userIds);
     }
@@ -385,7 +385,7 @@ class ProblemRepository
     {
         $quarter = $this->getCurrentQuarterNumber();
         $deadline = $quarter['months'];
-        $startDate = (strtotime(min($deadline) . '-01'));
+        $startDate = strtotime(min($deadline) . '-01');
         $endDate = strtotime(date("Y-m-t", strtotime(max($deadline))));
         $problems = $problems->toArray();
 
@@ -407,7 +407,6 @@ class ProblemRepository
                         return empty($deadline);
                     }
                 }));
-
                 break;
             case null:
                 $response = $problems;
@@ -457,7 +456,7 @@ class ProblemRepository
             '1. Всего проблем заведено в системе' => $countProblems,
             '1.1. Решено' => $countResolved,
             '1.2. Не решено' => $countUnresolved,
-            '2. Количество проблем, которые не решены  уже более чем полгода' => $countUnresolvedForMoreThanHalfYear,
+            '2. Количество проблем, которые не решены уже более чем полгода' => $countUnresolvedForMoreThanHalfYear,
             '3. Текущее кол-во нерешенных проблем с нарушенным сроком исполнения решения'
                 => $countUnresolvedSolutionsWithBrokenDeadline,
             '4. Текущее кол-во нерешенных проблем с нарушенным сроком исполнения задач'

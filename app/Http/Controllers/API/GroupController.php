@@ -20,8 +20,8 @@ class GroupController extends Controller
      */
     public function index()
     {
-        $userGroup = auth()->user()->group;
-        $groups = Group::all()->sortBy('name')->values();
+        $userGroup = auth()->user()->group()->get();
+        $groups = Group::orderBy('name')->get();
 
         return response()->json($userGroup->merge($groups), '200');
     }
@@ -35,15 +35,15 @@ class GroupController extends Controller
     public function store(GroupCreateRequest $request)
     {
         $input = $request->validated();
-        if (Group::all()->count() >= 50) {
+        if (Group::count() >= 50) {
             return response()
                 ->json(['error' => 'Подразделений слишком много, удалите хотя бы 1, чтобы продолжить'],422);
         }
-        if (User::find($input['leader_id'])->group_id !== NULL) {
+        $leader = User::find($input['leader_id']);
+        if ($leader->group_id !== NULL) {
             return response()->json(['error' => 'Пользователь уже состоит в другом подразделении'], 422);
         }
         $group = Group::create($input);
-        $leader = User::find($input['leader_id']);
         $leader->group_id = $group->id;
         $leader->save();
 
@@ -103,11 +103,8 @@ class GroupController extends Controller
         }
         $group->problems()->detach();
 
-        $users = $group->users;
-        foreach ($users as $user) {
-            $user->group_id = NULL;
-            $user->save();
-        }
+        $users = $group->users()->get('id')->toArray();
+        User::whereIn('id', $users)->update(['group_id' => NULL]);
 
         $group->delete();
 
@@ -153,12 +150,12 @@ class GroupController extends Controller
      */
     public function getUsers(Group $group)
     {
-        return response()->json($group->users
-            ->whereNotIn('id', $group->leader_id)
-            ->sortBy('father_name')
-            ->sortBy('name')
-            ->sortBy('surname')
-            ->values(),
+        return response()->json($group->users()
+            ->where('id', '!=', $group->leader_id)
+            ->orderBy('surname')
+            ->orderBy('name')
+            ->orderBy('father_name')
+            ->get(),
             200);
     }
 

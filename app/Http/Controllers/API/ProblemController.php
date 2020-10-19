@@ -30,6 +30,9 @@ class ProblemController extends Controller
     private $problemService;
     private $problemRepository;
 
+    const PENDING_STATUS = ['На рассмотрении'];
+    const PENDING_ERROR = 'Действие возможно только при статусе проблемы “на рассмотрении”';
+
     public function __construct()
     {
         $this->problemRepository = app(ProblemRepository::class);
@@ -77,10 +80,10 @@ class ProblemController extends Controller
      */
     public function update(ProblemCreateRequest $request, Problem $problem)
     {
-        $correctStatuses = ['На рассмотрении'];
-        $error = 'Действие возможно только при статусе проблемы “на рассмотрении”';
-
-        return $this->problemService->updateWithStatusCheck($problem, $request->validated(), $correctStatuses, $error);
+        return $this->problemService->updateWithStatusCheck($problem,
+            $request->validated(),
+            self::PENDING_STATUSPENDING_STATUS,
+            self::PENDING_ERROR);
     }
 
     /**
@@ -151,10 +154,10 @@ class ProblemController extends Controller
      */
     public function setPossibleSolution(ProblemChangePossibleSolutionRequest $request, Problem $problem)
     {
-        $correctStatuses = ['На рассмотрении'];
-        $error = 'Действие возможно только при статусе проблемы “на рассмотрении”';
-
-        return $this->problemService->updateWithStatusCheck($problem, $request->validated(), $correctStatuses, $error);
+        return $this->problemService->updateWithStatusCheck($problem,
+            $request->validated(),
+            self::PENDING_STATUS,
+            self::PENDING_ERROR);
     }
 
     /**
@@ -166,10 +169,10 @@ class ProblemController extends Controller
      */
     public function setDescription(ProblemChangeDescriptionRequest $request, Problem $problem)
     {
-        $correctStatuses = ['На рассмотрении'];
-        $error = 'Действие возможно только при статусе проблемы “на рассмотрении”';
-
-        return $this->problemService->updateWithStatusCheck($problem, $request->validated(), $correctStatuses, $error);
+        return $this->problemService->updateWithStatusCheck($problem,
+            $request->validated(),
+            self::PENDING_STATUS,
+            self::PENDING_ERROR);
     }
 
     /**

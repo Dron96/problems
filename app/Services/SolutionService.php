@@ -4,9 +4,6 @@ namespace App\Services;
 
 use App\Models\Solution;
 use App\Models\TeamForSolution;
-use App\User;
-use Validator;
-use Illuminate\Validation\Rule;
 
 class SolutionService
 {
@@ -60,10 +57,9 @@ class SolutionService
 
     public function removeUserFromTeam($solution_id, $user_id)
     {
-        $teamForSolution = TeamForSolution::where('solution_id', $solution_id)
+        TeamForSolution::where('solution_id', $solution_id)
             ->where('user_id', $user_id)
             ->delete();
-
 
         return ['message' => 'Пользователь успешно исключен из команды'];
     }

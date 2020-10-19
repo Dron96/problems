@@ -6,7 +6,7 @@ use App\Models\Group;
 use App\Models\Like;
 use App\Models\Problem;
 use App\Models\Solution;
-use App\User;
+use App\Models\User;
 
 class ProblemService
 {
@@ -22,7 +22,8 @@ class ProblemService
     {
         $user = User::find($userId);
         if ($user === NULL) {
-            return response()->json(['error' => 'Пользователя, сообщившего о проблеме, больше не существует в системе. Обратитесь к администратору.'], 404);
+            return response()->json(['error' => 'Пользователя, сообщившего о проблеме, больше не существует в системе.
+            Обратитесь к администратору.'], 404);
         }
         if ($solution->status !== 'Выполнено' and $problem->status === 'В работе') {
             return response()->json(['error' => 'Статус решения должен быть “выполнено”'], 422);
@@ -46,12 +47,6 @@ class ProblemService
         }
     }
 
-    /**
-     * @param Problem $problem
-     * @param $data
-     * @param array $correctStatus
-     * @return Problem|\Illuminate\Http\JsonResponse
-     */
     public function updateWithStatusCheck(Problem $problem, $data, $correctStatuses, $error)
     {
         if ($this->isIncorrectStatus($problem->status, $correctStatuses)) {

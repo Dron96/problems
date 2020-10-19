@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Login;
-use App\Http\Requests\Register;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
@@ -13,14 +14,14 @@ class AuthController extends Controller
     /**
      * Регистрация пользователя
      *
-     * @param Register $request
+     * @param RegisterRequest $request
      * @return JsonResponse
      */
-    public function register(Register $request)
+    public function register(RegisterRequest $request)
     {
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
-        $user = User::create($data);
+        User::create($data);
 
         return response()->json(['message' => 'Вы успешно зарегистрированы'], 201);
     }
@@ -29,17 +30,17 @@ class AuthController extends Controller
      * Авторизация пользователя
      *
      *
-     * @param Login $request
+     * @param LoginRequest $request
      * @return JsonResponse
      */
-    public function login(Login $request)
+    public function login(LoginRequest $request)
     {
         if (!auth()->attempt($request->validated())) {
             return response()->json([
                 'errors' => 'Адрес электронной почты или пароль неправильные',
             ], 401);
         }
-        $token = auth()->user()->createToken('authToken');
+        $token = Auth::user()->createToken('authToken');
 
         return response()->json([
             'user' => auth()->user(),
@@ -55,7 +56,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->user()->token()->revoke();
+        Auth::user()->token()->revoke();
 
         return response()->json([
             'message' => 'Вы успешно вышли',
