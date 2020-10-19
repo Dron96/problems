@@ -172,8 +172,7 @@ class GroupController extends Controller
         if (in_array($user->id, $usersIds)) {
             if ($user->id === $group->leader_id) {
                 return response()->json(
-                    ['errors' => 'Удаление пользователя из подразделения возможно после передачи полномочий
-                    руководителя другому пользователю'],
+                    ['errors' => 'Удаление пользователя из подразделения возможно после передачи полномочий руководителя другому пользователю'],
                     422);
             }
             $user->group_id = NULL;

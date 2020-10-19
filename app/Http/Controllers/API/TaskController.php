@@ -89,8 +89,7 @@ class TaskController extends Controller
                 'description.required' => 'Описание задачи должно содержать не менее 6 символов',
                 'description.min' => 'Описание задачи должно содержать не менее 6 символов',
                 'description.max' => 'Описание задачи должно содержать не более 150 символов',
-                'description.regex' => 'Для описания задачи доступны только символы кириллицы, латиницы,
-                “.”, “,”, “:”, “ “, “-”, 0-9, “_”, “!”, “?”, “(“, “)”, кавычки.',
+                'description.regex' => 'Для описания задачи доступны только символы кириллицы, латиницы, “.”, “,”, “:”, “ “, “-”, 0-9, “_”, “!”, “?”, “(“, “)”, кавычки.',
             ]);
         $response = $this->taskService->update($task->solution_id, $problemId, $validated['description'], $task->executor_id);
         if ($response) {
@@ -139,7 +138,8 @@ class TaskController extends Controller
             ['executor_id.exists' => 'Такого ответственного не существует']);
         $correctExecutor = $this->maySetThisExecutor($task->solution, $request);
         if (empty($correctExecutor)) {
-            $response = $this->taskService->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
+            $response = $this->taskService
+                ->update($task->solution_id, $problemId, $task->description, $validated['executor_id']);
             if ($response) {
                 $task->fill($validated);
                 $task->save();
@@ -229,8 +229,7 @@ class TaskController extends Controller
             $executor = User::find($request->executor_id);
             if (empty($executor->group)) {
                 return response()->json(
-                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего
-                    подразделения и руководителей других подразделений'],
+                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего подразделения и руководителей других подразделений'],
                     422);
             }
             if ($executor->group_id === $user->group_id
@@ -238,8 +237,7 @@ class TaskController extends Controller
                 return null;
             } else {
                 return response()->json(
-                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего
-                    подразделения и руководителей других подразделений'],
+                    ['error' => 'Руководитель подразделения может назначать ответственными только сотрудников своего подразделения и руководителей других подразделений'],
                     422);
             }
         }

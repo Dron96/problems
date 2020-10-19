@@ -22,8 +22,9 @@ class ProblemService
     {
         $user = User::find($userId);
         if ($user === NULL) {
-            return response()->json(['error' => 'Пользователя, сообщившего о проблеме, больше не существует в системе.
-            Обратитесь к администратору.'], 404);
+            return response()->json(['error' =>
+                'Пользователя, сообщившего о проблеме, больше не существует в системе. Обратитесь к администратору.'],
+                404);
         }
         if ($solution->status !== 'Выполнено' and $problem->status === 'В работе') {
             return response()->json(['error' => 'Статус решения должен быть “выполнено”'], 422);
@@ -84,7 +85,9 @@ class ProblemService
     {
         $correctStatuses = ['Решена', 'Удалена'];
         if (!$this->isIncorrectStatus($problem->status, $correctStatuses)) {
-            return response()->json(['error' => 'Действие возможно при любом статусе проблемы, кроме “Удалена” и “Решена”'], 422);
+            return response()
+                ->json(['error' => 'Действие возможно при любом статусе проблемы, кроме “Удалена” и “Решена”'],
+                422);
         }
         $problem->status = 'Удалена';
         $problem->save();
