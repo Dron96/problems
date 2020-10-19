@@ -110,6 +110,7 @@ Route::middleware('auth:api')->group(function () {
 
         Route::middleware('can:allFunctionExceptUpdateStatus,task')->group(function () {
             Route::put('/', 'API\TaskController@update');
+            Route::put('/set-executor', 'API\TaskController@setExecutor');
             Route::delete('/', 'API\TaskController@destroy');
             Route::put('/set-deadline', 'API\TaskController@setDeadline');
         });
