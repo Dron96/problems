@@ -15,8 +15,6 @@ class TaskPolicy
         if ($user->is_admin) {
             return true;
         }
-
-        return false;
     }
 
     /**

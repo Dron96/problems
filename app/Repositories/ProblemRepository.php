@@ -121,45 +121,49 @@ class ProblemRepository
     {
         $user = auth()->user();
         $group = Group::whereId($user->group_id)->first();
-        if (empty($group)) {
+        if (empty($group) and ($user->is_admin !== true)) {
             return response()->json(['error' => 'Вы не состоите ни в одном из подразделений'], 422);
         }
-        $groupLeader = $group['leader_id'];
         $filterDeadline = $filters['deadline'];
         unset($filters['deadline']);
         $filters = array_filter($filters);
-        if ($groupLeader === auth()->id()) {
-            $groupUsersIds = $group->users()->select('id')->get()->toArray();
+        if ($user->is_admin) {
             if ($this->isNeedFiltration($filters)) {
-                $problems = Problem::whereIn('creator_id', $groupUsersIds)
-                    ->where('status', 'На рассмотрении')
+                $problems = Problem::where('status', 'На рассмотрении')
                     ->where($filters)
                     ->orderBy('name')
                     ->with('solution')
                     ->with('groups')
                     ->get();
             } else {
-                $problems = Problem::whereIn('creator_id', $groupUsersIds)
-                    ->where('status', 'На рассмотрении')
+                $problems = Problem::where('status', 'На рассмотрении')
                     ->orderBy('name')
                     ->with('solution')
                     ->with('groups')
                     ->get();
             }
-        } elseif ($user->is_admin) {
-            if ($this->isNeedFiltration($filters)) {
-                $problems = Problem::where('status', 'На рассмотрении')
-                    ->where($filters)
-                    ->orderBy('name')
-                    ->with('solution')
-                    ->with('groups')
-                    ->get();
+        } else {
+            $groupLeader = $group['leader_id'];
+            if ($groupLeader === auth()->id()) {
+                $groupUsersIds = $group->users()->select('id')->get()->toArray();
+                if ($this->isNeedFiltration($filters)) {
+                    $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                        ->where('status', 'На рассмотрении')
+                        ->where($filters)
+                        ->orderBy('name')
+                        ->with('solution')
+                        ->with('groups')
+                        ->get();
+                } else {
+                    $problems = Problem::whereIn('creator_id', $groupUsersIds)
+                        ->where('status', 'На рассмотрении')
+                        ->orderBy('name')
+                        ->with('solution')
+                        ->with('groups')
+                        ->get();
+                }
             } else {
-                $problems = Problem::where('status', 'На рассмотрении')
-                    ->orderBy('name')
-                    ->with('solution')
-                    ->with('groups')
-                    ->get();
+                $problems = collect();
             }
         }
         $this->likesCount($problems);
@@ -173,26 +177,45 @@ class ProblemRepository
         $filterDeadline = $filters['deadline'];
         unset($filters['deadline']);
         $filters = array_filter($filters);
-        $solutionsWhereUserIsExecutorOfTasks = Task::where('executor_id', $user->id)->get('solution_id')->toArray();
-        $problems = array_map('current', Solution::whereIn('id', $solutionsWhereUserIsExecutorOfTasks)
-            ->orWhere('executor_id', $user->id)
-            ->get('problem_id')
-            ->toArray());
-        if ($this->isNeedFiltration($filters)) {
-            $problems = Problem::whereIn('id', $problems)
-                ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
-                ->where($filters)
-                ->orderBy('name')
-                ->with('solution')
-                ->with('groups')
-                ->get();
+        if ($user->is_admin) {
+            if ($this->isNeedFiltration($filters)) {
+                $problems = Problem::whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
+                    ->where($filters)
+                    ->orderBy('name')
+                    ->with('solution')
+                    ->with('groups')
+                    ->get();
+            } else {
+                $problems = Problem::whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
+                    ->orderBy('name')
+                    ->with('solution')
+                    ->with('groups')
+                    ->get();
+            }
         } else {
-            $problems = Problem::whereIn('id', $problems)
-                ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
-                ->orderBy('name')
-                ->with('solution')
-                ->with('groups')
-                ->get();
+            $solutionsWhereUserIsExecutorOfTasks = Task::where('executor_id', $user->id)
+                ->get('solution_id')
+                ->toArray();
+            $problems = array_map('current', Solution::whereIn('id', $solutionsWhereUserIsExecutorOfTasks)
+                ->orWhere('executor_id', $user->id)
+                ->get('problem_id')
+                ->toArray());
+            if ($this->isNeedFiltration($filters)) {
+                $problems = Problem::whereIn('id', $problems)
+                    ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
+                    ->where($filters)
+                    ->orderBy('name')
+                    ->with('solution')
+                    ->with('groups')
+                    ->get();
+            } else {
+                $problems = Problem::whereIn('id', $problems)
+                    ->whereNotIn('status', ['Удалена', 'Решена', 'На рассмотрении'])
+                    ->orderBy('name')
+                    ->with('solution')
+                    ->with('groups')
+                    ->get();
+            }
         }
         $this->likesCount($problems);
 

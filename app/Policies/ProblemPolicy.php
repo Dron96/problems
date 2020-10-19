@@ -15,8 +15,6 @@ class ProblemPolicy
         if ($user->is_admin) {
             return true;
         }
-
-        return false;
     }
 
     /**
@@ -67,7 +65,7 @@ class ProblemPolicy
         $creator = User::find($problem->creator_id);
         $leader_id = $creator->group->leader_id;
 
-        return $user->id === $problem->solution->executor_id or
-            $user->id === $leader_id;
+        return $user->id === $leader_id or
+            $user->id === $problem->solution->executor_id;
     }
 }
