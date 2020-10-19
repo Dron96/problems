@@ -82,7 +82,7 @@ class ProblemController extends Controller
     {
         return $this->problemService->updateWithStatusCheck($problem,
             $request->validated(),
-            self::PENDING_STATUSPENDING_STATUS,
+            self::PENDING_STATUS,
             self::PENDING_ERROR);
     }
 
