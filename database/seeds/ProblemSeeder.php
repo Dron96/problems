@@ -83,11 +83,10 @@ class ProblemSeeder extends Seeder
         $solutionList = [];
         $taskList = [];
 
-        for ($i = 1; $i <= 15; $i++){
-            $name = $problems[$i];
-            $status = array_rand($statuses);
-            $urgency = array_rand($urgencies);
-            $importance = array_rand($importancies);
+        for ($i = 1; $i <= 15; $i++) {
+            $status = $statuses[array_rand($statuses)];
+            $urgency = $urgencies[array_rand($urgencies)];
+            $importance = $importancies[array_rand($importancies)];
             $createdAt = $faker->dateTimeBetween('-12 months','-10 day');
             $creatorId = rand(2, 21);
             $solutionDeadline = $faker->dateTimeBetween('-5 day','+20 day');
@@ -97,9 +96,9 @@ class ProblemSeeder extends Seeder
                 $progress = 100;
                 $taskStatus = 'Выполнено';
             } else {
-                $solutionsStatus = array_rand($solutionStatuses);
+                $solutionsStatus = $solutionStatuses[array_rand($solutionStatuses)];
                 $progress = rand(0, 100);
-                $taskStatus = array_rand($taskStatuses);
+                $taskStatus = $taskStatuses[array_rand($taskStatuses)];
             }
 
             $problemsList[] = [
