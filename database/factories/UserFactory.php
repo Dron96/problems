@@ -2,10 +2,10 @@
 
 /** @var Factory $factory */
 
-use App\User;
+use App\Models\User;
 use Faker\Generator as Faker;
+use Faker\Provider\ru_RU\Person as Person;
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +19,11 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $faker->addProvider(new Person($faker));
     return [
-        'name' => $faker->firstName,
-        'surname' => $faker->lastName,
-        'father_name' => $faker->middleName,
+        'name' => $faker->firstName('male'),
+        'surname' => $faker->lastName('male'),
+        'father_name' => $faker->middleName('male'),
         'email' => $faker->unique()->safeEmail,
         'password' => bcrypt('password'),
     ];
