@@ -26,16 +26,16 @@ class UserSeeder extends Seeder
                     'father_name' => $faker->middleName('male'),
                     'email' => $faker->unique()->safeEmail,
                     'password' => bcrypt('password'),
-                    'group_id' => rand(1, 3)
+                    'group_id' => rand(1, 10)
                 ];
             } else {
                 $list[] = [
-                    'name' => $faker->firstName('male'),
-                    'surname' => $faker->lastName('male'),
-                    'father_name' => $faker->middleName('male'),
+                    'name' => $faker->firstName('female'),
+                    'surname' => $faker->lastName('female'),
+                    'father_name' => $faker->middleName('female'),
                     'email' => $faker->unique()->safeEmail,
                     'password' => bcrypt('password'),
-                    'group_id' => rand(1, 3)
+                    'group_id' => rand(1, 10)
                 ];
             }
         }

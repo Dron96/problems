@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Problem;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 
@@ -84,60 +85,119 @@ class ProblemSeeder extends Seeder
         $taskList = [];
 
         for ($i = 1; $i <= 15; $i++) {
-            $status = $statuses[array_rand($statuses)];
-            $urgency = $urgencies[array_rand($urgencies)];
-            $importance = $importancies[array_rand($importancies)];
-            $createdAt = $faker->dateTimeBetween('-12 months','-10 day');
-            $creatorId = rand(2, 21);
-            $solutionDeadline = $faker->dateTimeBetween('-5 day','+20 day');
-            $taskDeadline = $faker->dateTimeBetween('-5 months','+20 day');
-            if ($status === 'Решена' or $status === 'На проверке заказчика') {
-                $solutionsStatus = 'Выполнено';
-                $progress = 100;
-                $taskStatus = 'Выполнено';
+            $problemIds = range(6, 15);
+            if ($i <= 10) {
+                foreach (array_rand($problemIds, 5) as $key) {
+                    $status = $statuses[array_rand($statuses)];
+                    $urgency = $urgencies[array_rand($urgencies)];
+                    $importance = $importancies[array_rand($importancies)];
+                    $createdAt = $faker->dateTimeBetween('-12 months','-10 day');
+                    $solutionDeadline = $faker->dateTimeBetween('-5 day','+20 day');
+                    $taskDeadline = $faker->dateTimeBetween('-5 months','+20 day');
+                    if ($status === 'Решена' or $status === 'На проверке заказчика') {
+                        $solutionsStatus = 'Выполнено';
+                        $progress = 100;
+                        $taskStatus = 'Выполнено';
+                    } else {
+                        $solutionsStatus = $solutionStatuses[array_rand($solutionStatuses)];
+                        $progress = rand(0, 100);
+                        $taskStatus = $taskStatuses[array_rand($taskStatuses)];
+                    }
+
+                    $problemsList[] = [
+                        'name' => $problems[$problemIds[$key]],
+                        'urgency' => $urgency,
+                        'importance' => $importance,
+                        'status' => $status,
+                        'progress' => $progress,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt,
+                        'creator_id' => $i+1,
+                    ];
+
+                    $solutionList[] = [
+                        'name' => $solutions[$problemIds[$key]],
+                        'problem_id' => $i,
+                        'deadline' => $solutionDeadline,
+                        'status' => $solutionsStatus,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt,
+                        'executor_id' => rand(2, 21),
+                    ];
+
+                    foreach ($tasks[$problemIds[$key]] as $task) {
+                        $taskList[] = [
+                            'description' => $task,
+                            'status' => $taskStatus,
+                            'deadline' => $taskDeadline,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt,
+                            'creator_id' => rand(2, 21),
+                            'executor_id' => rand(2, 21),
+                            'solution_id' => $i,
+                        ];
+                    }
+                }
             } else {
-                $solutionsStatus = $solutionStatuses[array_rand($solutionStatuses)];
-                $progress = rand(0, 100);
-                $taskStatus = $taskStatuses[array_rand($taskStatuses)];
-            }
+                $status = $statuses[array_rand($statuses)];
+                $urgency = $urgencies[array_rand($urgencies)];
+                $importance = $importancies[array_rand($importancies)];
+                $createdAt = $faker->dateTimeBetween('-12 months','-10 day');
+                $creatorId = rand(2, 21);
+                $solutionDeadline = $faker->dateTimeBetween('-5 day','+20 day');
+                $taskDeadline = $faker->dateTimeBetween('-5 months','+20 day');
+                if ($status === 'Решена' or $status === 'На проверке заказчика') {
+                    $solutionsStatus = 'Выполнено';
+                    $progress = 100;
+                    $taskStatus = 'Выполнено';
+                } else {
+                    $solutionsStatus = $solutionStatuses[array_rand($solutionStatuses)];
+                    $progress = rand(0, 100);
+                    $taskStatus = $taskStatuses[array_rand($taskStatuses)];
+                }
 
-            $problemsList[] = [
-                'name' => $problems[$i],
-                'urgency' => $urgency,
-                'importance' => $importance,
-                'status' => $status,
-                'progress' => $progress,
-                'created_at' => $createdAt,
-                'updated_at' => $createdAt,
-                'creator_id' => $creatorId,
-            ];
-
-            $solutionList[] = [
-                'name' => $solutions[$i],
-                'problem_id' => $i,
-                'deadline' => $solutionDeadline,
-                'status' => $solutionsStatus,
-                'created_at' => $createdAt,
-                'updated_at' => $createdAt,
-                'executor_id' => rand(2, 21),
-            ];
-
-            foreach ($tasks[$i] as $task) {
-                $taskList[] = [
-                    'description' => $task,
-                    'status' => $taskStatus,
-                    'deadline' => $taskDeadline,
+                $problemsList[] = [
+                    'name' => $problems[$i],
+                    'urgency' => $urgency,
+                    'importance' => $importance,
+                    'status' => $status,
+                    'progress' => $progress,
                     'created_at' => $createdAt,
                     'updated_at' => $createdAt,
-                    'creator_id' => rand(2, 21),
-                    'executor_id' => rand(2, 21),
-                    'solution_id' => $i,
+                    'creator_id' => $creatorId,
                 ];
+
+                $solutionList[] = [
+                    'name' => $solutions[$i],
+                    'problem_id' => $i,
+                    'deadline' => $solutionDeadline,
+                    'status' => $solutionsStatus,
+                    'created_at' => $createdAt,
+                    'updated_at' => $createdAt,
+                    'executor_id' => rand(2, 21),
+                ];
+
+                foreach ($tasks[$i] as $task) {
+                    $taskList[] = [
+                        'description' => $task,
+                        'status' => $taskStatus,
+                        'deadline' => $taskDeadline,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt,
+                        'creator_id' => rand(2, 21),
+                        'executor_id' => rand(2, 21),
+                        'solution_id' => $i,
+                    ];
+                }
             }
         }
 
         DB::table('problems')->insert($problemsList);
         DB::table('solutions')->insert($solutionList);
         DB::table('tasks')->insert($taskList);
+
+        for ($i = 11; $i <= 15; $i++) {
+            Problem::find($i)->groups()->attach(range(1, 10));
+        }
     }
 }
